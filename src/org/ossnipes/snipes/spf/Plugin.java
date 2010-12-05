@@ -24,7 +24,7 @@ package org.ossnipes.snipes.spf;
 
 public abstract class Plugin extends PluginType {
 	@Override
-	public final boolean canCancelEvents() {return true;}
+	public final boolean canCancelEvents() {return false;}
 	@Override
-	public final boolean canHookInternalEvents() {return true;}
+	public final boolean canHookInternalEvents() {return false;}
 }

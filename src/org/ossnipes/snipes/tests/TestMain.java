@@ -22,10 +22,6 @@ import org.ossnipes.snipes.utils.Configuration;
 import org.ossnipes.snipes.utils.Constants;
 public class TestMain {
 	Scanner defScan = new Scanner(System.in);
-	public static void main(String args[]) throws IOException, ClassNotFoundException
-	{
-		new TestMain();
-	}
 	public TestMain() throws IOException, ClassNotFoundException
 	{
 		printOptions();

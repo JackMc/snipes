@@ -128,7 +128,7 @@ public class SnipesBot extends PircBot{
 				{
 					sPlugins.add((SuperPlugin)p);
 				}
-				else
+				else if (p instanceof PluginType)
 				{
 					oPlugins.add(p);
 				}

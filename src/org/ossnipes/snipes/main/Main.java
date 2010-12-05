@@ -19,7 +19,7 @@ public class Main {
 				CONF = true;
 				new SnipesConfigurator();
 			}
-			if (!CONF && (i.equalsIgnoreCase("--test") || i.equalsIgnoreCase("-m")))
+			if (!CONF && (i.equalsIgnoreCase("--test") || i.equalsIgnoreCase("-t")))
 			{
 				try {
 					new TestMain();

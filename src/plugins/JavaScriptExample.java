@@ -1,7 +1,5 @@
 package plugins;
 
-import java.util.List;
-
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -15,8 +13,6 @@ import org.ossnipes.snipes.spf.Plugin;
 import org.ossnipes.snipes.spf.SnipesEventParams;
 
 public class JavaScriptExample extends Plugin {
-	// Store who we are waiting for
-	List<String> waitingFor;
 	// Get the plugin's name
 	@Override
 	public String getName() {
@@ -86,12 +82,8 @@ public class JavaScriptExample extends Plugin {
 					bot.sendMessage(eventParams[0], "I'm sorry " + eventParams[1] + " but there was  a " +
 							"error parsing your JavaScript. I'm PMing you the error to avoid flooding.");
 					bot.sendMessage(eventParams[1], "(This is a message about the JavaScript evaluation requested" +
-							" in " + eventParams[0] + ".) The JavaScript error was: " + error);
+							" in " + eventParams[0] + ".) The JavaScript error was: \"" + error + "\".");
 				}
-			}
-			else if (msgEx[0].equals("!register"))
-			{
-				bot.sendRawLine("NS GROUP Snipes F1sh96");
 			}
 			break;
 		}
@@ -101,13 +93,11 @@ public class JavaScriptExample extends Plugin {
 
 	@Override
 	public PluginDestructRet snipesFini(int status) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public PluginConstructRet snipesInit() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

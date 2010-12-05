@@ -3,10 +3,8 @@ package org.ossnipes.snipes.spf;
 import org.ossnipes.snipes.exceptions.SnipesPluginException;
 
 public class PluginManager {
-	public PluginManager()
-	{
-		
-	}
+	/* Not needed :) */
+	public PluginManager() {}
 	public PluginType loadPlugin(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SnipesPluginException
 	{
 		Class<?> pluginClass = Class.forName(name);

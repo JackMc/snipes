@@ -37,5 +37,4 @@ public class SnipesEventParams {
 	}
 	String[] _params;
 	PircBot _bot;
-	PluginType _prev;
 }
