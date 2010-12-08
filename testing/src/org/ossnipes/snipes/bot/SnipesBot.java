@@ -46,13 +46,6 @@ public class SnipesBot extends PircBot {
         this(true, false);
     }
 
-
-    public static SnipesBot getInst() throws NoSnipesInstanceException {
-        if (inst == null)
-            throw new NoSnipesInstanceException("Trying to get instance before Snipes starts.");
-        return inst;
-    }
-
     /** Constructor for SnipesBot. Initiates all needed variables
      * @param usePlugins If we should be using plugins
      * @param quiet No output (same as executing with a "> /dev/null")
@@ -65,20 +58,6 @@ public class SnipesBot extends PircBot {
         curr.setName("Snipes-Main");
         addThread(curr);
         addThread(new ErrorHandler()).start();
-        try {
-            readConfiguration();
-            // If we get anything wrong, this is vital. Quit Snipes.
-        } catch (Exception e) {
-            errorQueue.add("Error reading Snipes "
-                    + "configuration. If you have not already, please run Snipes with the"
-                    + " --makeconf option to configure Snipes.\n For the more technical;"
-                    + " the exception encountered was a "
-                    + e.getClass().getCanonicalName()
-                    + " \nand its message was \""
-                    + e.getMessage()
-                    + "\"");
-            exitSnipes(0);
-        }
         if (quiet) {
             try {
                 System.setOut(Constants.getDevNull());
@@ -378,5 +357,10 @@ public class SnipesBot extends PircBot {
      */
     public static List<Thread> getThreadCollection() {
         return threadRegister;
+    }
+    public static SnipesBot getInst() throws NoSnipesInstanceException {
+        if (inst == null)
+            throw new NoSnipesInstanceException("Trying to get instance before Snipes starts.");
+        return inst;
     }
 }
