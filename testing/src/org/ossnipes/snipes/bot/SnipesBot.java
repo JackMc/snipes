@@ -2,25 +2,22 @@ package org.ossnipes.snipes.bot;
 
 // Imports from the default class library
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 // PircBot imports
-import org.jibble.pircbot.IrcException;
-import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.PircBot;
 
 // Snipes imports
 import org.ossnipes.snipes.enums.PluginPassResponse;
 import org.ossnipes.snipes.enums.SnipesEvent;
 import org.ossnipes.snipes.exceptions.NoSnipesInstanceException;
-import org.ossnipes.snipes.exceptions.SnipesNotConfiguredException;
 import org.ossnipes.snipes.exceptions.SnipesPluginException;
-import org.ossnipes.snipes.misc.Cleanup;
-import org.ossnipes.snipes.misc.ErrorHandler;
+import org.ossnipes.snipes.threads.Cleanup;
+import org.ossnipes.snipes.threads.TimerThread;
 import org.ossnipes.snipes.spf.Plugin;
 import org.ossnipes.snipes.spf.PluginManager;
 import org.ossnipes.snipes.spf.PluginType;
@@ -33,7 +30,6 @@ import org.ossnipes.snipes.utils.Constants;
 public class SnipesBot extends PircBot {
 
     private static SnipesBot inst;
-
     private static ArrayList<SuperPlugin> sPlugins = new ArrayList<SuperPlugin>();
     private static ArrayList<Plugin> nPlugins = new ArrayList<Plugin>();
     private static ArrayList<PluginType> oPlugins = new ArrayList<PluginType>();
@@ -50,14 +46,12 @@ public class SnipesBot extends PircBot {
      * @param usePlugins If we should be using plugins
      * @param quiet No output (same as executing with a "> /dev/null")
      */
-    @SuppressWarnings("deprecation")
     public SnipesBot(boolean usePlugins, boolean quiet) {
         Runtime.getRuntime().addShutdownHook(new Thread(new Cleanup()));
-        Runtime.runFinalizersOnExit(true);
         Thread curr = Thread.currentThread();
         curr.setName("Snipes-Main");
         addThread(curr);
-        addThread(new ErrorHandler()).start();
+        startErrorThread();
         if (quiet) {
             try {
                 System.setOut(Constants.getDevNull());
@@ -72,24 +66,56 @@ public class SnipesBot extends PircBot {
                 exitSnipes(1);
             }
         }
-        this.setName("Snipes-Test");
-        this.startIdentServer();
-        this.setVerbose(true);
+        this.setName(Configuration.lookUp("nick", "Snipes-unconf"));
+        if (Boolean.parseBoolean(Configuration.lookUp("ident", "FALSE"))) {
+            this.startIdentServer();
+        }
+        this.setVerbose(Boolean.parseBoolean(Configuration.lookUp("verbose", "FALSE")));
         try {
-            this.connect("irc.geekshed.net");
-            this.sendRawLine("NS IDENTIFY F1sh96");
-        } catch (NickAlreadyInUseException e) {} 
-        catch (IOException e) {}
-        catch (IrcException e) {}
-        this.joinChannel("#snipes");
+            this.connect(Configuration.lookUp("server", "irc.geekshed.net"));
+            String password;
+            if ((password = Configuration.lookUp("nspass")) != null) {
+                this.sendRawLine("NS IDENTIFY " + password);
+            }
+            String[] rawLines = Configuration.getSplitProperty("rawlines", null, ",");
+            if (rawLines.length != 0 && rawLines[0] != null) {
+                for (String s : rawLines) {
+                    this.sendRawLine(s);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Unable to connect to server at " + Configuration.lookUp("server", "irc.geekshed.net (default server, configure me!)"));
+            if (Boolean.parseBoolean(Configuration.lookUp("verbose", "FALSE"))) {
+                System.err.println("Regarding the above, the error type was a: \"" + e.getClass().getCanonicalName() + "\" and it's message was: \"" + e.getMessage() + "\"");
+            }
+            this.exitSnipes(1);
+        }
+        String[] channels = Configuration.getSplitProperty(
+                "channels",
+                "#Snipes-Testing",
+                ",",
+                true);
     }
 
     /** Load the on load plugins. Adds any problems to the error queue
      * @return True if the loading did not encounter any serious errors
      */
     private boolean loadOnLoadPlugins() {
-        String[] s = Configuration.getSplitProperty("plugins", Constants.getCorePluginsString(), ",", true);
-        if (s.length != Constants.CORE_PLUGINS.length) {
+        ArrayList<String> plugins = new ArrayList();
+        String[] s = Configuration.getSplitProperty(
+                "plugins",
+                Constants.getCorePluginsString(),
+                ",",
+                true);
+        plugins.addAll(Arrays.asList(s));
+        if (plugins.size() != Constants.CORE_PLUGINS.length) {
+            plugins.addAll(0, Arrays.asList(Constants.CORE_PLUGINS));
+        }
+        if (!(s instanceof String[])) {
+            System.err.println("This *really* shouldn't happen! Something we thought was a String array was actually another type! Configuration.getSplitProperty() tricked us!");
+            System.exit(1);
+        } else {
+            s = (String[]) plugins.toArray();
         }
         for (String c : s) {
             PluginType p = null;
@@ -124,9 +150,9 @@ public class SnipesBot extends PircBot {
     }
 
     /** Method exposing event sending functions
-     * @param ev
-     * @param params
-     * @return
+     * @param ev The event to send
+     * @param params The params to use
+     * @return The response, events may honour that or not.
      */
     public static PluginPassResponse sendEvent(SnipesEvent ev, SnipesEventParams params) {
         PluginPassResponse pr = PluginPassResponse.PLUGIN_PASSEVENT;
@@ -254,26 +280,6 @@ public class SnipesBot extends PircBot {
         return allPlugins;
     }
 
-    /** Reads the configuration from disk, and sets it to the current
-     * Snipes configuration. Please note this will not show in JavaDocs
-     * because this method is private.
-     * @deprecated Doesn't do anything, configuration is implicently loaded with the class 'Configuration.'
-     * @throws FileNotFoundException If we cannot access the file
-     * @throws IOException If an unknown error occured
-     * @throws SnipesNotConfiguredException If the Snipes configuration does not exist
-     * @throws ClassNotFoundException If the Snipes configuration Object cannot be found inside the file.
-     */
-    @Deprecated
-    private void readConfiguration() throws FileNotFoundException, IOException, SnipesNotConfiguredException, ClassNotFoundException {
-        // Not needed anymore
-    }
-
-    /** Writes the configuration to disk.
-     */
-    private void writeConfig() {
-        Configuration.writeConfiguration();
-    }
-
     /** Create a thread object of the specified Runnable, adding it
      * to the Snipes thread management register. Please note that
      * this method <b>DOES NOT</b> star the thread. You must use it
@@ -358,9 +364,18 @@ public class SnipesBot extends PircBot {
     public static List<Thread> getThreadCollection() {
         return threadRegister;
     }
+
     public static SnipesBot getInst() throws NoSnipesInstanceException {
-        if (inst == null)
+        if (inst == null) {
             throw new NoSnipesInstanceException("Trying to get instance before Snipes starts.");
+        }
         return inst;
+    }
+
+    /** Start the Snipes error handling Thread.
+     * This will not appear in JavaDocs, as it is private.
+     */
+    private void startErrorThread() {
+        addThread(new TimerThread()).start();
     }
 }

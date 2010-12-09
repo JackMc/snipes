@@ -184,25 +184,20 @@ public final class Configuration {
         }
     }
 
-    /** Reloads the configuration file from disk
+    /** Reloads the configuration file from disk. May delete non-saved changes.
      * @throws IOException */
     public static void reloadConfiguration() throws IOException {
-        File f = File.createTempFile("SnipesTempProps", "properties");
-        FileOutputStream fosTemp = new FileOutputStream(f);
-        writeConfiguration(fosTemp);
-        Properties p = new Properties();
-        FileInputStream fisTemp = new FileInputStream(f);
-        p.load(fisTemp);
-        fisTemp.close();
-        fosTemp.close();
+        p.load(fis);
     }
+    
 
     /** Closes all the input streams, throwing any Throwables. <b>ONLY TO BE CALLED
-     * FROM SnipesBot INSTANCE WHEN IT'S FINALIZING!!</b> Don't call me!!
-     * @throws Throwable Shouldn't matter, as it's only called in finalizers!
+     * FROM CleanUp AT FINISH!!!</b> Don't call me!!
+     * @throws IOException Shouldn't matter, as it's only called in CleanUp! But, for completeness, if the FileStreams fail to close, it throws the exception.
      */
-    public static void finish() throws Throwable {
+    public static void finish() throws IOException {
         fos.close();
         fis.close();
+        writeConfiguration();
     }
 }

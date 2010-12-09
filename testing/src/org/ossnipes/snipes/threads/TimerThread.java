@@ -1,4 +1,4 @@
-package org.ossnipes.snipes.misc;
+package org.ossnipes.snipes.threads;
 
 import java.util.Queue;
 import java.util.Timer;
@@ -6,9 +6,9 @@ import java.util.TimerTask;
 
 import org.ossnipes.snipes.bot.SnipesBot;
 
-public class ErrorHandler implements Runnable {
+public class TimerThread implements Runnable {
 	Timer errorPrintTimer;
-	public ErrorHandler(){}
+	public TimerThread(){}
 	public void run()
 	{
 		Thread t = Thread.currentThread();
@@ -31,6 +31,8 @@ public class ErrorHandler implements Runnable {
 				}
 			}
 			errorQueue.clear();
+                        // Set it as the error queue
+                        SnipesBot.setErrorQueue(errorQueue);
 		}
 	}
 }
