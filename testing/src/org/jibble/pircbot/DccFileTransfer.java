@@ -20,7 +20,7 @@ public class DccFileTransfer {
     /**
      * Constructor used for receiving files.
      */
-    DccFileTransfer(PircBot bot, DccManager manager, String nick, String login, String hostname, String type, String filename, long address, int port, long size) {
+    public DccFileTransfer(PircBot bot, DccManager manager, String nick, String login, String hostname, String type, String filename, long address, int port, long size) {
         _bot = bot;
         _manager = manager;
         _nick = nick;
@@ -40,7 +40,7 @@ public class DccFileTransfer {
     /**
      * Constructor used for sending files.
      */
-    DccFileTransfer(PircBot bot, DccManager manager, File file, String nick, int timeout) {
+    public DccFileTransfer(PircBot bot, DccManager manager, File file, String nick, int timeout) {
         _bot = bot;
         _manager = manager;
         _nick = nick;
@@ -155,8 +155,9 @@ public class DccFileTransfer {
     /**
      * Method to send the file inside a new thread.
      */
-    void doSend(final boolean allowResume) {
+    public void doSend(final boolean allowResume) {
         new Thread() {
+            @Override
             public void run() {
                 
                 BufferedInputStream finput = null;

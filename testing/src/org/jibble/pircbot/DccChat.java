@@ -24,7 +24,7 @@ public class DccChat {
      * 
      * @throws IOException If the connection cannot be made.
      */
-    DccChat(PircBot bot, String nick, String login, String hostname, long address, int port) {
+    public DccChat(PircBot bot, String nick, String login, String hostname, long address, int port) {
         _bot = bot;
         _address = address;
         _port = port;
@@ -46,7 +46,7 @@ public class DccChat {
      * 
      * @throws IOException If the socket cannot be read from.
      */
-    DccChat(PircBot bot, String nick, Socket socket) throws IOException {
+    public DccChat(PircBot bot, String nick, Socket socket) throws IOException {
         _bot = bot;
         _nick = nick;
         _socket = socket;

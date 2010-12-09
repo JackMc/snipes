@@ -38,7 +38,7 @@ public class InputThread extends Thread {
      *
      * @param line The raw line to send to the IRC server.
      */
-    void sendRawLine(String line) {
+    public void sendRawLine(String line) {
         OutputThread.sendRawLine(_bot, _bwriter, line);
     }
     
@@ -142,7 +142,7 @@ public class InputThread extends Thread {
         }
     }
 
-    void quitServer() {
+    public void quitServer() {
         _isConnected = false;
     }
     

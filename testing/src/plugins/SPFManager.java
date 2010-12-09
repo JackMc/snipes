@@ -32,21 +32,21 @@ public class SPFManager extends SuperPlugin {
                 String[] msgEx = params.getParamEx(3);
                 if (msgEx[0].equalsIgnoreCase("!time")) {
                     if (msgEx.length < 1) {
-                        params.getBot().sendMessage("#Snipes", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + " is the current date/time.");
+                        sendMessage("#Snipes", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + " is the current date/time.");
                     } else {
-                        params.getBot().sendMessage("#Snipes", "Silly! !time doesn't need params!");
+                        sendMessage("#Snipes", "Silly! !time doesn't need params!");
                     }
                 }
                 if (msgEx[0].equalsIgnoreCase("!printthreads")) {
                     params.getBot().sendMessage(paramsArr[0], "Listing Snipes thread names!");
                     for (Thread t : SnipesBot.getThreadCollection()) {
-                        params.getBot().sendMessage(paramsArr[0], t.getName());
+                        sendMessage(paramsArr[0], t.getName());
                     }
                 }
                 if (msgEx[0].startsWith("!listex")) {
-                    params.getBot().sendMessage(paramsArr[0], "Printing ex");
+                    sendMessage(paramsArr[0], "Printing ex");
                     for (String s : msgEx) {
-                        params.getBot().sendMessage(paramsArr[0], s);
+                        sendMessage(paramsArr[0], s);
                     }
                 }
             }

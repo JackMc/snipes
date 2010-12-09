@@ -3218,7 +3218,7 @@ public abstract class PircBot implements ReplyConstants, PircBotLogger {
     }
 
     // Connection stuff.
-    private InputThread _inputThread = null;
+    protected InputThread _inputThread = null;
     private OutputThread _outputThread = null;
     private String _charset = null;
     private String _fallbackCharset = null;
@@ -3231,7 +3231,7 @@ public abstract class PircBot implements ReplyConstants, PircBotLogger {
     private String _password = null;
     
     // Outgoing message stuff.
-    private Queue _outQueue = new Queue();
+    protected Queue _outQueue = new Queue();
     private long _messageDelay = 1000;
     
     // A Hashtable of channels that points to a selfreferential Hashtable of
@@ -3243,7 +3243,7 @@ public abstract class PircBot implements ReplyConstants, PircBotLogger {
     private Hashtable _topics = new Hashtable();
     
     // DccManager to process and handle all DCC events.
-    private DccManager _dccManager = new DccManager(this);
+    protected DccManager _dccManager = new DccManager(this);
     private int[] _dccPorts = null;
     private InetAddress _dccInetAddress = null;
     

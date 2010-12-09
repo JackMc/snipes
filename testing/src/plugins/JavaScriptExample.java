@@ -24,8 +24,6 @@ public class JavaScriptExample extends Plugin {
     @Override
     protected PluginPassResponse handleEvent(SnipesEvent event,
             SnipesEventParams params) {
-        // Get the PircBot object
-        PircBot bot = params.getBot();
         // Get the event params in a String
         String[] eventParams = params.getParamsArr();
         switch (event) {
@@ -38,7 +36,7 @@ public class JavaScriptExample extends Plugin {
                     // If the message length is one (we didn't get any args)
                     if (msgEx.length == 1) {
                         // Tell them off
-                        params.getBot().sendMessage(eventParams[0], "Use like !jseval <script>");
+                        sendMessage(eventParams[0], "Use like !jseval <script>");
                         // Break out of the switch
                         break;
                     }
@@ -62,11 +60,11 @@ public class JavaScriptExample extends Plugin {
                     ScriptEngine engine = manager.getEngineByName("js");
                     try {
                         // Tell the user what we are evaluating
-                        bot.sendMessage(eventParams[0], "Evaluating: \"" + script + "\"");
+                        sendMessage(eventParams[0], "Evaluating: \"" + script + "\"");
                         // Actually evaluate the script
                         Object obj = engine.eval(script);
                         // Tell them what we got back from the JavaScript
-                        bot.sendMessage(eventParams[0], "Function returned: " + obj);
+                        sendMessage(eventParams[0], "Function returned: " + obj);
                     } // If a ScriptException occurs (there was a error parsing their
                     // JavaScript.)
                     catch (ScriptException e) {
@@ -76,9 +74,9 @@ public class JavaScriptExample extends Plugin {
                         // with something more friendly (<Snipes JSEval>.)
                         error = error.replace("<Unknown source>", "<Snipes JSEval>");
                         // Tell them we are PMing them the error.
-                        bot.sendMessage(eventParams[0], "I'm sorry " + eventParams[1] + " but there was  a "
+                        sendMessage(eventParams[0], "I'm sorry " + eventParams[1] + " but there was  a "
                                 + "error parsing your JavaScript. I'm PMing you the error to avoid flooding.");
-                        bot.sendMessage(eventParams[1], "(This is a message about the JavaScript evaluation requested"
+                        sendMessage(eventParams[1], "(This is a message about the JavaScript evaluation requested"
                                 + " in " + eventParams[0] + ".) The JavaScript error was: \"" + error + "\".");
                     }
                 }

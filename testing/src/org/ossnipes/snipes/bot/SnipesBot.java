@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Queue;
 
 // PircBot imports
+import org.jibble.pircbot.DccManager;
+import org.jibble.pircbot.InputThread;
+import org.jibble.pircbot.OutputThread;
 import org.jibble.pircbot.PircBot;
 
 // Snipes imports
@@ -45,6 +48,25 @@ public class SnipesBot extends PircBot {
     private static List<Thread> threadRegister = new ArrayList<Thread>();
     private ArrayList<PluginType> allPlugins = new ArrayList<PluginType>();
     private static Queue<String> errorQueue = new LinkedList<String>();
+
+
+    public org.jibble.pircbot.Queue getOutCue()
+    {
+        return _outQueue;
+    }
+    public InputThread getInCue()
+    {
+        return _inputThread;
+    }
+    public void setOutQueue(org.jibble.pircbot.Queue val)
+    {
+        if (val != null)
+            _outQueue = val;
+    }
+    public DccManager getManager()
+    {
+        return _dccManager;
+    }
 
     public SnipesBot() {
         this(true, false);
