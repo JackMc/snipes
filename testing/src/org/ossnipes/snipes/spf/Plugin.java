@@ -21,10 +21,15 @@ package org.ossnipes.snipes.spf;
  * 
  * @author Jack McCracken (Auv5)
  */
-
 public abstract class Plugin extends PluginType {
-	@Override
-	public final boolean canCancelEvents() {return false;}
-	@Override
-	public final boolean canHookInternalEvents() {return false;}
+
+    @Override
+    public final boolean canCancelEvents() {
+        return false;
+    }
+
+    @Override
+    public final boolean canHookInternalEvents() {
+        return false;
+    }
 }

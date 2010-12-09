@@ -23,12 +23,17 @@ package org.ossnipes.snipes.spf;
  * @see PluginType
  * @see Plugin
  */
-
 public abstract class SuperPlugin extends PluginType {
-	/**{@inheritDoc}*/
-	@Override
-	public final boolean canCancelEvents() {return true;}
-	/**{@inheritDoc}*/
-	@Override
-	public final boolean canHookInternalEvents() {return true;}
+
+    /**{@inheritDoc}*/
+    @Override
+    public final boolean canCancelEvents() {
+        return true;
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public final boolean canHookInternalEvents() {
+        return true;
+    }
 }
