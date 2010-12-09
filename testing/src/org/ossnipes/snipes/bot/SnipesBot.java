@@ -1,5 +1,13 @@
 package org.ossnipes.snipes.bot;
 
+/*
+ * JOBS:
+ * - Add in security, methods such as isBotAdministrator(String channel, String nick)
+ * - Work on changing hardcoded values to configuration directives
+ * - Work on transition from accessing actual PircBot methods, to using
+ * SPF methods in plugins.
+ */
+
 // Imports from the default class library
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
