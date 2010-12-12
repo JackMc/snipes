@@ -1,0 +1,13 @@
+org.jibble.pircbot
+org.ossnipes.snipes.bot
+org.ossnipes.snipes.enums
+org.ossnipes.snipes.exceptions
+org.ossnipes.snipes.guiconfiguration.main
+org.ossnipes.snipes.interfaces
+org.ossnipes.snipes.main
+org.ossnipes.snipes.security
+org.ossnipes.snipes.spf
+org.ossnipes.snipes.tests
+org.ossnipes.snipes.threads
+org.ossnipes.snipes.utils
+plugins
