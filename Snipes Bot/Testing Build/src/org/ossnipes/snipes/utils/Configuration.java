@@ -130,8 +130,15 @@ public final class Configuration {
      * @return The value of the key, split by the specified regular expression if the key exists. Uses defaultValue as the first element in the array.
      */
     public static String[] getSplitProperty(String key, String defaultValue, String regex, boolean useTrimming) {
-        //TODO: Work on making handle null defaultValue.
-        String lookup = lookUp(key, defaultValue);
+        String lookup;
+        if (defaultValue == null)
+        {
+            lookup = lookUp(key);
+        }
+        else
+        {
+            lookup = lookUp(key,defaultValue);
+        }
         if (lookup == null) {
             return null;
         }
