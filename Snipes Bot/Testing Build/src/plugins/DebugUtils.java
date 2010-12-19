@@ -44,7 +44,10 @@ public class DebugUtils extends SuperPlugin {
             }
             else if (msgEx.length == 1)
             {
-              this.exit(0,"Die command");
+              try
+                {
+                  this.exit(0,"Die command");
+                } catch (NoSnipesInstanceException e) {}
             }
           }
         }
