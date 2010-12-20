@@ -19,7 +19,6 @@ public class SPFManager extends SuperPlugin {
 
     @Override
     public String getName() {
-        //TODO: Finish.
         return null;
     }
 

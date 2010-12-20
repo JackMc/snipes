@@ -62,7 +62,7 @@ public abstract class PluginType implements SnipesLogger {
      */
     protected abstract PluginPassResponse handleEvent(SnipesEvent event, SnipesEventParams params);
 
-    public final PluginPassResponse event(SnipesEvent event, SnipesEventParams params) {
+    public PluginPassResponse event(SnipesEvent event, SnipesEventParams params) {
         params.setBot(null);
         return handleEvent(event, params);
     }

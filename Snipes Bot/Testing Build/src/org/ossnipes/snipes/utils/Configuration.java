@@ -248,7 +248,7 @@ public final class Configuration {
                 }
                 bw.newLine();
             }
-        } catch (IOException e) {System.err.println("An error has occured while writing the configuration to disk. This theoreticly should not happen, as it is checked at init.");}
+        } catch (IOException e) {System.err.println("An error has occured while writing the configuration to disk. This theoretically should not happen, as it is checked at init.");}
     }
 
     /** Reloads the configuration file from disk. May delete non-saved in-bot changes.
