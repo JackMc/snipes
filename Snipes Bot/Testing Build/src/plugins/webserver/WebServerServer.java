@@ -9,7 +9,7 @@ import static org.ossnipes.snipes.utils.Configuration.*;
 
 public class WebServerServer {
     private static final int DEFAULT_PORT = 9001;
-    public static final String DEFAULT_ROOT = "./wsres";
+    public static final String DEFAULT_ROOT = "wsres";
     public static double VERSION = 0.01;
     public void begin() {
         new Thread()
@@ -26,7 +26,7 @@ public class WebServerServer {
                 // Get all the directives we need, passing errors to the Snipes
                 // Error Queue
 
-                String portString = lookUp("wsport");
+                String portString = lookUp("wsport",Integer.toString(DEFAULT_PORT));
                 int portInt = DEFAULT_PORT;
                 try
                 {

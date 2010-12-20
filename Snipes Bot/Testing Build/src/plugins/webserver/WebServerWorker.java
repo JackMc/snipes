@@ -20,10 +20,14 @@ public class WebServerWorker implements Runnable {
         setVars(mahSocket);
     }
 
-    public void begin()
+    public void service()
     {
         try {
-            String resp = r();
+            String s;
+            while ((s = r()) != null)
+            {
+                System.out.println(s);
+            }
         } catch (IOException ex) {
             System.err.println("Recieved nothing from client at " + rawSock.getInetAddress() + ". This generally means someone is trying to connect with something other than a web browser. Disconnecting the client...");
         }
@@ -57,7 +61,7 @@ public class WebServerWorker implements Runnable {
     }
 
     public void run() {
-        begin();
+        service();
     }
     public void finish()
     {

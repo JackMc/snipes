@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Queue;
 
 // PircBot imports
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jibble.pircbot.DccManager;
 import org.jibble.pircbot.InputThread;
 import org.jibble.pircbot.PircBot;
@@ -108,6 +106,7 @@ public class SnipesBot extends PircBot {
         this.setVerbose(Boolean.parseBoolean(Configuration.lookUp("verbose", "FALSE")));
         try {
             this.connect(Configuration.lookUp("server", "irc.geekshed.net"));
+            System.out.println("Connected to server at " + Configuration.lookUp("server","irc.geekshed.net"));
             } catch (Exception e) 
             {
                 System.err.println("Unable to connect to server at " + Configuration.lookUp("server", "irc.geekshed.net (default server, configure me!)"));
@@ -137,7 +136,10 @@ public class SnipesBot extends PircBot {
         for (String channel : channels)
         {
             if (channel != null && !channel.equals(""))
-            this.joinChannel(channel);
+            {
+                System.out.println("Joining channel " + channel);
+                this.joinChannel(channel);
+            }
         }
     }
 

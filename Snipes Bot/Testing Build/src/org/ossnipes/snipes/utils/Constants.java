@@ -25,6 +25,10 @@ public class Constants {
     public static final String CONFNAME = "./snipes.properties";
     /** An array of all core plugins */
     public static final String[] CORE_PLUGINS = {"plugins.SPFManager"};
+    /** If we're set to verbose, this amount of miliseconds will be counted between error queue prints. */
+    public static final int VERBOSE_ERRT = 20000;
+    /** If we're set to non-verbose, this amount of miliseconds will be counted between error queues. */
+    public static final int NON_VERBOSE_ERRT = 1000;
 
     public static PrintStream getDevNull() throws FileNotFoundException {
         if (System.getProperty("os.name").contains("Linux") || System.getProperty("os.name").contains("Mac")) {
