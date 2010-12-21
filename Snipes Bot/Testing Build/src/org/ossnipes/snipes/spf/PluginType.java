@@ -659,7 +659,7 @@ public abstract class PluginType implements SnipesLogger {
         System.err.println(reason);
         (inst != null ? inst : (inst = SnipesBot.getInst())).exitSnipes(status);
     }
-    protected boolean isBotAdministrator(String hostname)
+    public boolean isBotAdministrator(String hostname)
     {
         try
         {
@@ -667,7 +667,7 @@ public abstract class PluginType implements SnipesLogger {
         } catch (NoSnipesInstanceException e) {}
         return false;
     }
-    protected boolean isBotModerator(String hostname)
+    public boolean isBotModerator(String hostname)
     {
         try
         {
@@ -675,7 +675,7 @@ public abstract class PluginType implements SnipesLogger {
         } catch (NoSnipesInstanceException e) {}
         return false;
     }
-    protected boolean isBotOwner(String hostname)
+    public boolean isBotOwner(String hostname)
     {
         try
         {
