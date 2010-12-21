@@ -10,6 +10,12 @@ public class SnipesEventParams {
         _bot = p;
         _params = params;
     }
+    public SnipesEventParams(PircBot p, Object[] objParams, String... params)
+    {
+        _bot = p;
+        _params = params;
+        _objParams = objParams;
+    }
 
     public SnipesEventParams(PircBot p) {
         _bot = p;
@@ -20,19 +26,31 @@ public class SnipesEventParams {
         return _params;
     }
 
-    /** Gets the PircBot object. Only to be used by "PluginType" class, it is null after that.*/
+    public Object[] getObjectParamsArr()
+    {
+        return _objParams;
+    }
+
+    /**
+     * Gets the PircBot object. Only to be used by "PluginType" class, it is null after that.
+     */
     public PircBot getBot() {
 
         return _bot;
     }
-    /** Sets the PircBot of this param. Only to be used by "PluginType" class, as "bot" is null after that.
+
+    /**
+     * Sets the PircBot of this param. Only to be used by "PluginType" class, as "bot" is null after that.
+     *
      * @param b What to set to.
      */
-    public void setBot(PircBot b)
-    {
+    public void setBot(PircBot b) {
         _bot = b;
     }
-    /** Tokenizes the specified index by space
+
+    /**
+     * Tokenizes the specified index by space
+     *
      * @param paramIndex The index, zero-based (obviously)
      * @return The tokenized String[] if the index is in range, blank array if not.
      */
@@ -43,6 +61,8 @@ public class SnipesEventParams {
             return _params[paramIndex].split(" ");
         }
     }
+
     String[] _params;
     PircBot _bot;
+    Object[] _objParams;
 }

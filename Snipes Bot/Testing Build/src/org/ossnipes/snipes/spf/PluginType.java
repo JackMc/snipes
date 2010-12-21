@@ -24,39 +24,43 @@ import org.ossnipes.snipes.interfaces.SnipesLogger;
 import org.ossnipes.snipes.utils.Log;
 
 /**
- * Base class used to represent a Snipes plugin type (a base 
- * class used to define the rough outline of a plugin, and what rights it should 
+ * Base class used to represent a Snipes plugin type (a base
+ * class used to define the rough outline of a plugin, and what rights it should
  * have within the bot All <b>plugin types</b> should inherit from bot type.
  * If you create a Snipes plugin, it shouldn't inherit from PluginType class,
- * rather something such as Snipes Super Plugin ({@link SuperPlugin},) 
+ * rather something such as Snipes Super Plugin ({@link SuperPlugin},)
  * or Snipes Plugin ({@link Plugin}.)
+ *
  * @author Jack McCracken (Auv5)
  */
 public abstract class PluginType implements SnipesLogger {
 
     private SnipesBot inst;
 
-    /** Log a line to the default Snipes Logger.
+    /**
+     * Log a line to the default Snipes Logger.
      * bot method assumes level {@link Level}.CONFIG.
+     *
      * @param line The line to log.
      */
-    @Override
     public final void log(String line) {
         log(line, Level.CONFIG);
     }
 
-    /** Log a line to the default Snipes Logger.
-     * @param line The line to log.
+    /**
+     * Log a line to the default Snipes Logger.
+     *
+     * @param line  The line to log.
      * @param level The level to log at.
      */
-    @Override
     public final void log(String line, Level level) {
         Log.log(line, level);
     }
 
     /**
      * Called when a Snipes event (internal or external) that you have the rights to handle happens.
-     * @param event The event, from the SnipesEvent enum
+     *
+     * @param event  The event, from the SnipesEvent enum
      * @param params The paramaters, works just like a ArrayList.
      * @return If you are able to cancel events (determined by your plugin type's canCancelEvents() method,) you may return PLUGIN_CANCELEVENT, if not, you may only return PLUGIN_PASSEVENT or null (does the same)
      */
@@ -67,29 +71,39 @@ public abstract class PluginType implements SnipesLogger {
         return handleEvent(event, params);
     }
 
-    /** Signifies the beginning of a Plugin's lifecycle.
+    /**
+     * Signifies the beginning of a Plugin's lifecycle.
+     *
      * @return If the plugin initialized successfully. Null assumes yes.
      */
     public abstract PluginConstructRet snipesInit();
 
-    /** Signifies the end of a Plugin's lifecycle.
+    /**
+     * Signifies the end of a Plugin's lifecycle.
+     *
      * @return If the plugin ended normally. Null assumes yes.
      */
     public abstract PluginDestructRet snipesFini(int status);
 
-    /** Determines if a bot Plugin can hook into events beginning with
+    /**
+     * Determines if a bot Plugin can hook into events beginning with
      * "SNIPES_INT".
+     *
      * @return If the Plugin can hook into internal events.
      */
     public abstract boolean canHookInternalEvents();
 
-    /** Determines if the Plugin can cancel events for plugins below
+    /**
+     * Determines if the Plugin can cancel events for plugins below
      * it.
+     *
      * @return If the Plugin can cancel events.
      */
     public abstract boolean canCancelEvents();
 
-    /** Gets the name of the Plugin.
+    /**
+     * Gets the name of the Plugin.
+     *
      * @return The name of the Plugin.
      */
     public abstract String getName();
@@ -110,7 +124,7 @@ public abstract class PluginType implements SnipesLogger {
      * Joins a channel with a key.
      *
      * @param channel The name of the channel to join (eg "#cs").
-     * @param key The key that will be used to join the channel.
+     * @param key     The key that will be used to join the channel.
      */
     protected final void joinChannel(String channel, String key) {
         try {
@@ -213,20 +227,19 @@ public abstract class PluginType implements SnipesLogger {
      * Sends a message to a channel or a private message to a user.  These
      * messages are added to the outgoing message queue and sent at the
      * earliest possible opportunity.
-     *  <p>
+     * <p/>
      * Some examples: -
-     *  <pre>    // Send the message "Hello!" to the channel #cs.
+     * <pre>    // Send the message "Hello!" to the channel #cs.
      *    sendMessage("#cs", "Hello!");
-     *
+     * <p/>
      *    // Send a private message to Paul that says "Hi".
      *    sendMessage("Paul", "Hi");</pre>
-     *
+     * <p/>
      * You may optionally apply colours, boldness, underlining, etc to
      * the message by using the <code>Colors</code> class.
      *
-     * @param target The name of the channel or user nick to send to.
+     * @param target  The name of the channel or user nick to send to.
      * @param message The message to send.
-     *
      * @see Colors
      */
     protected final void sendMessage(String target, String message) {
@@ -241,7 +254,6 @@ public abstract class PluginType implements SnipesLogger {
      *
      * @param target The name of the channel or user nick to send to.
      * @param action The action to send.
-     *
      * @see Colors
      */
     protected final void sendAction(String target, String action) {
@@ -269,7 +281,7 @@ public abstract class PluginType implements SnipesLogger {
      * The type of response to such commands is largely dependant on the target
      * client software.
      *
-     * @param target The name of the channel or user to send the CTCP message to.
+     * @param target  The name of the channel or user to send the CTCP message to.
      * @param command The CTCP command to send.
      */
     protected final void sendCTCPCommand(String target, String command) {
@@ -306,8 +318,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The channel on which to perform the mode change.
      * @param mode    The new mode to apply to the channel.  This may include
      *                zero or more arguments if necessary.
-     *
-     * @see #op(String,String) op
+     * @see #op(String, String) op
      */
     protected final void setMode(String channel, String mode) {
         try {
@@ -338,7 +349,7 @@ public abstract class PluginType implements SnipesLogger {
      * Successful use of bot method may require the bot to have operator
      * status itself.
      *
-     * @param channel The channel to ban the user from.
+     * @param channel  The channel to ban the user from.
      * @param hostmask A hostmask representing the user we're banning.
      */
     protected final void ban(String channel, String hostmask) {
@@ -354,7 +365,7 @@ public abstract class PluginType implements SnipesLogger {
      * Successful use of bot method may require the bot to have operator
      * status itself.
      *
-     * @param channel The channel to unban the user from.
+     * @param channel  The channel to unban the user from.
      * @param hostmask A hostmask representing the user we're unbanning.
      */
     protected final void unBan(String channel, String hostmask) {
@@ -370,7 +381,7 @@ public abstract class PluginType implements SnipesLogger {
      * status itself.
      *
      * @param channel The channel we're opping the user on.
-     * @param nick The nick of the user we are opping.
+     * @param nick    The nick of the user we are opping.
      */
     protected final void op(String channel, String nick) {
         try {
@@ -385,7 +396,7 @@ public abstract class PluginType implements SnipesLogger {
      * status itself.
      *
      * @param channel The channel we're deopping the user on.
-     * @param nick The nick of the user we are deopping.
+     * @param nick    The nick of the user we are deopping.
      */
     protected final void deOp(String channel, String nick) {
         try {
@@ -400,7 +411,7 @@ public abstract class PluginType implements SnipesLogger {
      * status itself.
      *
      * @param channel The channel we're voicing the user on.
-     * @param nick The nick of the user we are voicing.
+     * @param nick    The nick of the user we are voicing.
      */
     protected final void voice(String channel, String nick) {
         try {
@@ -415,7 +426,7 @@ public abstract class PluginType implements SnipesLogger {
      * status itself.
      *
      * @param channel The channel we're devoicing the user on.
-     * @param nick The nick of the user we are devoicing.
+     * @param nick    The nick of the user we are devoicing.
      */
     protected final void deVoice(String channel, String nick) {
         try {
@@ -476,8 +487,6 @@ public abstract class PluginType implements SnipesLogger {
      * When the Pircbot receives information for each channel, it will
      * call the onChannelInfo method, which you will need to override
      * if you want it to do anything useful.
-     *
-     * @see #onChannelInfo(String,int,String) onChannelInfo
      */
     protected final void listChannels() {
         try {
@@ -491,7 +500,7 @@ public abstract class PluginType implements SnipesLogger {
      * When the Pircbot receives information for each channel, it will
      * call the onChannelInfo method, which you will need to override
      * if you want it to do anything useful.
-     *  <p>
+     * <p/>
      * Some IRC servers support certain parameters for LIST requests.
      * One example is a parameter of ">10" to list only those channels
      * that have more than 10 users in them.  Whether these parameters
@@ -499,8 +508,6 @@ public abstract class PluginType implements SnipesLogger {
      *
      * @param parameters The parameters to supply when requesting the
      *                   list.
-     *
-     * @see #onChannelInfo(String,int,String) onChannelInfo
      */
     protected final void listChannels(String parameters) {
         try {
@@ -517,19 +524,17 @@ public abstract class PluginType implements SnipesLogger {
      * Sends a file to another user.  Resuming is supported.
      * The other user must be able to connect directly to your this to be
      * able to receive the file.
-     *  <p>
+     * <p/>
      * You may throttle the speed of this file transfer by calling the
      * setPacketDelay method on the DccFileTransfer that is returned.
-     *  <p>
+     * <p/>
      * this method may not be overridden.
      *
-     * @param file The file to send.
-     * @param nick The user to whom the file is to be sent.
+     * @param file    The file to send.
+     * @param nick    The user to whom the file is to be sent.
      * @param timeout The number of milliseconds to wait for the recipient to
      *                acccept the file (we recommend about 120000).
-     *
      * @return The DccFileTransfer that can be used to monitor bot transfer. Null if the Snipes instance cannot be found.
-     *
      * @see DccFileTransfer
      */
     protected final DccFileTransfer dccSendFile(File file, String nick, int timeout) {
@@ -551,19 +556,17 @@ public abstract class PluginType implements SnipesLogger {
      * DccChat object is returned by bot method.  If the connection is not
      * made within the time limit specified by the timeout value, then null
      * is returned.
-     *  <p>
+     * <p/>
      * It is <b>strongly recommended</b> that you call bot method within a new
      * Thread, as it may take a long time to return.
-     *  <p>
+     * <p/>
      * bot method may not be overridden.
      *
-     * @param nick The nick of the user we are trying to establish a chat with.
+     * @param nick    The nick of the user we are trying to establish a chat with.
      * @param timeout The number of milliseconds to wait for the recipient to
      *                accept the chat connection (we recommend about 120000).
-     *
      * @return a DccChat object that can be used to send and recieve lines of
      *         text.  Returns <b>null</b> if the connection could not be made.
-     *
      * @see DccChat
      */
     protected final DccChat dccSendChatRequest(String nick, int timeout) {
@@ -622,7 +625,6 @@ public abstract class PluginType implements SnipesLogger {
      * address.
      *
      * @param address the byte[] of size 4 representing the IP address.
-     *
      * @return a long representation of the IP address.
      */
     protected long ipToLong(byte[] address) {
@@ -638,19 +640,47 @@ public abstract class PluginType implements SnipesLogger {
         }
         return ipNum;
     }
-    /**@return The current nick of the bot
+
+    /**
+     * @return The current nick of the bot
      */
-    protected String getNick()
-    {
+    protected String getNick() {
         try {
             return (inst != null ? inst : (inst = SnipesBot.getInst())).getNick();
-        } catch (NoSnipesInstanceException ex) {}
+        } catch (NoSnipesInstanceException ex) {
+        }
         return null;
     }
-    /** Exits Snipes, with the given reason and the given status */
-    protected void exit(int status, String reason) throws NoSnipesInstanceException
+
+    /**
+     * Exits Snipes, with the given reason and the given status
+     */
+    protected void exit(int status, String reason) throws NoSnipesInstanceException {
+        System.err.println(reason);
+        (inst != null ? inst : (inst = SnipesBot.getInst())).exitSnipes(status);
+    }
+    protected boolean isBotAdministrator(String hostname)
     {
-      System.err.println(reason);
-      (inst != null ? inst : (inst = SnipesBot.getInst())).exitSnipes(status);
+        try
+        {
+            return inst != null ? inst.isBotAdministrator(hostname) : (inst = SnipesBot.getInst()).isBotAdministrator(hostname);
+        } catch (NoSnipesInstanceException e) {}
+        return false;
+    }
+    protected boolean isBotModerator(String hostname)
+    {
+        try
+        {
+            return (inst != null ? inst.isBotAdministrator(hostname) : (inst = SnipesBot.getInst()).isBotAdministrator(hostname));
+        } catch (NoSnipesInstanceException e) {}
+        return false;
+    }
+    protected boolean isBotOwner(String hostname)
+    {
+        try
+        {
+            return (inst != null ? inst.isBotOwner(hostname) : (inst = SnipesBot.getInst()).isBotOwner(hostname));
+        } catch (NoSnipesInstanceException e) {}
+        return false;
     }
 }

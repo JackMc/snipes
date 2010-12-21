@@ -7,7 +7,7 @@ package org.jibble.pircbot;
  * @version 1.0.0
  */
 public class IrcException extends Exception {
-    
+
     /**
      * Constructs a new IrcException.
      *
@@ -16,5 +16,5 @@ public class IrcException extends Exception {
     public IrcException(String e) {
         super(e);
     }
-    
+
 }

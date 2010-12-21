@@ -11,8 +11,10 @@ import org.ossnipes.snipes.enums.SnipesEvent;
 import org.ossnipes.snipes.spf.SnipesEventParams;
 import org.ossnipes.snipes.spf.SuperPlugin;
 
-/** Plugin to manage the dynamic loading of Snipes plugins without 
+/**
+ * Plugin to manage the dynamic loading of Snipes plugins without
  * shutting down Snipes.
+ *
  * @author Jack McCracken (Auv5)
  */
 public class SPFManager extends SuperPlugin {
@@ -24,8 +26,13 @@ public class SPFManager extends SuperPlugin {
 
     @Override
     public PluginPassResponse handleEvent(SnipesEvent event,
-            SnipesEventParams params) {
+                                          SnipesEventParams params) {
         String[] paramsArr = params.getParamsArr();
+
+        switch (event)
+        {
+
+        }
         return null;
     }
 

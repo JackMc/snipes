@@ -9,7 +9,7 @@ package org.jibble.pircbot;
  * @version 1.0.0
  */
 public class NickAlreadyInUseException extends IrcException {
-    
+
     /**
      * Constructs a new IrcException.
      *
@@ -18,5 +18,5 @@ public class NickAlreadyInUseException extends IrcException {
     public NickAlreadyInUseException(String e) {
         super(e);
     }
-    
+
 }

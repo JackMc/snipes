@@ -12,8 +12,10 @@ import org.ossnipes.snipes.spf.SnipesEventParams;
 import org.ossnipes.snipes.spf.SuperPlugin;
 import org.ossnipes.snipes.exceptions.NoSnipesInstanceException;
 
-/** Plugin to manage the dynamic loading of Snipes plugins without 
+/**
+ * Plugin to manage the dynamic loading of Snipes plugins without
  * shutting down Snipes.
+ *
  * @author Jack McCracken (Auv5)
  */
 public class DebugUtils extends SuperPlugin {
@@ -25,33 +27,27 @@ public class DebugUtils extends SuperPlugin {
 
     @Override
     public PluginPassResponse handleEvent(SnipesEvent event,
-            SnipesEventParams params) {
+                                          SnipesEventParams params) {
         String[] paramsArr = params.getParamsArr();
-        switch (event)
-        {
-        case SNIPES_IRC_CHANMSG:
-        {
-          String[] msgEx = params.getParamEx(3);
-          if (msgEx[0].equalsIgnoreCase("!die"))
-          {
-            String dieName = null;
-            if (msgEx.length == 2 && msgEx[1].equalsIgnoreCase(getNick()))
-            {
-                try
-                {
-                  this.exit(0,"Die command");
-                } catch (NoSnipesInstanceException e) {}
+        switch (event) {
+            case SNIPES_IRC_CHANMSG: {
+                String[] msgEx = params.getParamEx(3);
+                if (msgEx[0].equalsIgnoreCase("!die")) {
+                    String dieName = null;
+                    if (msgEx.length == 2 && msgEx[1].equalsIgnoreCase(getNick())) {
+                        try {
+                            this.exit(0, "Die command");
+                        } catch (NoSnipesInstanceException e) {
+                        }
+                    } else if (msgEx.length == 1) {
+                        try {
+                            this.exit(0, "Die command");
+                        } catch (NoSnipesInstanceException e) {
+                        }
+                    }
+                }
             }
-            else if (msgEx.length == 1)
-            {
-              try
-                {
-                  this.exit(0,"Die command");
-                } catch (NoSnipesInstanceException e) {}
-            }
-          }
-        }
-        break;
+            break;
         }
         return null;
     }
@@ -65,4 +61,4 @@ public class DebugUtils extends SuperPlugin {
     public PluginConstructRet snipesInit() {
         return null;
     }
-  }
+}

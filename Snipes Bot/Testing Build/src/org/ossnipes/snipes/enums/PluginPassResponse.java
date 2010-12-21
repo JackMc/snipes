@@ -2,8 +2,8 @@ package org.ossnipes.snipes.enums;
 
 /**
  * Represents responses for the Super Plugins.
- * @author Jack McCracken
  *
+ * @author Jack McCracken
  */
 public enum PluginPassResponse {
 

@@ -1,11 +1,13 @@
 package org.ossnipes.snipes.enums;
 
-/** Snipes events, each of these comes with their own set of event params, got with the methods
+/**
+ * Snipes events, each of these comes with their own set of event params, got with the methods
  * in the <code>SnipesEventParams.getParamsArr()</code>. The event params and their corisponding
  * numbers in the event params array is outlined in the JavaDoc.
  */
 public enum SnipesEvent {
-    /** Snipes IRC join event. Called when someone (including us) joins a channel we are in.
+    /**
+     * Snipes IRC join event. Called when someone (including us) joins a channel we are in.
      * It would be bad practice to call a joinChannel() in this event, as it would cause infinite
      * recursion.
      * <BR/>
@@ -19,7 +21,8 @@ public enum SnipesEvent {
      * This is a normal IRC event (non-internal)
      */
     SNIPES_IRC_JOIN,
-    /** Snipes channel message event. Sent when the IRC server informs us that someone has
+    /**
+     * Snipes channel message event. Sent when the IRC server informs us that someone has
      * sent a PRIVMSG to us. Note: This event is not sent every time a PRIVMSG
      * is. It is only sent when the PRIVMSG is addressed to getNick(), not to a channel we are in.
      * <BR/>
@@ -33,7 +36,8 @@ public enum SnipesEvent {
      * This is a normal IRC event (non-internal)
      */
     SNIPES_IRC_PRIVATEMSG,
-    /** Snipes IRC part event. Called when someone (including us) parts a channel we are in.
+    /**
+     * Snipes IRC part event. Called when someone (including us) parts a channel we are in.
      * It would be bad practice to call a partChannel() in this event, as it would cause infinite
      * recursion.
      * <BR/>
@@ -52,7 +56,8 @@ public enum SnipesEvent {
     SNIPES_IRC_CONNENCT,
     SNIPES_IRC_IDENTSTART,
     SNIPES_IRC_IDENTSTOP,
-    /** Snipes IRC action event. Called when someone uses a "/me" or ACTION at us
+    /**
+     * Snipes IRC action event. Called when someone uses a "/me" or ACTION at us
      * or at one of the channels we are in.
      * <BR/>
      * <BR/>
@@ -67,7 +72,8 @@ public enum SnipesEvent {
      * This is a normal IRC event (non-internal)
      */
     SNIPES_IRC_ACTION,
-    /** Snipes server response event. Sent when the IRC server sends a response code out
+    /**
+     * Snipes server response event. Sent when the IRC server sends a response code out
      * to it's clients. This event is generally not needed, except for plugins that are
      * working with IRC servers that don't use the IRC specification. Note that this event
      * is sent whenever we get something from the server not actually in the context of a channel
@@ -85,7 +91,8 @@ public enum SnipesEvent {
     SNIPES_INT_CONSOLEOUT,
     SNIPES_INT_PLUGINLOAD,
     SNIPES_INT_PLUGINUNLOAD,
-    /** Snipes channel message event. Sent when the IRC server informs us that someone has
+    /**
+     * Snipes channel message event. Sent when the IRC server informs us that someone has
      * sent a PRIVMSG to a channel that we are in.
      * <BR/>
      * <BR/>
@@ -99,7 +106,8 @@ public enum SnipesEvent {
      * This is a normal IRC event (non-internal)
      */
     SNIPES_IRC_CHANMSG,
-    /** Snipes IRC notice event. Called when someone sends us a NOTICE, or sends
+    /**
+     * Snipes IRC notice event. Called when someone sends us a NOTICE, or sends
      * a NOTICE to a channel we are in.
      * <BR/>
      * <BR/>
@@ -113,7 +121,8 @@ public enum SnipesEvent {
      * This is a normal IRC event (non-internal)
      */
     SNIPES_IRC_NOTICE,
-    /** Snipes IRC nick change event. Called when someone (including us) changes their nick in
+    SNIPES_IRC_KICK, SNIPES_IRC_TOPIC_CHANGED, SNIPES_IRC_MODE, SNIPES_IRC_DCCCHAT, /**
+     * Snipes IRC nick change event. Called when someone (including us) changes their nick in
      * a channel we are in. It would be bad practice to call a changeNick() in this event,
      * as it would cause infinite recursion.
      * <BR/>

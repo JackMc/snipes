@@ -9,6 +9,7 @@ package org.ossnipes.snipes.bot;
  */
 
 // Imports from the default class library
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +39,9 @@ import org.ossnipes.snipes.utils.Configuration;
 import org.ossnipes.snipes.utils.Constants;
 import org.ossnipes.snipes.utils.Expensives;
 
-/** Bot class for the open source Snipes project */
+/**
+ * Bot class for the open source Snipes project
+ */
 public class SnipesBot extends PircBot {
 
     private static SnipesBot inst;
@@ -51,21 +54,20 @@ public class SnipesBot extends PircBot {
     private static Queue<String> errorQueue = new LinkedList<String>();
 
 
-    public org.jibble.pircbot.Queue getOutCue()
-    {
+    public org.jibble.pircbot.Queue getOutCue() {
         return _outQueue;
     }
-    public InputThread getInCue()
-    {
+
+    public InputThread getInCue() {
         return _inputThread;
     }
-    public void setOutQueue(org.jibble.pircbot.Queue val)
-    {
+
+    public void setOutQueue(org.jibble.pircbot.Queue val) {
         if (val != null)
             _outQueue = val;
     }
-    public DccManager getManager()
-    {
+
+    public DccManager getManager() {
         return _dccManager;
     }
 
@@ -73,9 +75,11 @@ public class SnipesBot extends PircBot {
         this(true, false);
     }
 
-    /** Constructor for SnipesBot. Initiates all needed variables
+    /**
+     * Constructor for SnipesBot. Initiates all needed variables
+     *
      * @param usePlugins If we should be using plugins
-     * @param quiet No output (same as executing with a "> /dev/null")
+     * @param quiet      No output (same as executing with a "> /dev/null")
      */
     public SnipesBot(boolean usePlugins, boolean quiet) {
         if (inst != null)
@@ -106,44 +110,42 @@ public class SnipesBot extends PircBot {
         this.setVerbose(Boolean.parseBoolean(Configuration.lookUp("verbose", "FALSE")));
         try {
             this.connect(Configuration.lookUp("server", "irc.geekshed.net"));
-            System.out.println("Connected to server at " + Configuration.lookUp("server","irc.geekshed.net"));
-            } catch (Exception e) 
-            {
-                System.err.println("Unable to connect to server at " + Configuration.lookUp("server", "irc.geekshed.net (default server, configure me!)"));
-                if (Boolean.parseBoolean(Configuration.lookUp("verbose", "FALSE"))) {
-                    System.err.println("Regarding the above, the error type was a: \"" + e.getClass().getCanonicalName() + "\" and it's message was: \"" + e.getMessage() + "\"");
-                }
-                this.exitSnipes(1);
+            System.out.println("Connected to server at " + Configuration.lookUp("server", "irc.geekshed.net"));
+        } catch (Exception e) {
+            System.err.println("Unable to connect to server at " + Configuration.lookUp("server", "irc.geekshed.net (default server, configure me!)"));
+            if (Boolean.parseBoolean(Configuration.lookUp("verbose", "FALSE"))) {
+                System.err.println("Regarding the above, the error type was a: \"" + e.getClass().getCanonicalName() + "\" and it's message was: \"" + e.getMessage() + "\"");
             }
-            String password;
-            if ((password = Configuration.lookUp("nspass")) != null) {
-                this.sendRawLine("NS IDENTIFY " + password);
-            }
-            String[] rawLines = Configuration.getSplitProperty("rawlines", "", ",");
-            if (rawLines.length != 0 && rawLines[0].equalsIgnoreCase("")) {
-                for (String s : rawLines) {
-                    if (!s.equals(""))
-                    {
-                        this.sendRawLine(s);
-                    }
+            this.exitSnipes(1);
+        }
+        String password;
+        if ((password = Configuration.lookUp("nspass")) != null) {
+            this.sendRawLine("NS IDENTIFY " + password);
+        }
+        String[] rawLines = Configuration.getSplitProperty("rawlines", "", ",");
+        if (rawLines.length != 0 && rawLines[0].equalsIgnoreCase("")) {
+            for (String s : rawLines) {
+                if (!s.equals("")) {
+                    this.sendRawLine(s);
                 }
             }
+        }
         String[] channels = Configuration.getSplitProperty(
                 "channels",
                 "#Snipes-Testing",
                 ",",
                 true);
-        for (String channel : channels)
-        {
-            if (channel != null && !channel.equals(""))
-            {
+        for (String channel : channels) {
+            if (channel != null && !channel.equals("")) {
                 System.out.println("Joining channel " + channel);
                 this.joinChannel(channel);
             }
         }
     }
 
-    /** Load the on load plugins. Adds any problems to the error queue
+    /**
+     * Load the on load plugins. Adds any problems to the error queue
+     *
      * @return True if the loading did not encounter any serious errors
      */
     private boolean loadOnLoadPlugins() {
@@ -188,8 +190,10 @@ public class SnipesBot extends PircBot {
         return true;
     }
 
-    /** Method exposing event sending functions
-     * @param ev The event to send
+    /**
+     * Method exposing event sending functions
+     *
+     * @param ev     The event to send
      * @param params The params to use
      * @return The response, events may honour that or not.
      */
@@ -209,27 +213,31 @@ public class SnipesBot extends PircBot {
         return pr;
     }
 
-    /** Exit Snipes cleanly, calling snipesFini methods.
+    /**
+     * Exit Snipes cleanly, calling snipesFini methods.
+     *
      * @param statusCode The status code (0 means normal, 1 and more means abnormal)
      */
     public final void exitSnipes(int statusCode) {
         for (PluginType p : allPlugins) {
             p.snipesFini(statusCode);
         }
-        if (this.isConnected())
-        {
-          this.disconnect();
+        if (this.isConnected()) {
+            this.disconnect();
         }
         // Let the plugins finish
         try {
             Thread.sleep(500);
-        } catch (InterruptedException owell) {}
+        } catch (InterruptedException owell) {
+        }
         System.exit(statusCode);
     }
 
-    /** Run a event send, only to super events.
+    /**
+     * Run a event send, only to super events.
      * This method will not show up in JavaDoc.
-     * @param ev The event to send
+     *
+     * @param ev     The event to send
      * @param params The params to use
      * @return If the event should happen
      */
@@ -250,9 +258,11 @@ public class SnipesBot extends PircBot {
         return PluginPassResponse.PLUGIN_PASSEVENT;
     }
 
-    /** Run a event send.
+    /**
+     * Run a event send.
      * This method will not show up in JavaDoc.
-     * @param ev The event to send
+     *
+     * @param ev     The event to send
      * @param params The params to use
      * @return If the event should continue
      */
@@ -300,18 +310,22 @@ public class SnipesBot extends PircBot {
         return PluginPassResponse.PLUGIN_PASSEVENT;
     }
 
-    /** Prints a message to the console, allowing for SuperPlugins
-     *  to intervien.
+    /**
+     * Prints a message to the console, allowing for SuperPlugins
+     * to intervien.
+     *
      * @param msg The message to send to the console
      */
     public static void consolePrint(String msg) {
         consolePrint(msg, null);
     }
 
-    /** Prints a message to the console, allowing for SuperPlugins
-     *  to intervien.
+    /**
+     * Prints a message to the console, allowing for SuperPlugins
+     * to intervien.
+     *
      * @param msg The message to send to the console
-     * @param b The PircBot sending the console print.
+     * @param b   The PircBot sending the console print.
      */
     public static void consolePrint(String msg, PircBot b) {
         if (sendEvent(SnipesEvent.SNIPES_INT_CONSOLEOUT, new SnipesEventParams(b, new String[]{msg})) != PluginPassResponse.PLUGIN_CANCELEVENT) {
@@ -319,15 +333,18 @@ public class SnipesBot extends PircBot {
         }
     }
 
-    /** Gets a ArrayList of all currently loaded plugins (upcasted to
-     *  'PluginType.')
+    /**
+     * Gets a ArrayList of all currently loaded plugins (upcasted to
+     * 'PluginType.')
+     *
      * @return The ArrayList of all plugins
      */
     public ArrayList<PluginType> getPlugins() {
         return allPlugins;
     }
 
-    /** Create a thread object of the specified Runnable, adding it
+    /**
+     * Create a thread object of the specified Runnable, adding it
      * to the Snipes thread management register. Please note that
      * this method <b>DOES NOT</b> star the thread. You must use it
      * like <code>SnipesBot.addThread(new ExampleRunnable()).start();
@@ -338,6 +355,7 @@ public class SnipesBot extends PircBot {
      * thread
      * t.start();
      * </code>
+     *
      * @param t The runnable to add and create a thread from.
      * @return The Thread Object of the newly created Thread.
      */
@@ -346,18 +364,19 @@ public class SnipesBot extends PircBot {
             throw new NullPointerException("addThread(Runnable t) cannot take a null value.");
         }
         Thread newThread = new Thread(t);
-        if (threadRegister.contains(newThread))
-        {
+        if (threadRegister.contains(newThread)) {
             return newThread;
         }
         threadRegister.add(newThread);
         return newThread;
     }
 
-    /** Add a pre-existing Thread to the Thread register.
+    /**
+     * Add a pre-existing Thread to the Thread register.
      * Only to be used by the main Thread (Snipes-Main,) because
      * it is already created by the JVM.
      * This will not show up in JavaDoc.
+     *
      * @param t The Thread to add.
      * @return t, for convinence
      */
@@ -369,23 +388,27 @@ public class SnipesBot extends PircBot {
         return t;
     }
 
-    /** Gets the current Snipes error Queue object. If you intend
+    /**
+     * Gets the current Snipes error Queue object. If you intend
      * on modifying it, you must 'commit' your changes using
      * {@link setErrorQueue} so they are seen by other plugins/
      * objects.
+     *
      * @return The error queue
      */
     public static Queue<String> getErrorQueue() {
         return errorQueue;
     }
 
-    /** Set the value of the Snipes error queue. The intended
+    /**
+     * Set the value of the Snipes error queue. The intended
      * purpose of this method is to remove or add errors to the
      * current error Queue object (retrieved using
      * {@link getErrorQueue}.)
+     *
      * @param value
      * @return True if the value was set, false if it wasn't (value
-     * was null.)
+     *         was null.)
      */
     public static boolean setErrorQueue(Queue<String> value) {
         if (value != null) {
@@ -395,9 +418,11 @@ public class SnipesBot extends PircBot {
         return false;
     }
 
-    /** Adds a item to the error message queue. These messages get
+    /**
+     * Adds a item to the error message queue. These messages get
      * printed out about every 20 seconds. This is so that they are
      * not missed.
+     *
      * @param error The error String to add
      * @return True if the erorr was added. The error will be added as long as it doesn't equals null or empty.
      */
@@ -409,126 +434,126 @@ public class SnipesBot extends PircBot {
         return false;
     }
 
-    /** Gets the Thread List Object
+    /**
+     * Gets the Thread List Object
+     *
      * @return The List Object, containing all currently running Threads
      */
     public static List<Thread> getThreadCollection() {
         return threadRegister;
     }
 
-    /** Gets the currently running Snipes instance.
+    /**
+     * Gets the currently running Snipes instance.
      * This method is expensive, and should not be called often (or at all by plugins).
+     *
      * @return The currently running Snipes instance
      * @throws NoSnipesInstanceException If the Snipes instance has not been created yet.
-     * @throws SnipesPluginException If a plugin attempts to call this method.
+     * @throws SnipesPluginException     If a plugin attempts to call this method.
      */
     public static SnipesBot getInst() throws NoSnipesInstanceException {
         if (inst == null) {
             throw new NoSnipesInstanceException("Trying to get instance before Snipes starts.");
         }
-        if (Expensives.getCallingMethodInfo().equals("handleEvent"))
-        {
+        if (Expensives.getCallingMethodInfo().equals("handleEvent")) {
             throw new SnipesSecurityException("Plugins shouldn't be touching me!");
         }
         return inst;
     }
 
-    /** Start the Snipes error handling Thread.
+    /**
+     * Start the Snipes error handling Thread.
      * This will not appear in JavaDocs, as it is private.
      */
     private void startErrorThread() {
         addThread(new TimerThread()).start();
     }
 
-    /** Checks if the given hostname belongs to a bot administrator or higher.
+    /**
+     * Checks if the given hostname belongs to a bot administrator or higher.
+     *
      * @param hostname
      * @return
      */
-    public boolean isBotAdministrator(String hostname)
-    {
+    public boolean isBotAdministrator(String hostname) {
         List<String> ranks = Arrays.asList(Configuration.getSplitProperty("admins", "", ","));
         ranks.addAll(Arrays.asList(Configuration.getSplitProperty("owners", "", ",")));
         int blanks = 0;
-        for (String s : ranks)
-        {
-            blanks ++;
+        for (String s : ranks) {
+            blanks++;
         }
-        if (blanks == ranks.size())
-        {
+        if (blanks == ranks.size()) {
             return false;
         }
-        for (String s : ranks)
-        {
-            if (s.equalsIgnoreCase(hostname))
-            {
+        for (String s : ranks) {
+            if (s.equalsIgnoreCase(hostname)) {
                 return true;
             }
         }
         return false;
     }
-    public boolean isBotOwner(String hostname)
-    {
+
+    public boolean isBotOwner(String hostname) {
         List<String> ranks = Arrays.asList(Configuration.getSplitProperty("owners", "", ","));
-        if (ranks.size() == 1 && ranks.get(0).equalsIgnoreCase(""))
-        {
+        if (ranks.size() == 1 && ranks.get(0).equalsIgnoreCase("")) {
             return false;
         }
-        for (String s : ranks)
-        {
-            if (s.equalsIgnoreCase(hostname))
-            {
+        for (String s : ranks) {
+            if (s.equalsIgnoreCase(hostname)) {
                 return true;
             }
         }
         return false;
     }
-    public boolean isBotModerator(String hostname)
-    {
+
+    public boolean isBotModerator(String hostname) {
         String[] ranks = Configuration.getSplitProperty("mods", "", ",");
-        for (String s : ranks)
-        {
-            if (s.equalsIgnoreCase(hostname))
-            {
+        for (String s : ranks) {
+            if (s.equalsIgnoreCase(hostname)) {
                 return true;
             }
         }
         return false;
     }
-    /** Notifies Snipes that a plugin has been added and needs to be added to the lists. 
+
+    /**
+     * Notifies Snipes that a plugin has been added and needs to be added to the lists.
      * There is no garentee that this plugin will be accepted and added, but if
      * it is, it's constructor will be called. A exception will
      * be thrown if it cannot or will not be added.
+     *
      * @param p The PluginType to add.
      * @throws SnipesPluginException False Snipes cannot or refuses to load the specified plugin.
      */
-    public boolean notifyExternalPluginLoad(PluginType p) throws SnipesPluginException
-    {
-        if (p == null)
-        {
+    public boolean notifyExternalPluginLoad(PluginType p) throws SnipesPluginException {
+        if (p == null) {
             throw new SnipesPluginException("p cannot be null.");
         }
         return addToLists(p);
     }
-    /** Adds the specified PluginType to the lists, making sure it is not null.
+
+    /**
+     * Adds the specified PluginType to the lists, making sure it is not null.
+     *
      * @param p The PluginType to add.
      */
-    private boolean addToLists(PluginType p)
-    {
+    private boolean addToLists(PluginType p) {
         if (p instanceof Plugin) {
-                nPlugins.add((Plugin) p);
-            } else if (p instanceof SuperPlugin) {
-                sPlugins.add((SuperPlugin) p);
-            } else if (p instanceof PluginType) {
-                oPlugins.add(p);
-            }
-            allPlugins.add(p);
-            return true;
+            nPlugins.add((Plugin) p);
+        } else if (p instanceof SuperPlugin) {
+            sPlugins.add((SuperPlugin) p);
+        } else if (p instanceof PluginType) {
+            oPlugins.add(p);
+        }
+        allPlugins.add(p);
+        return true;
     }
-    /** Calls the constructors of all the currently loaded plugins*/
-    private void callConstructors()
-    {
-        for (PluginType p : allPlugins)
-        {
+
+    /**
+     * Calls the constructors of all the currently loaded plugins
+     */
+    private void callConstructors() {
+        for (PluginType p : allPlugins) {
             p.snipesInit();
         }
     }

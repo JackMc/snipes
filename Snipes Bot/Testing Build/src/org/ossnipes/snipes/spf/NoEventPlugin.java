@@ -32,8 +32,7 @@ public abstract class NoEventPlugin extends PluginType {
     }
 
     @Override
-    public PluginPassResponse event(SnipesEvent event, SnipesEventParams params)
-    {
+    public PluginPassResponse event(SnipesEvent event, SnipesEventParams params) {
         return null;
     }
 }

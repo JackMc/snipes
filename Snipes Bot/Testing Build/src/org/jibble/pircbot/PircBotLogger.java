@@ -14,11 +14,11 @@ public interface PircBotLogger {
      * by a log entry that has ">>>" immediately following the space character
      * after the timestamp.  DCC events use "+++" and warnings about unhandled
      * Exceptions and Errors use "###".
-     *  <p>
+     * <p/>
      * This implementation of the method will only cause log entries to be
      * output if the PircBot has had its verbose mode turned on by calling
      * setVerbose(true);
-     * 
+     *
      * @param line The line to add to the log.
      */
     void log(String line);

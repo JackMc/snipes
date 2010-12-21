@@ -28,19 +28,16 @@ public class Main {
                     System.err.println("An ClassNotFoundException occurred while running Snipes' tests. The error message was: " + e.getMessage());
                 }
             }
-            if (i.equals("-D") || i.equalsIgnoreCase("--define"))
-            {
+            if (i.equals("-D") || i.equalsIgnoreCase("--define")) {
                 nextIsDArg = true;
             }
-            if (nextIsDArg)
-            {
+            if (nextIsDArg) {
                 String[] dSplit = i.split("=");
                 if (dSplit.length != 2) continue;
-                for (int c=0; c < dSplit.length;c++)
-                {
+                for (int c = 0; c < dSplit.length; c++) {
                     dSplit[c] = dSplit[c].trim();
                 }
-                Configuration.setProperty(dSplit[0],dSplit[1],false);
+                Configuration.setProperty(dSplit[0], dSplit[1], false);
             }
         }
         if (!CONF && !TEST) {

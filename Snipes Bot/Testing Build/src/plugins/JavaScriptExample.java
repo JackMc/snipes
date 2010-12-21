@@ -22,7 +22,7 @@ public class JavaScriptExample extends Plugin {
 
     @Override
     protected PluginPassResponse handleEvent(SnipesEvent event,
-            SnipesEventParams params) {
+                                             SnipesEventParams params) {
         // Get the event params in a String
         String[] eventParams = params.getParamsArr();
         switch (event) {

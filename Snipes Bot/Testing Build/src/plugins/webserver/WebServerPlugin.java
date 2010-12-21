@@ -6,7 +6,8 @@ import org.ossnipes.snipes.spf.NoEventPlugin;
 
 
 public class WebServerPlugin extends NoEventPlugin {
-     WebServerServer server;
+    WebServerServer server;
+
     @Override
     public PluginConstructRet snipesInit() {
         server = new WebServerServer();

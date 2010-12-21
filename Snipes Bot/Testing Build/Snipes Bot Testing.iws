@@ -1,23 +1,234 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" line="140" />
+    <bookmark url="file://$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" line="147" />
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="f87a3e80-2671-407c-823c-1fca8edece1e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/webserver" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/NoEventPlugin.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/webserver/WebServerPlugin.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/misc" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Snipes Bot Testing.ipr" afterPath="$PROJECT_DIR$/Snipes Bot Testing.ipr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/DCCManager" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Snipes Bot Testing.iws" afterPath="$PROJECT_DIR$/Snipes Bot Testing.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/snipes.properties" afterPath="$PROJECT_DIR$/snipes.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/allclasses-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/allclasses-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/allclasses-noframe.html" afterPath="$PROJECT_DIR$/dist/javadoc/allclasses-noframe.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/constant-values.html" afterPath="$PROJECT_DIR$/dist/javadoc/constant-values.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/deprecated-list.html" afterPath="$PROJECT_DIR$/dist/javadoc/deprecated-list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/help-doc.html" afterPath="$PROJECT_DIR$/dist/javadoc/help-doc.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-1.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-10.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-10.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-11.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-11.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-12.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-12.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-13.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-13.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-14.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-14.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-15.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-15.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-16.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-16.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-17.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-17.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-18.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-18.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-19.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-19.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-2.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-20.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-20.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-21.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-21.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-22.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-22.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-23.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-23.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-24.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-24.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-25.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-25.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-3.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-3.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-4.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-4.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-5.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-5.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-6.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-6.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-7.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-7.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-8.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-8.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index-files/index-9.html" afterPath="$PROJECT_DIR$/dist/javadoc/index-files/index-9.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/index.html" afterPath="$PROJECT_DIR$/dist/javadoc/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/Colors.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/Colors.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/DccChat.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/DccChat.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/DccFileTransfer.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/DccFileTransfer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/DccManager.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/DccManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/FallbackInputStreamReader.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/FallbackInputStreamReader.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/IdentServer.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/IdentServer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/InputThread.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/InputThread.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/IrcException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/IrcException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/NickAlreadyInUseException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/NickAlreadyInUseException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/OutputThread.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/OutputThread.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/PircBot.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/PircBot.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/PircBotLogger.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/PircBotLogger.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/Queue.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/Queue.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/ReplyConstants.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/ReplyConstants.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/User.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/User.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/Colors.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/Colors.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/DccChat.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/DccChat.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/DccFileTransfer.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/DccFileTransfer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/DccManager.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/DccManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/FallbackInputStreamReader.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/FallbackInputStreamReader.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/IdentServer.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/IdentServer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/InputThread.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/InputThread.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/IrcException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/IrcException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/NickAlreadyInUseException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/NickAlreadyInUseException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/OutputThread.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/OutputThread.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/PircBot.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/PircBot.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/PircBotLogger.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/PircBotLogger.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/Queue.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/Queue.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/ReplyConstants.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/ReplyConstants.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/User.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/class-use/User.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/jibble/pircbot/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/SnipesBot.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/SnipesBot.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/class-use/SnipesBot.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/class-use/SnipesBot.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/bot/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/PluginConstructRet.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/PluginConstructRet.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/PluginDestructRet.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/PluginDestructRet.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/PluginPassResponse.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/PluginPassResponse.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/PluginTypeEnum.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/PluginTypeEnum.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/SnipesEvent.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/SnipesEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/SnipesEventEnum.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/SnipesEventEnum.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/PluginConstructRet.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/PluginConstructRet.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/PluginDestructRet.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/PluginDestructRet.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/PluginPassResponse.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/PluginPassResponse.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/PluginTypeEnum.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/PluginTypeEnum.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/SnipesEvent.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/SnipesEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/SnipesEventEnum.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/class-use/SnipesEventEnum.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/enums/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/NoSnipesInstanceException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/NoSnipesInstanceException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/SnipesNotConfiguredException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/SnipesNotConfiguredException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/SnipesPluginException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/SnipesPluginException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/SnipesSecurityException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/SnipesSecurityException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/class-use/NoSnipesInstanceException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/class-use/NoSnipesInstanceException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/class-use/SnipesNotConfiguredException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/class-use/SnipesNotConfiguredException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/class-use/SnipesPluginException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/class-use/SnipesPluginException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/class-use/SnipesSecurityException.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/class-use/SnipesSecurityException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/exceptions/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/SnipesConfigurator.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/SnipesConfigurator.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/class-use/SnipesConfigurator.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/class-use/SnipesConfigurator.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/guiconfiguration/main/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/SnipesLogger.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/SnipesLogger.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/VarQueryable.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/VarQueryable.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/class-use/SnipesLogger.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/class-use/SnipesLogger.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/class-use/VarQueryable.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/class-use/VarQueryable.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/interfaces/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/Main.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/Main.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/class-use/Main.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/class-use/Main.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/main/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/SnipesSecurityManager.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/SnipesSecurityManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/class-use/SnipesSecurityManager.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/class-use/SnipesSecurityManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/security/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/Plugin.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/Plugin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/PluginManager.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/PluginManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/PluginType.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/PluginType.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/SnipesEventParams.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/SnipesEventParams.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/SuperPlugin.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/SuperPlugin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/Plugin.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/Plugin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/PluginManager.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/PluginManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/PluginType.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/PluginType.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/SnipesEventParams.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/SnipesEventParams.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/SuperPlugin.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/class-use/SuperPlugin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/spf/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/TestMain.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/TestMain.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/class-use/TestMain.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/class-use/TestMain.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/tests/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/Cleanup.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/Cleanup.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/TimerThread.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/TimerThread.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/class-use/Cleanup.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/class-use/Cleanup.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/class-use/TimerThread.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/class-use/TimerThread.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/threads/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/Configuration.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/Configuration.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/Constants.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/Constants.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/Expensives.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/Expensives.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/Log.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/Log.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/class-use/Configuration.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/class-use/Configuration.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/class-use/Constants.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/class-use/Constants.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/class-use/Expensives.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/class-use/Expensives.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/class-use/Log.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/class-use/Log.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/org/ossnipes/snipes/utils/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/overview-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/overview-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/overview-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/overview-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/overview-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/overview-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/DebugUtils.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/DebugUtils.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/JavaScriptExample.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/JavaScriptExample.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/SPFManager.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/SPFManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/class-use/DebugUtils.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/class-use/DebugUtils.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/class-use/JavaScriptExample.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/class-use/JavaScriptExample.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/class-use/SPFManager.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/class-use/SPFManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/package-frame.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/package-summary.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/package-tree.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/plugins/package-use.html" afterPath="$PROJECT_DIR$/dist/javadoc/plugins/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/javadoc/serialized-form.html" afterPath="$PROJECT_DIR$/dist/javadoc/serialized-form.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/build-impl.xml" afterPath="$PROJECT_DIR$/nbproject/build-impl.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/Colors.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/Colors.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/DccFileTransfer.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/DccFileTransfer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/DccManager.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/DccManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/FallbackInputStreamReader.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/FallbackInputStreamReader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/IdentServer.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/IdentServer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/InputThread.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/InputThread.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/IrcException.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/IrcException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/NickAlreadyInUseException.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/NickAlreadyInUseException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/OutputThread.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/OutputThread.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/PircBotLogger.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/PircBotLogger.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/Queue.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/Queue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/ReplyConstants.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/ReplyConstants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/User.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/User.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/PluginPassResponse.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/PluginPassResponse.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesEvent.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/NoSnipesInstanceException.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/NoSnipesInstanceException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/SnipesPluginException.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/SnipesPluginException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/guiconfiguration/main/SnipesConfigurator.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/guiconfiguration/main/SnipesConfigurator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/security/SnipesSecurityManager.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/security/SnipesSecurityManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/NoEventPlugin.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/NoEventPlugin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/Plugin.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/Plugin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginManager.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/SnipesEventParams.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/SnipesEventParams.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/SuperPlugin.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/SuperPlugin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/tests/TestMain.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/tests/TestMain.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/threads/Cleanup.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/threads/Cleanup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/threads/TimerThread.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/threads/TimerThread.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Constants.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Constants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Expensives.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Expensives.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Log.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Log.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/DebugUtils.java" afterPath="$PROJECT_DIR$/src/plugins/DebugUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/JavaScriptExample.java" afterPath="$PROJECT_DIR$/src/plugins/JavaScriptExample.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/SPFManager.java" afterPath="$PROJECT_DIR$/src/plugins/SPFManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/webserver/WebServerPlugin.java" afterPath="$PROJECT_DIR$/src/plugins/webserver/WebServerPlugin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java" afterPath="$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java" afterPath="$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java" />
     </list>
     <ignored path="Snipes Bot Testing.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,8 +299,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -98,37 +309,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="WebServerServer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="71" selection-start="3209" selection-end="3209" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="snipes.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/snipes.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="86" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SPFManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/plugins/SPFManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="29" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WebServerWorker.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="WebServerWorker.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="20" selection-start="1166" selection-end="1166" vertical-scroll-proportion="0.5617284">
+            <state line="87" column="42" selection-start="2729" selection-end="2729" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PircBot.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2116" column="42" selection-start="91174" selection-end="91174" vertical-scroll-proportion="0.7580645">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DccChat.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="25" selection-start="496" selection-end="496" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -144,17 +346,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/SnipesPluginException.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/PluginDestructRet.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/PluginPassResponse.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/PluginTypeEnum.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/PluginConstructRet.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesEvent.java" />
         <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java" />
+        <option value="$PROJECT_DIR$/src/org/jibble/pircbot/ReplyConstants.java" />
+        <option value="$PROJECT_DIR$/src/org/jibble/pircbot/User.java" />
         <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java" />
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/NoEventPlugin.java" />
-        <option value="$PROJECT_DIR$/src/plugins/webserver/WebServer.java" />
-        <option value="$PROJECT_DIR$/src/plugins/webserver/WebServerPlugin.java" />
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java" />
-        <option value="$PROJECT_DIR$/snipes.properties" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/security/SnipesSecurityManager.java" />
         <option value="$PROJECT_DIR$/src/plugins/SPFManager.java" />
         <option value="$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java" />
-        <option value="$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java" />
+        <option value="$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/SnipesEventParams.java" />
+        <option value="$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java" />
       </list>
     </option>
   </component>
@@ -188,6 +395,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -198,6 +406,16 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="Testing Build" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Favorites">
+        <subPane subId="Snipes Bot Testing">
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.intellij.ide.favoritesTreeView.FavoritesTreeNodeDescriptor" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -233,6 +451,10 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -251,32 +473,47 @@
               <option name="myItemId" value="org" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="snipes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
-        </subPane>
-      </pane>
-      <pane id="Favorites">
-        <subPane subId="Snipes Bot Testing">
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.intellij.ide.favoritesTreeView.FavoritesTreeNodeDescriptor" />
+              <option name="myItemId" value="Snipes Bot Testing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Testing Build" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pircbot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="OverrideImplement.combined" value="true" />
-    <property name="recentsLimit" value="5" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="dynamic.classpath" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration default="false" name="All in Testing Build" type="JUnit" factoryName="JUnit" temporary="true">
@@ -313,6 +550,24 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -338,24 +593,6 @@
       <envs />
       <properties />
       <listeners />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -504,25 +741,25 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1024" height="718" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3986014" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32867134" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39732888" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32554257" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3991727" sideWeight="0.67132866" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32988626" sideWeight="0.67132866" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32988626" sideWeight="0.60267115" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32554257" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24922441" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -565,69 +802,110 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="139" column="23" selection-start="5783" selection-end="5783" vertical-scroll-proportion="0.3220339" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="57" selection-start="1094" selection-end="1094" vertical-scroll-proportion="0.18079096" />
+        <state line="47" column="0" selection-start="1761" selection-end="1761" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/net/DCCConnectionListener.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="10" selection-start="533" selection-end="533" vertical-scroll-proportion="0.51428574" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/net/ConsoleConnectionListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="11" selection-start="212" selection-end="212" vertical-scroll-proportion="0.21333334" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/spf/NoEventPlugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="5" selection-start="937" selection-end="937" vertical-scroll-proportion="0.6911765" />
+        <state line="157" column="59" selection-start="4514" selection-end="4514" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="656" column="0" selection-start="24327" selection-end="24327" vertical-scroll-proportion="0.8221344" />
+        <state line="681" column="60" selection-start="25000" selection-end="25000" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="jar:///usr/lib/jvm/java-6-openjdk/jre/lib/rt.jar!/java/lang/Thread.class">
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/security/SnipesSecurityManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="16" selection-start="3347" selection-end="3347" vertical-scroll-proportion="0.33333334" />
+        <state line="7" column="21" selection-start="116" selection-end="116" vertical-scroll-proportion="0.3301887">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/guiconfiguration/main/SnipesConfigurator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="44" selection-start="149" selection-end="149" vertical-scroll-proportion="0.044510387">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/SnipesPluginException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="18" selection-start="165" selection-end="165" vertical-scroll-proportion="0.22255193">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/SnipesSecurityException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="13" selection-start="54" selection-end="54" vertical-scroll-proportion="0.084269665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="79" selection-start="1934" selection-end="1934" vertical-scroll-proportion="0.34985423">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="29" selection-start="8665" selection-end="8665" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugins/webserver/WebServerPlugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="33" selection-start="690" selection-end="690" vertical-scroll-proportion="0.6207865" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="71" selection-start="3209" selection-end="3209" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/snipes.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="86" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0" />
+        <state line="477" column="19" selection-start="16899" selection-end="16899" vertical-scroll-proportion="0.48688048">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugins/SPFManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="29" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0" />
+        <state line="33" column="12" selection-start="923" selection-end="923" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/PircBotLogger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="17" selection-start="46" selection-end="46" vertical-scroll-proportion="-0.08">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-6-openjdk/jre/lib/rt.jar!/java/net/SocketInputStream.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="23" selection-start="591" selection-end="591" vertical-scroll-proportion="0.33125">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="20" selection-start="1166" selection-end="1166" vertical-scroll-proportion="0.5617284">
+        <state line="87" column="42" selection-start="2729" selection-end="2729" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="25" selection-start="496" selection-end="496" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/spf/SnipesEventParams.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="26" selection-start="695" selection-end="695" vertical-scroll-proportion="0.8348794">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2116" column="42" selection-start="91174" selection-end="91174" vertical-scroll-proportion="0.7580645">
           <folding />
         </state>
       </provider>
