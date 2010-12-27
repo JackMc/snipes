@@ -4,8 +4,10 @@ import org.jibble.pircbot.DccChat;
 import org.ossnipes.snipes.enums.SnipesStaffType;
 import org.ossnipes.snipes.exceptions.SnipesSecurityException;
 import org.ossnipes.snipes.spf.PluginType;
+import org.ossnipes.snipes.bot.SnipesBot;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class DCCConnection implements NoIRCConnection {
     private DccChat rawChat;
@@ -58,7 +60,10 @@ public class DCCConnection implements NoIRCConnection {
            default:
                throw new SnipesSecurityException("Could not accept DCC connection from " + chat.getHostname() + ", as you specified unknown credential types to the function.");
         }
-        System.out.println("Chat authorized from " + chat.getHostname());
+        if (SnipesBot.DEBUG)
+        Logger.getLogger(this.getClass().getName()).info(
+        "Chat authorized from " + 
+        chat.getHostname());
         chat.sendLine("Welcome to the Snipes IRC DCC chat system! Use this system for good, not evil :). Try \"help\" for some commands.");
         _finished = true;
     }
@@ -73,9 +78,15 @@ public class DCCConnection implements NoIRCConnection {
     public void send(String s) {
         try
         {
-            System.out.println(">> DCC >> " + rawChat.getNick() + " >> " + s);
+        if (SnipesBot.DEBUG)
+        Logger.getLogger(this.getClass().getName()).info(
+            ">> DCC >> " + rawChat.getNick() + " >> " + 
+            s);
             rawChat.sendLine(s);
-        } catch (IOException e) {System.err.println("IOException while sending message to user.");}
+        } catch (IOException e) {
+        if (SnipesBot.DEBUG)
+        Logger.getLogger(this.getClass().getName()).info("IOException while sending message to user.");
+        }
     }
 
     public String getHost() {

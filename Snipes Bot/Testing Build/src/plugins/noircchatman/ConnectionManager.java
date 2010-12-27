@@ -34,9 +34,7 @@ public class ConnectionManager implements Runnable {
         int curr;
         while (true)
         {
-            System.err.println("Starting blocking call.");
             currentJob = popConnection();
-            System.out.println("Got a connection from " + currentJob.getHost());
             handle();
         }
     }
@@ -46,7 +44,7 @@ public class ConnectionManager implements Runnable {
         {
             return parent.getJob();
         }
-        catch (InterruptedException e) {System.err.println("Interrupted while getting a job.");}
+        catch (InterruptedException e) {System.err.println("Interrupted while getting a job for the Non-IRC chat manager..");}
         return null;
     }
     public void handle()
@@ -65,7 +63,31 @@ public class ConnectionManager implements Runnable {
                 String s;
                 while ((s = currentJob.recv()) != null)
                 {
-
+                    String[] ex = s.split(" ");
+                    if (ex.length == 0)
+                    {
+                        continue;
+                    }
+                    
+                    if (ex[0].equalsIgnoreCase("die"))
+                    {
+                        int status = 0;
+                        try
+                        {
+                            status = Integer.parseInt((ex.length > 1 ? 
+                            ex[1] : "0"));
+                        } catch (NumberFormatException e) {}
+                        currentJob.send("Exiting with status " + 
+                        status);
+                        try
+                        {
+                            parent.exit(status,"Die command from a non-IRC source");
+                        } catch 
+                        (org.ossnipes.snipes.exceptions.NoSnipesInstanceException e)
+                        {
+                            currentJob.send("Somehow, you managed to tell me to die before I was done starting up! Please try again in a few seconds.");
+                        }
+                    }
                 }
             }
         }

@@ -11,3 +11,5 @@ org.ossnipes.snipes.tests
 org.ossnipes.snipes.threads
 org.ossnipes.snipes.utils
 plugins
+plugins.noircchatman
+plugins.webserver

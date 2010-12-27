@@ -54,7 +54,8 @@ public class SnipesBot extends PircBot {
     private static List<Thread> threadRegister = new ArrayList<Thread>();
     private ArrayList<PluginType> allPlugins = new ArrayList<PluginType>();
     private static Queue<String> errorQueue = new LinkedList<String>();
-    Logger log = Logger.getLogger(this.getClass().getName());
+    private static Logger log = 
+    Logger.getLogger(SnipesBot.class.getName());
     public static boolean DEBUG = false;
 
 
@@ -212,6 +213,9 @@ public class SnipesBot extends PircBot {
      * @return The response, events may honour that or not.
      */
     public static PluginPassResponse sendEvent(SnipesEvent ev, SnipesEventParams params) {
+        String paramsString = "";
+        
+        debug("Sending event " + ev);
         PluginPassResponse pr = PluginPassResponse.PLUGIN_PASSEVENT;
         if (ev.toString().startsWith("SNIPES_IRC")) {
             PluginPassResponse prr = runEvent(ev, params);
@@ -572,11 +576,11 @@ public class SnipesBot extends PircBot {
             p.snipesInit();
         }
     }
-    private void debug(String s)
+    private static void debug(String s)
     {
         debug(s,Level.INFO);
     }
-    private void debug(String s, Level l)
+    private static void debug(String s, Level l)
     {
         if (DEBUG)
         {

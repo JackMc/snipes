@@ -12,7 +12,8 @@ import java.io.PrintStream;
 public class Constants {
 
     /**
-     * A comma seperated list of all the core plugins
+     * A comma seperated list of all the core plugins, automaticly 
+     * generated from the array
      */
     private static String CORE_PLUGINS_STRING;
     /**
@@ -34,11 +35,13 @@ public class Constants {
     /**
      * The path to Snipes' configuration
      */
-    public static final String CONFNAME = "./snipes.properties";
+     // Fixed bug :D. It used to be ./, but Windows doesn't like that.
+    public static final String CONFNAME = "snipes.properties";
     /**
      * An array of all core plugins
      */
-    public static final String[] CORE_PLUGINS = {"plugins.SPFManager"};
+    public static final String[] CORE_PLUGINS = {"plugins.SPFManager", 
+    "plugins.noircchatman.NoIRCMain" };
     /**
      * If we're set to verbose, this amount of miliseconds will be counted between error queue prints.
      */

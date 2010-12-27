@@ -22,8 +22,9 @@ public class NoIRCMain extends SuperPlugin {
         {
             case SNIPES_IRC_DCCCHAT:
             {
-                System.out.println("SNIRCCM: Found a chat");
                 DccChat c = (DccChat) params.getObjectParamsArr()[0];
+                debug("SNIRCCM: Found a chat from " + c.getHostname() 
+                + ".",this.getClass());
                 try
                 {
                     NoIRCConnection conn = new DCCConnection(c, SnipesStaffType.SNIPES_IRC_MODERATOR, this);
@@ -55,7 +56,8 @@ public class NoIRCMain extends SuperPlugin {
 
     @Override
     public PluginConstructRet snipesInit() {
-        System.out.println("Snipes non-IRC chat moderation system: Starting up!");
+        debug("Snipes non-IRC chat moderation system: Starting up!",
+        this.getClass());
         for (int i=0;i<workers.length;i++)
         {
             workers[i] = new Thread(new ConnectionManager(this,i));
