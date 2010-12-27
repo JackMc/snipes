@@ -3,6 +3,7 @@ package org.ossnipes.snipes.main;
 import java.io.IOException;
 
 import org.ossnipes.snipes.bot.SnipesBot;
+import org.ossnipes.snipes.exceptions.SnipesUExceptionHandler;
 import org.ossnipes.snipes.tests.TestMain;
 import org.ossnipes.snipes.guiconfiguration.main.SnipesConfigurator;
 import org.ossnipes.snipes.utils.Configuration;
@@ -10,6 +11,7 @@ import org.ossnipes.snipes.utils.Configuration;
 public class Main {
 
     public static void main(String args[]) {
+        Thread.setDefaultUncaughtExceptionHandler(new SnipesUExceptionHandler());
         boolean CONF = false;
         boolean TEST = false;
         boolean nextIsDArg = false;

@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 // PircBot imports
 import org.jibble.pircbot.DccManager;
@@ -52,6 +54,8 @@ public class SnipesBot extends PircBot {
     private static List<Thread> threadRegister = new ArrayList<Thread>();
     private ArrayList<PluginType> allPlugins = new ArrayList<PluginType>();
     private static Queue<String> errorQueue = new LinkedList<String>();
+    Logger log = Logger.getLogger(this.getClass().getName());
+    public static boolean DEBUG = false;
 
 
     public org.jibble.pircbot.Queue getOutCue() {
@@ -84,10 +88,20 @@ public class SnipesBot extends PircBot {
     public SnipesBot(boolean usePlugins, boolean quiet) {
         if (inst != null)
             throw new SnipesSecurityException("Only one instance of Snipes may be created.");
+
+        if (Boolean.parseBoolean(Configuration.lookUp("debug")))
+        {
+            DEBUG = true;
+        }
+        debug("Snipes bot: Version " + Constants.VERSION_STRING + " starting...");
+        debug("Options: usePlugins: " + usePlugins + " quiet: " + quiet);
+
+        debug("Adding runtime hooks...");
         Runtime.getRuntime().addShutdownHook(new Thread(new Cleanup()));
         Thread curr = Thread.currentThread();
         curr.setName("Snipes-Main");
         addThread(curr);
+        debug("Starting error thread...");
         startErrorThread();
         if (quiet) {
             try {
@@ -96,6 +110,7 @@ public class SnipesBot extends PircBot {
             }
             System.out.println();
         }
+        debug("Loading Snipes plugins...");
         if (usePlugins) {
             if (!loadOnLoadPlugins()) {
                 System.err.println("Error loading vital Snipes plugins (or on-load ones, as specified in configuration.) Continuing in plugin-free mode (this may not go well.)");
@@ -103,6 +118,7 @@ public class SnipesBot extends PircBot {
                 exitSnipes(1);
             }
         }
+        debug("Parsing opening configuration options (nick, channels, etc)...");
         this.setName(Configuration.lookUp("nick", "Snipes-unconf"));
         if (Boolean.parseBoolean(Configuration.lookUp("ident", "FALSE"))) {
             this.startIdentServer();
@@ -112,7 +128,7 @@ public class SnipesBot extends PircBot {
             this.connect(Configuration.lookUp("server", "irc.geekshed.net"));
             System.out.println("Connected to server at " + Configuration.lookUp("server", "irc.geekshed.net"));
         } catch (Exception e) {
-            System.err.println("Unable to connect to server at " + Configuration.lookUp("server", "irc.geekshed.net (default server, configure me!)"));
+            System.err.println("Unable to connect to server at " + Configuration.lookUp("server", "irc.geekshed.net (default server, configure me!)") + ": " + e.getMessage());
             if (Boolean.parseBoolean(Configuration.lookUp("verbose", "FALSE"))) {
                 System.err.println("Regarding the above, the error type was a: \"" + e.getClass().getCanonicalName() + "\" and it's message was: \"" + e.getMessage() + "\"");
             }
@@ -141,6 +157,7 @@ public class SnipesBot extends PircBot {
                 this.joinChannel(channel);
             }
         }
+        debug("Done loading!");
     }
 
     /**
@@ -165,7 +182,7 @@ public class SnipesBot extends PircBot {
             s = plugins.toArray(new String[plugins.size()]);
         }
         for (String c : s) {
-            PluginType p = null;
+            PluginType p;
             try {
                 p = defPluginManager.loadPlugin(c);
             } catch (ClassNotFoundException e) {
@@ -183,10 +200,7 @@ public class SnipesBot extends PircBot {
             }
             addToLists(p);
         }
-        for (PluginType p : allPlugins) {
-            System.err.println("Loading plugin " + p.getName());
-            p.snipesInit();
-        }
+        callConstructors();
         return true;
     }
 
@@ -391,7 +405,7 @@ public class SnipesBot extends PircBot {
     /**
      * Gets the current Snipes error Queue object. If you intend
      * on modifying it, you must 'commit' your changes using
-     * {@link setErrorQueue} so they are seen by other plugins/
+     * {#setErrorQueue} so they are seen by other plugins/
      * objects.
      *
      * @return The error queue
@@ -404,7 +418,7 @@ public class SnipesBot extends PircBot {
      * Set the value of the Snipes error queue. The intended
      * purpose of this method is to remove or add errors to the
      * current error Queue object (retrieved using
-     * {@link getErrorQueue}.)
+     * {#getErrorQueue}.)
      *
      * @param value
      * @return True if the value was set, false if it wasn't (value
@@ -478,11 +492,7 @@ public class SnipesBot extends PircBot {
     public boolean isBotAdministrator(String hostname) {
         List<String> ranks = Arrays.asList(Configuration.getSplitProperty("admins", "", ","));
         ranks.addAll(Arrays.asList(Configuration.getSplitProperty("owners", "", ",")));
-        int blanks = 0;
-        for (String s : ranks) {
-            blanks++;
-        }
-        if (blanks == ranks.size()) {
+        if (ranks.size() == 1 && ranks.get(0).equalsIgnoreCase("")) {
             return false;
         }
         for (String s : ranks) {
@@ -507,7 +517,12 @@ public class SnipesBot extends PircBot {
     }
 
     public boolean isBotModerator(String hostname) {
-        String[] ranks = Configuration.getSplitProperty("mods", "", ",");
+        List<String> ranks = Arrays.asList(Configuration.getSplitProperty("admins", "", ","));
+        ranks.addAll(Arrays.asList(Configuration.getSplitProperty("owners", "", ",")));
+        ranks.addAll(Arrays.asList(Configuration.getSplitProperty("mods", "", ",")));
+        if (ranks.size() == 1 && ranks.get(0).equalsIgnoreCase("")) {
+            return false;
+        }
         for (String s : ranks) {
             if (s.equalsIgnoreCase(hostname)) {
                 return true;
@@ -518,12 +533,12 @@ public class SnipesBot extends PircBot {
 
     /**
      * Notifies Snipes that a plugin has been added and needs to be added to the lists.
-     * There is no garentee that this plugin will be accepted and added, but if
+     * There is no guarantee that this plugin will be accepted and added, but if
      * it is, it's constructor will be called. A exception will
      * be thrown if it cannot or will not be added.
      *
      * @param p The PluginType to add.
-     * @throws SnipesPluginException False Snipes cannot or refuses to load the specified plugin.
+     * @throws SnipesPluginException If Snipes cannot or refuses to load the specified plugin.
      */
     public boolean notifyExternalPluginLoad(PluginType p) throws SnipesPluginException {
         if (p == null) {
@@ -542,7 +557,7 @@ public class SnipesBot extends PircBot {
             nPlugins.add((Plugin) p);
         } else if (p instanceof SuperPlugin) {
             sPlugins.add((SuperPlugin) p);
-        } else if (p instanceof PluginType) {
+        } else if (p != null) {
             oPlugins.add(p);
         }
         allPlugins.add(p);
@@ -555,6 +570,17 @@ public class SnipesBot extends PircBot {
     private void callConstructors() {
         for (PluginType p : allPlugins) {
             p.snipesInit();
+        }
+    }
+    private void debug(String s)
+    {
+        debug(s,Level.INFO);
+    }
+    private void debug(String s, Level l)
+    {
+        if (DEBUG)
+        {
+            log.log(l, s);
         }
     }
 }

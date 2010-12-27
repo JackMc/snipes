@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" line="147" />
+    <bookmark url="file://$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" line="146" />
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="f87a3e80-2671-407c-823c-1fca8edece1e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesStaffType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/noircchatman/DCCConnection.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCConnection.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCMain.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/plugins/DCCManager" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/classes/plugins/webserver" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/SnipesUExceptionHandler.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plugins/noircchatman/ConnectionManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Snipes Bot Testing.ipr" afterPath="$PROJECT_DIR$/Snipes Bot Testing.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Snipes Bot Testing.iws" afterPath="$PROJECT_DIR$/Snipes Bot Testing.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/DccFileTransfer.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/DccFileTransfer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/InputThread.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/InputThread.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jibble/pircbot/Queue.java" afterPath="$PROJECT_DIR$/src/org/jibble/pircbot/Queue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/plugins/DCCManager" afterPath="$PROJECT_DIR$/src/plugins/noircchatman" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/tests/TestMain.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/tests/TestMain.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/threads/Cleanup.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/threads/Cleanup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Constants.java" afterPath="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Constants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/DebugUtils.java" afterPath="$PROJECT_DIR$/src/plugins/DebugUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/noircchatman/DCCConnection.java" afterPath="$PROJECT_DIR$/src/plugins/noircchatman/DCCConnection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCConnection.java" afterPath="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCConnection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCMain.java" afterPath="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCMain.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java" afterPath="$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java" />
     </list>
     <ignored path="Snipes Bot Testing.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,13 +106,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NoIRCMain.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ConnectionManager.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/plugins/noircchatman/ConnectionManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="67" column="0" selection-start="1641" selection-end="1641" vertical-scroll-proportion="1.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PluginType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="692" column="13" selection-start="25364" selection-end="25364" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NoIRCMain.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/plugins/noircchatman/NoIRCMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="55" selection-start="1123" selection-end="1123" vertical-scroll-proportion="0.45698926">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="16" column="0" selection-start="510" selection-end="510" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -111,27 +140,34 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="CHECKOUT_INCLUDE_TAGS" value="false" />
+    <option name="UPDATE_CHANGES_POLICY" value="STASH" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/PluginConstructRet.java" />
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesEvent.java" />
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java" />
-        <option value="$PROJECT_DIR$/src/org/jibble/pircbot/ReplyConstants.java" />
-        <option value="$PROJECT_DIR$/src/org/jibble/pircbot/User.java" />
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/security/SnipesSecurityManager.java" />
-        <option value="$PROJECT_DIR$/src/plugins/SPFManager.java" />
-        <option value="$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java" />
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/SnipesEventParams.java" />
-        <option value="$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java" />
-        <option value="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCConnection.java" />
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesStaffTypes.java" />
         <option value="$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java" />
-        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java" />
-        <option value="$PROJECT_DIR$/src/plugins/noircchatman/DCCConnection.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Constants.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java" />
+        <option value="$PROJECT_DIR$/snipes.properties" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/SnipesUExceptionHandler.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/threads/Cleanup.java" />
+        <option value="$PROJECT_DIR$/src/plugins/DebugUtils.java" />
+        <option value="$PROJECT_DIR$/src/plugins/webserver/WebServerServer.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/tests/TestMain.java" />
         <option value="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCMain.java" />
+        <option value="$PROJECT_DIR$/src/plugins/noircchatman/NoIRCConnection.java" />
+        <option value="$PROJECT_DIR$/src/plugins/noircchatman/DCCConnection.java" />
+        <option value="$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java" />
+        <option value="$PROJECT_DIR$/src/plugins/noircchatman/ConnectionManager.java" />
       </list>
     </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
   </component>
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" />
@@ -152,18 +188,27 @@
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
-      <flattenPackages />
-      <showMembers />
+      <flattenPackages ProjectPane="true" />
+      <showMembers ProjectPane="true" />
       <showModules />
       <showLibraryContents />
-      <hideEmptyPackages />
+      <hideEmptyPackages ProjectPane="true" />
       <abbreviatePackageNames />
       <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
+      <autoscrollFromSource ProjectPane="false" />
+      <sortByType ProjectPane="false" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Favorites">
+        <subPane subId="Snipes Bot Testing">
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.intellij.ide.favoritesTreeView.FavoritesTreeNodeDescriptor" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -174,16 +219,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="Testing Build" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Favorites">
-        <subPane subId="Snipes Bot Testing">
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.intellij.ide.favoritesTreeView.FavoritesTreeNodeDescriptor" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -219,10 +254,6 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -235,10 +266,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -260,11 +287,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snipes" />
+              <option name="myItemId" value="plugins" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -279,14 +302,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snipes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -308,28 +323,30 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pircbot" />
+              <option name="myItemId" value="exceptions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="OverrideImplement.combined" value="true" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="MemberChooser.sorted" value="false" />
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="options.lastSelected" value="reference.idesettings.debugger.stepping" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/minecraft" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration default="false" name="All in Testing Build" type="JUnit" factoryName="JUnit" temporary="true">
@@ -556,27 +573,30 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1024" height="718" extended-state="0" />
+    <frame x="0" y="24" width="1024" height="720" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32724252" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39732888" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24923077" sideWeight="0.6611296" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38512397" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IRC Favorites" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923076" sideWeight="0.67607975" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IntellIRC" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32890365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32554257" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32392028" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32724252" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923076" sideWeight="0.67607975" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3991727" sideWeight="0.67132866" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32988626" sideWeight="0.60267115" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32923076" sideWeight="0.61487603" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32554257" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33887044" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="96" y="125" width="832" height="521" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24922441" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3986711" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsManagerConfiguration">
@@ -616,124 +636,116 @@
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
+    <buildFile url="file://$PROJECT_DIR$/build.xml">
+      <antCommandLine value="" />
+      <runInBackground value="true" />
+      <targetFilters />
+      <treeView value="true" />
+      <verbose value="true" />
+      <viewClosedWhenNoErrors value="false" />
+    </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/exceptions/SnipesSecurityException.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/DccFileTransfer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="13" selection-start="54" selection-end="54" vertical-scroll-proportion="0.084269665">
-          <folding />
-        </state>
+        <state line="235" column="30" selection-start="8905" selection-end="8905" vertical-scroll-proportion="0.33333334" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesEvent.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/Colors.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="79" selection-start="1934" selection-end="1934" vertical-scroll-proportion="0.34985423">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="477" column="19" selection-start="16899" selection-end="16899" vertical-scroll-proportion="0.48688048">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugins/SPFManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="12" selection-start="923" selection-end="923" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/PircBotLogger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="17" selection-start="46" selection-end="46" vertical-scroll-proportion="-0.08">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-6-openjdk/jre/lib/rt.jar!/java/net/SocketInputStream.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="23" selection-start="591" selection-end="591" vertical-scroll-proportion="0.33125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/spf/SnipesEventParams.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="26" selection-start="695" selection-end="695" vertical-scroll-proportion="0.8348794">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2130" column="5" selection-start="91776" selection-end="91776" vertical-scroll-proportion="0.81182796">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="42" selection-start="2729" selection-end="2729" vertical-scroll-proportion="0.43548387">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/enums/SnipesStaffType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="21" selection-start="114" selection-end="114" vertical-scroll-proportion="0.10869565">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/DccChat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="31" selection-start="5106" selection-end="5106" vertical-scroll-proportion="0.6236559">
-          <folding />
-        </state>
+        <state line="35" column="13" selection-start="1404" selection-end="1404" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/FallbackInputStreamReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="389" selection-end="389" vertical-scroll-proportion="-0.055658627">
-          <folding />
-        </state>
+        <state line="114" column="8" selection-start="3977" selection-end="3977" vertical-scroll-proportion="0.2741433" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/InputThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="661" column="10" selection-start="24290" selection-end="24290" vertical-scroll-proportion="0.22077923">
-          <folding />
-        </state>
+        <state line="15" column="13" selection-start="415" selection-end="415" vertical-scroll-proportion="0.29283488" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugins/noircchatman/NoIRCConnection.java">
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="43" selection-start="176" selection-end="176" vertical-scroll-proportion="0.15761821">
-          <folding />
-        </state>
+        <state line="12" column="23" selection-start="374" selection-end="374" vertical-scroll-proportion="0.28037384" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/DccManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="13" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jibble/pircbot/PircBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1469" column="50" selection-start="60992" selection-end="60992" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/tests/TestMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="13" selection-start="685" selection-end="685" vertical-scroll-proportion="-3.1272085" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/bot/SnipesBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="13" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/plugins/webserver/WebServerWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="20" selection-start="1061" selection-end="1061" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/utils/Configuration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="152" column="0" selection-start="5989" selection-end="5989" vertical-scroll-proportion="0.39072847" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugins/noircchatman/DCCConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="139" selection-start="2339" selection-end="2339" vertical-scroll-proportion="0.91935486">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="88" column="33" selection-start="3045" selection-end="3045" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/plugins/noircchatman/NoIRCConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="24" selection-start="206" selection-end="206" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/ossnipes/snipes/spf/PluginType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="692" column="13" selection-start="25364" selection-end="25364" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugins/noircchatman/NoIRCMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="55" selection-start="1123" selection-end="1123" vertical-scroll-proportion="0.45698926">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="16" column="0" selection-start="510" selection-end="510" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/plugins/noircchatman/ConnectionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="0" selection-start="1641" selection-end="1641" vertical-scroll-proportion="1.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions />
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions />
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
 

@@ -175,7 +175,7 @@ public abstract class PircBot implements ReplyConstants, PircBotLogger {
             _inputThread = new InputThread(this, socket, breader, bwriter);
 
             // Read stuff back from the server to see if we connected.
-            String line = null;
+            String line;
             int tries = 1;
             while ((line = breader.readLine()) != null) {
 
@@ -758,9 +758,9 @@ public abstract class PircBot implements ReplyConstants, PircBotLogger {
                 // Use any free port.
                 ss = new ServerSocket(0);
             } else {
-                for (int i = 0; i < ports.length; i++) {
+                for (int port : ports) {
                     try {
-                        ss = new ServerSocket(ports[i]);
+                        ss = new ServerSocket(port);
                         // Found a port number we could use.
                         break;
                     } catch (Exception e) {
@@ -2902,7 +2902,7 @@ public abstract class PircBot implements ReplyConstants, PircBotLogger {
      *         are in.
      */
     public final String[] getChannels() {
-        String[] channels = new String[0];
+        String[] channels;
         synchronized (_channels) {
             channels = new String[_channels.size()];
             Enumeration enumeration = _channels.keys();

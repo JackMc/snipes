@@ -21,6 +21,7 @@ import org.ossnipes.snipes.enums.PluginPassResponse;
 import org.ossnipes.snipes.enums.SnipesEvent;
 import org.ossnipes.snipes.exceptions.NoSnipesInstanceException;
 import org.ossnipes.snipes.interfaces.SnipesLogger;
+import org.ossnipes.snipes.utils.Configuration;
 import org.ossnipes.snipes.utils.Log;
 
 /**
@@ -34,8 +35,8 @@ import org.ossnipes.snipes.utils.Log;
  * @author Jack McCracken (Auv5)
  */
 public abstract class PluginType implements SnipesLogger {
-
     private SnipesBot inst;
+    private Logger log = Logger.getLogger(this.getClass().getCanonicalName());
 
     /**
      * Log a line to the default Snipes Logger.
@@ -113,7 +114,7 @@ public abstract class PluginType implements SnipesLogger {
      *
      * @param channel The name of the channel to join (eg "#cs").
      */
-    protected final void joinChannel(String channel) {
+    public final void joinChannel(String channel) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("JOIN " + channel);
         } catch (Exception e) {
@@ -126,7 +127,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The name of the channel to join (eg "#cs").
      * @param key     The key that will be used to join the channel.
      */
-    protected final void joinChannel(String channel, String key) {
+    public final void joinChannel(String channel, String key) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).joinChannel(channel + " " + key);
         } catch (Exception e) {
@@ -138,7 +139,7 @@ public abstract class PluginType implements SnipesLogger {
      *
      * @param channel The name of the channel to leave.
      */
-    protected final void partChannel(String channel) {
+    public final void partChannel(String channel) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("PART " + channel);
 
@@ -152,7 +153,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The name of the channel to leave.
      * @param reason  The reason for parting the channel.
      */
-    protected final void partChannel(String channel, String reason) {
+    public final void partChannel(String channel, String reason) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("PART " + channel + " :" + reason);
         } catch (Exception e) {
@@ -165,7 +166,7 @@ public abstract class PluginType implements SnipesLogger {
      * onDisconnect() method will be called as soon as the IRC server
      * disconnects us.
      */
-    protected final void quitServer() {
+    public final void quitServer() {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).quitServer("");
         } catch (Exception e) {
@@ -180,7 +181,7 @@ public abstract class PluginType implements SnipesLogger {
      *
      * @param reason The reason for quitting the server.
      */
-    protected final void quitServer(String reason) {
+    public final void quitServer(String reason) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("QUIT :" + reason);
             (inst != null ? inst : (inst = SnipesBot.getInst())).getInCue().quitServer();
@@ -194,7 +195,7 @@ public abstract class PluginType implements SnipesLogger {
      *
      * @param line The raw line to send to the IRC server.
      */
-    protected final synchronized void sendRawLine(String line) {
+    public final synchronized void sendRawLine(String line) {
         try {
             if ((inst != null ? inst : (inst = SnipesBot.getInst())).isConnected()) {
                 (inst != null ? inst : (inst = SnipesBot.getInst())).getInCue().sendRawLine(line);
@@ -208,7 +209,7 @@ public abstract class PluginType implements SnipesLogger {
      *
      * @param line The raw line to send to the IRC server.
      */
-    protected final synchronized void sendRawLineViaQueue(String line) {
+    public final synchronized void sendRawLineViaQueue(String line) {
         if (line == null) {
             throw new NullPointerException("Cannot send null messages to server");
         }
@@ -242,7 +243,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param message The message to send.
      * @see Colors
      */
-    protected final void sendMessage(String target, String message) {
+    public final void sendMessage(String target, String message) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).getOutCue().add("PRIVMSG " + target + " :" + message);
         } catch (NoSnipesInstanceException ex) {
@@ -256,7 +257,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param action The action to send.
      * @see Colors
      */
-    protected final void sendAction(String target, String action) {
+    public final void sendAction(String target, String action) {
         sendCTCPCommand(target, "ACTION " + action);
     }
 
@@ -266,7 +267,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param target The name of the channel or user nick to send to.
      * @param notice The notice to send.
      */
-    protected final void sendNotice(String target, String notice) {
+    public final void sendNotice(String target, String notice) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).getOutCue().add("NOTICE " + target + " :" + notice);
         } catch (NoSnipesInstanceException ex) {
@@ -284,7 +285,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param target  The name of the channel or user to send the CTCP message to.
      * @param command The CTCP command to send.
      */
-    protected final void sendCTCPCommand(String target, String command) {
+    public final void sendCTCPCommand(String target, String command) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).getOutCue().add("PRIVMSG " + target + " :\u0001" + command + "\u0001");
         } catch (NoSnipesInstanceException ex) {
@@ -299,7 +300,7 @@ public abstract class PluginType implements SnipesLogger {
      *
      * @param newNick The new nick to use.
      */
-    protected final void changeNick(String newNick) {
+    public final void changeNick(String newNick) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("NICK " + newNick);
         } catch (NoSnipesInstanceException ex) {
@@ -320,7 +321,7 @@ public abstract class PluginType implements SnipesLogger {
      *                zero or more arguments if necessary.
      * @see #op(String, String) op
      */
-    protected final void setMode(String channel, String mode) {
+    public final void setMode(String channel, String mode) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("MODE " + channel + " " + mode);
         } catch (NoSnipesInstanceException ex) {
@@ -335,7 +336,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param nick    The nick of the user to invite
      * @param channel The channel you are inviting the user to join.
      */
-    protected final void sendInvite(String nick, String channel) {
+    public final void sendInvite(String nick, String channel) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("INVITE " + nick + " :" + channel);
         } catch (NoSnipesInstanceException ex) {
@@ -352,7 +353,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel  The channel to ban the user from.
      * @param hostmask A hostmask representing the user we're banning.
      */
-    protected final void ban(String channel, String hostmask) {
+    public final void ban(String channel, String hostmask) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("MODE " + channel + " +b " + hostmask);
         } catch (NoSnipesInstanceException ex) {
@@ -368,7 +369,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel  The channel to unban the user from.
      * @param hostmask A hostmask representing the user we're unbanning.
      */
-    protected final void unBan(String channel, String hostmask) {
+    public final void unBan(String channel, String hostmask) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("MODE " + channel + " -b " + hostmask);
         } catch (NoSnipesInstanceException ex) {
@@ -383,7 +384,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The channel we're opping the user on.
      * @param nick    The nick of the user we are opping.
      */
-    protected final void op(String channel, String nick) {
+    public final void op(String channel, String nick) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).setMode(channel, "+o " + nick);
         } catch (NoSnipesInstanceException ex) {
@@ -398,7 +399,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The channel we're deopping the user on.
      * @param nick    The nick of the user we are deopping.
      */
-    protected final void deOp(String channel, String nick) {
+    public final void deOp(String channel, String nick) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).setMode(channel, "-o " + nick);
         } catch (NoSnipesInstanceException ex) {
@@ -413,7 +414,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The channel we're voicing the user on.
      * @param nick    The nick of the user we are voicing.
      */
-    protected final void voice(String channel, String nick) {
+    public final void voice(String channel, String nick) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).setMode(channel, "+v " + nick);
         } catch (NoSnipesInstanceException ex) {
@@ -428,7 +429,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The channel we're devoicing the user on.
      * @param nick    The nick of the user we are devoicing.
      */
-    protected final void deVoice(String channel, String nick) {
+    public final void deVoice(String channel, String nick) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).setMode(channel, "-v " + nick);
         } catch (NoSnipesInstanceException ex) {
@@ -444,7 +445,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The channel on which to perform the mode change.
      * @param topic   The new topic for the channel.
      */
-    protected final void setTopic(String channel, String topic) {
+    public final void setTopic(String channel, String topic) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("TOPIC " + channel + " :" + topic);
         } catch (NoSnipesInstanceException ex) {
@@ -459,7 +460,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param channel The channel to kick the user from.
      * @param nick    The nick of the user to kick.
      */
-    protected final void kick(String channel, String nick) {
+    public final void kick(String channel, String nick) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).kick(channel, nick, "");
         } catch (NoSnipesInstanceException ex) {
@@ -475,7 +476,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param nick    The nick of the user to kick.
      * @param reason  A description of the reason for kicking a user.
      */
-    protected final void kick(String channel, String nick, String reason) {
+    public final void kick(String channel, String nick, String reason) {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("KICK " + channel + " " + nick + " :" + reason);
         } catch (NoSnipesInstanceException ex) {
@@ -488,7 +489,7 @@ public abstract class PluginType implements SnipesLogger {
      * call the onChannelInfo method, which you will need to override
      * if you want it to do anything useful.
      */
-    protected final void listChannels() {
+    public final void listChannels() {
         try {
             (inst != null ? inst : (inst = SnipesBot.getInst())).listChannels(null);
         } catch (NoSnipesInstanceException ex) {
@@ -509,7 +510,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param parameters The parameters to supply when requesting the
      *                   list.
      */
-    protected final void listChannels(String parameters) {
+    public final void listChannels(String parameters) {
         try {
             if (parameters == null) {
                 (inst != null ? inst : (inst = SnipesBot.getInst())).sendRawLine("LIST");
@@ -537,7 +538,7 @@ public abstract class PluginType implements SnipesLogger {
      * @return The DccFileTransfer that can be used to monitor bot transfer. Null if the Snipes instance cannot be found.
      * @see DccFileTransfer
      */
-    protected final DccFileTransfer dccSendFile(File file, String nick, int timeout) {
+    public final DccFileTransfer dccSendFile(File file, String nick, int timeout) {
         try {
             DccFileTransfer transfer;
             transfer = new DccFileTransfer((inst != null ? inst : (inst = SnipesBot.getInst())), (inst != null ? inst : (inst = SnipesBot.getInst())).getManager(), file, nick, timeout);
@@ -569,7 +570,7 @@ public abstract class PluginType implements SnipesLogger {
      *         text.  Returns <b>null</b> if the connection could not be made.
      * @see DccChat
      */
-    protected final DccChat dccSendChatRequest(String nick, int timeout) {
+    public final DccChat dccSendChatRequest(String nick, int timeout) {
         DccChat chat = null;
         try {
             ServerSocket ss = null;
@@ -579,9 +580,9 @@ public abstract class PluginType implements SnipesLogger {
                 // Use any free port.
                 ss = new ServerSocket(0);
             } else {
-                for (int i = 0; i < ports.length; i++) {
+                for (int port : ports) {
                     try {
-                        ss = new ServerSocket(ports[i]);
+                        ss = new ServerSocket(port);
                         // Found a port number we could use.
                         break;
                     } catch (Exception e) {
@@ -627,7 +628,7 @@ public abstract class PluginType implements SnipesLogger {
      * @param address the byte[] of size 4 representing the IP address.
      * @return a long representation of the IP address.
      */
-    protected long ipToLong(byte[] address) {
+    private long ipToLong(byte[] address) {
         if (address.length != 4) {
             throw new IllegalArgumentException("byte array must be of length 4");
         }
@@ -644,7 +645,7 @@ public abstract class PluginType implements SnipesLogger {
     /**
      * @return The current nick of the bot
      */
-    protected String getNick() {
+    public String getNick() {
         try {
             return (inst != null ? inst : (inst = SnipesBot.getInst())).getNick();
         } catch (NoSnipesInstanceException ex) {
@@ -655,12 +656,13 @@ public abstract class PluginType implements SnipesLogger {
     /**
      * Exits Snipes, with the given reason and the given status
      */
-    protected void exit(int status, String reason) throws NoSnipesInstanceException {
+    public void exit(int status, String reason) throws NoSnipesInstanceException {
         System.err.println(reason);
         (inst != null ? inst : (inst = SnipesBot.getInst())).exitSnipes(status);
     }
     public boolean isBotAdministrator(String hostname)
     {
+        debug("Checking administration rights", this.getClass());
         try
         {
             return inst != null ? inst.isBotAdministrator(hostname) : (inst = SnipesBot.getInst()).isBotAdministrator(hostname);
@@ -677,10 +679,22 @@ public abstract class PluginType implements SnipesLogger {
     }
     public boolean isBotOwner(String hostname)
     {
+        debug("Checking moderator rights", this.getClass());
         try
         {
             return (inst != null ? inst.isBotOwner(hostname) : (inst = SnipesBot.getInst()).isBotOwner(hostname));
         } catch (NoSnipesInstanceException e) {}
         return false;
+    }
+    protected void debug(String s,Class c)
+    {
+        debug(s,Level.INFO, c);
+    }
+    protected void debug(String s, Level l, Class c)
+    {
+        if (SnipesBot.DEBUG)
+        {
+            Logger.getLogger(c.getName()).log(l, s);
+        }
     }
 }

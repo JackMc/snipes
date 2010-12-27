@@ -183,7 +183,7 @@ public class TestMain {
                 wantMoreArgs = false;
             }
         }
-        return args.toArray(new String[]{});
+        return args.toArray(new String[args.size()]);
     }
 
     private boolean askWantArgs(boolean askDuring) {

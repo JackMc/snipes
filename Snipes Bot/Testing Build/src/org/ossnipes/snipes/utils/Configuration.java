@@ -98,15 +98,14 @@ public final class Configuration {
             if (!line.startsWith("#")) {
                 continue;
             }
-            comments.put(new Integer(br.getLineNumber()), line);
+            comments.put(br.getLineNumber(), line);
         }
     }
 
     /**
      * This class cannot be made a instance object.
      */
-    private Configuration() {
-    }
+    private Configuration() {}
 
     /**
      * Looks up a property in the configuration file and returns it.
@@ -149,6 +148,9 @@ public final class Configuration {
         if (lookup == null) {
             return null;
         }
+        if (defaultValue == null)
+            return null;
+
         if (lookup.equals(defaultValue) && defaultValue.equals("")) {
             return new String[]{};
         }
@@ -239,7 +241,7 @@ public final class Configuration {
         try {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
             int line = 0;
-            String comment = comments.get(new Integer(line));
+            String comment = comments.get(line);
             if (comment != null) {
                 bw.write(comment);
                 bw.newLine();
@@ -249,7 +251,7 @@ public final class Configuration {
             int totalLines = p.keySet().size() + comments.size() + (comment == null ? 0 : 1);
 
             for (; line < totalLines; line++) {
-                String cc = comments.get(new Integer(line));
+                String cc = comments.get(line);
                 if (cc != null) {
                     bw.write(cc);
                 } else {

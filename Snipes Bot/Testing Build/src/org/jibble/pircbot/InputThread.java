@@ -71,7 +71,7 @@ public class InputThread extends Thread {
             boolean running = true;
             while (running) {
                 try {
-                    String line = null;
+                    String line;
                     while ((line = _breader.readLine()) != null) {
                         try {
                             _bot.handleLine(line);

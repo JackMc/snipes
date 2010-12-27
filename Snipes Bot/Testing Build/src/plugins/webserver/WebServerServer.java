@@ -34,7 +34,7 @@ public class WebServerServer {
                     SnipesBot.addToErrorQueue("The directive \"wsport\" in the Snipes configuration file is not a number. Using default: " + portInt);
                 }
 
-                String wsroot = DEFAULT_ROOT;
+                String wsroot;
                 wsroot = lookUp("wsroot", DEFAULT_ROOT);
                 File f = new File(wsroot);
                 if (!f.exists()) {
@@ -62,7 +62,7 @@ public class WebServerServer {
 
                 WebServerWorker.root = wsroot;
 
-                Thread t = null;
+                Thread t;
 
                 // Main loop
                 while (true) {

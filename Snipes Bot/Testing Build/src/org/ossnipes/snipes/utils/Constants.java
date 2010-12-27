@@ -48,6 +48,9 @@ public class Constants {
      */
     public static final int NON_VERBOSE_ERRT = 1000;
 
+    public static final double VERSION = 0.5;
+    public static final String VERSION_STRING = String.valueOf(VERSION);
+
     public static PrintStream getDevNull() throws FileNotFoundException {
         if (System.getProperty("os.name").contains("Linux") || System.getProperty("os.name").contains("Mac")) {
             return new PrintStream(new File("/dev/null"));

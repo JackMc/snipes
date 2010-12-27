@@ -12,7 +12,7 @@ public class DCCConnection implements NoIRCConnection {
 
     public DCCConnection(DccChat chat, SnipesStaffType acceptFrom, PluginType curr) throws IOException, SnipesSecurityException
     {
-        if (rawChat == null)
+        if (chat == null)
         {
             throw new NullPointerException("rawChat cannot be null.");
         }
@@ -58,14 +58,41 @@ public class DCCConnection implements NoIRCConnection {
            default:
                throw new SnipesSecurityException("Could not accept DCC connection from " + chat.getHostname() + ", as you specified unknown credential types to the function.");
         }
+        System.out.println("Chat authorized from " + chat.getHostname());
         chat.sendLine("Welcome to the Snipes IRC DCC chat system! Use this system for good, not evil :). Try \"help\" for some commands.");
+        _finished = true;
     }
 
-    public String recv() throws IOException {
-        return rawChat.readLine();
+    public String recv() {
+        try
+        {
+            return rawChat.readLine();
+        } catch (IOException e) {return null;}
     }
 
-    public void send(String s) throws IOException {
-        rawChat.sendLine(s);
+    public void send(String s) {
+        try
+        {
+            System.out.println(">> DCC >> " + rawChat.getNick() + " >> " + s);
+            rawChat.sendLine(s);
+        } catch (IOException e) {System.err.println("IOException while sending message to user.");}
     }
+
+    public String getHost() {
+        return rawChat.getHostname();
+    }
+
+    public void close() {
+        try
+        {
+            rawChat.close();
+        } catch (IOException e) {}
+    }
+
+    public boolean isOpen() {
+        return _open;
+    }
+
+    private boolean _open = false;
+    private boolean _finished = false;
 }
