@@ -1,7 +1,5 @@
 package plugins.noircchatman;
 
-import java.io.IOException;
-
 public interface NoIRCConnection {
     public String recv();
     public void send(String s);

@@ -31,6 +31,7 @@ public final class Configuration {
      */
     private static FileInputStream fis = null;
     private static FileOutputStream fos = null;
+    private static Properties tempP = new Properties();
     // Static block, made sure everything is set.
 
     static {
@@ -126,7 +127,15 @@ public final class Configuration {
      * @return The value of the property if it was found, defaultValue if not.
      */
     public static String lookUp(String key, String defaultValue) {
-        return p.getProperty(key, defaultValue);
+        String tempPVal = tempP.getProperty(key);
+        if (tempPVal != null)
+        {
+            return tempPVal;
+        }
+        else
+        {
+            return p.getProperty(key,defaultValue);
+        }
     }
 
     /**
@@ -288,5 +297,21 @@ public final class Configuration {
         fos.close();
         fis.close();
         writeConfiguration();
+    }
+
+    /** Sets a temporary directive. Temporary directives override what is in the
+     * configuration file (e.g. if there is a property called 'nick' in the temp
+     * directives, and one called 'nick' in the configuration file, the temp one
+     * would be returned from a call to lookUp("nick"). Temporary key-value pairs
+     * are not written to the configuration file on save.
+     * @param key The key to set.
+     * @param value The value to set it to.
+     */
+    public static void setTempDirective(String key, String value)
+    {
+        if (key != null && value != null)
+            tempP.setProperty(key,value);
+        else
+            throw new NullPointerException("key and/or value cannot be null.");
     }
 }

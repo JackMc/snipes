@@ -7,11 +7,8 @@ import org.ossnipes.snipes.spf.SnipesEventParams;
 import org.ossnipes.snipes.spf.SuperPlugin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Logger;
 
 public class NoIRCMain extends SuperPlugin {
     BlockingQueue<NoIRCConnection> q = new LinkedBlockingQueue<NoIRCConnection>();
@@ -36,7 +33,7 @@ public class NoIRCMain extends SuperPlugin {
                         {
                             q.put(conn);
                         } catch (InterruptedException e) {}
-                } catch (IOException e) {
+                        } catch (IOException e) {
 
                 }
                 catch (SnipesSecurityException e) {
@@ -61,9 +58,11 @@ public class NoIRCMain extends SuperPlugin {
         for (int i=0;i<workers.length;i++)
         {
             workers[i] = new Thread(new ConnectionManager(this,i));
+            addThread(workers[i]);
             workers[i].start();
         }
-        return null;
+
+        return PluginConstructRet.PLUGIN_LOADSUCCESS;
     }
 
     @Override
@@ -76,7 +75,6 @@ public class NoIRCMain extends SuperPlugin {
         return "Non-IRC connection moderator.";
     }
     public NoIRCConnection getJob() throws InterruptedException {
-        NoIRCConnection qq = q.take();
-        return qq;
+        return q.take();
     }
 }

@@ -2,8 +2,6 @@ package plugins.noircchatman;
 
 import org.ossnipes.snipes.bot.SnipesBot;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +42,7 @@ public class ConnectionManager implements Runnable {
         {
             return parent.getJob();
         }
-        catch (InterruptedException e) {System.err.println("Interrupted while getting a job for the Non-IRC chat manager..");}
+        catch (InterruptedException e) {Logger.getLogger(this.getClass().getName()).info("Interrupted while getting a job for the Non-IRC chat manager..");}
         return null;
     }
     public void handle()
@@ -52,7 +50,7 @@ public class ConnectionManager implements Runnable {
         boolean quit = false;
         while (!quit)
         {
-            if (currentJob.isOpen())
+            if (!currentJob.isOpen())
             {
                 currentJob.close();
                 quit = true;
@@ -87,6 +85,14 @@ public class ConnectionManager implements Runnable {
                         {
                             currentJob.send("Somehow, you managed to tell me to die before I was done starting up! Please try again in a few seconds.");
                         }
+                    }
+                    else if (ex[0].equalsIgnoreCase("set"))
+                    {
+                        if (ex.length != 2)
+                        {
+                            currentJob.send("Incorrect syntax. Use like set <property>=<value>");
+                        }
+
                     }
                 }
             }

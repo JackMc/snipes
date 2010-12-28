@@ -1,13 +1,5 @@
 package org.ossnipes.snipes.bot;
 
-/*
- * JOBS:
- * - Add in security, methods such as isBotAdministrator(String channel, String nick)
- * - Work on changing hardcoded values to configuration directives
- * - Work on transition from accessing actual PircBot methods, to using
- * SPF methods in plugins.
- */
-
 // Imports from the default class library
 
 import java.io.FileNotFoundException;
@@ -25,6 +17,7 @@ import org.jibble.pircbot.InputThread;
 import org.jibble.pircbot.PircBot;
 
 // Snipes imports
+import org.ossnipes.snipes.enums.PluginConstructRet;
 import org.ossnipes.snipes.enums.PluginPassResponse;
 import org.ossnipes.snipes.enums.SnipesEvent;
 import org.ossnipes.snipes.exceptions.NoSnipesInstanceException;
@@ -377,7 +370,7 @@ public class SnipesBot extends PircBot {
      * @param t The runnable to add and create a thread from.
      * @return The Thread Object of the newly created Thread.
      */
-    public static Thread addThread(Runnable t) {
+    public static synchronized Thread addThread(Runnable t) {
         if (t == null) {
             throw new NullPointerException("addThread(Runnable t) cannot take a null value.");
         }
@@ -398,7 +391,7 @@ public class SnipesBot extends PircBot {
      * @param t The Thread to add.
      * @return t, for convinence
      */
-    private Thread addThread(Thread t) {
+    public static synchronized Thread addThread(Thread t) {
         if (t == null) {
             throw new NullPointerException("addThread(Thread t) cannot take a null value.");
         }
@@ -428,7 +421,7 @@ public class SnipesBot extends PircBot {
      * @return True if the value was set, false if it wasn't (value
      *         was null.)
      */
-    public static boolean setErrorQueue(Queue<String> value) {
+    public static synchronized boolean setErrorQueue(Queue<String> value) {
         if (value != null) {
             errorQueue = value;
             return true;
@@ -444,7 +437,7 @@ public class SnipesBot extends PircBot {
      * @param error The error String to add
      * @return True if the erorr was added. The error will be added as long as it doesn't equals null or empty.
      */
-    public static boolean addToErrorQueue(String error) {
+    public static synchronized boolean addToErrorQueue(String error) {
         if (error != null && !error.equalsIgnoreCase("")) {
             errorQueue.add(error);
             return true;
@@ -544,11 +537,24 @@ public class SnipesBot extends PircBot {
      * @param p The PluginType to add.
      * @throws SnipesPluginException If Snipes cannot or refuses to load the specified plugin.
      */
-    public boolean notifyExternalPluginLoad(PluginType p) throws SnipesPluginException {
+    public synchronized boolean notifyExternalPluginLoad(PluginType p) throws SnipesPluginException {
         if (p == null) {
             throw new SnipesPluginException("p cannot be null.");
         }
-        return addToLists(p);
+        boolean b = addToLists(p);
+        if (b)
+        {
+            PluginConstructRet pcr = p.snipesInit();
+            if (pcr != PluginConstructRet.PLUGIN_LOADSUCCESS)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        return true;
     }
 
     /**

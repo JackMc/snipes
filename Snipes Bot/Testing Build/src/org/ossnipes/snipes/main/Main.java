@@ -36,10 +36,10 @@ public class Main {
             if (nextIsDArg) {
                 String[] dSplit = i.split("=");
                 if (dSplit.length != 2) continue;
-                for (int c = 0; c < dSplit.length; c++) {
-                    dSplit[c] = dSplit[c].trim();
+                for (int a = 0; a < dSplit.length; a++) {
+                    dSplit[a] = dSplit[a].trim();
                 }
-                Configuration.setProperty(dSplit[0], dSplit[1], false);
+                Configuration.setTempDirective(dSplit[0],dSplit[1]);
             }
         }
         if (!CONF && !TEST) {

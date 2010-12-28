@@ -697,4 +697,8 @@ public abstract class PluginType implements SnipesLogger {
             Logger.getLogger(c.getName()).log(l, s);
         }
     }
+    public Thread addThread(Thread thread)
+    {
+        return SnipesBot.addThread(thread);
+    }
 }

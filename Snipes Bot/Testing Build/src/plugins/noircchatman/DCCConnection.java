@@ -64,7 +64,6 @@ public class DCCConnection implements NoIRCConnection {
         Logger.getLogger(this.getClass().getName()).info(
         "Chat authorized from " + 
         chat.getHostname());
-        chat.sendLine("Welcome to the Snipes IRC DCC chat system! Use this system for good, not evil :). Try \"help\" for some commands.");
         _finished = true;
     }
 
@@ -101,7 +100,7 @@ public class DCCConnection implements NoIRCConnection {
     }
 
     public boolean isOpen() {
-        return _open;
+        return !_open;
     }
 
     private boolean _open = false;
