@@ -1,5 +1,8 @@
 package org.ossnipes.snipes.lib.irc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /* 
  * 
  * Copyright 2010 Jack McCracken
@@ -57,14 +60,53 @@ IRCConstants
 			{
 				return;
 			}
-			for (int i = 0; i < exSplit.length; i++)
-			{
-				if (i == 0 && exSplit[i].equals("PING"))
+				// PING command: we need this or the server'll disconnect us!
+				if (exSplit[0].equals("PING"))
 				{
+					// Key: server = The server we're connected to
 					sendEvent(Event.IRC_PING,new EventArgs(new String [] {"server"}, 
+							// Substringed because we need to take off the :.
 							new String [] {exSplit[1].substring(1)}));
 				}
-			}
+				// PRIVMSG command: If the user sends a PRIVMSG to us or to a channel
+				else if (exSplit.length > 4 && exSplit[1].equalsIgnoreCase("PRIVMSG"))
+				{
+					// Variable to hold the message
+					String msg;
+					// Supporting non-standard servers that don't use : in front of all of them, even 1
+					//-word. :\
+					if (!exSplit[3].startsWith(":"))
+					{
+						msg = exSplit[3];
+					}
+					else
+					{
+						msg = "";
+						for (int i = 3; i < exSplit.length; i++)
+						{
+							// Is it the first one?
+							// Then we need to take away the :.
+							if (i == 3)
+							{
+								msg += exSplit[i].substring(1);
+							}
+							// We just concat it! :D
+							else
+							{
+								msg += exSplit[i];
+							}
+						}
+					}
+					// Hold the args.
+					Map<String,Object> params = new HashMap<String,Object>();
+					// Add the sender
+					// We don't need to check the length, 
+					// it was already checked at the top.
+					params.put("from", exSplit[0].split("@")[0]);
+					//TODO: More events! :D
+					
+					sendEvent(Event.IRC_PRIVMSG, new EventArgs());
+				}
 	}
 	
 	public void sendEvent(Event ev, EventArgs args)
