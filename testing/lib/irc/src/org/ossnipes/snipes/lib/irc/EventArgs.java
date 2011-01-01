@@ -40,9 +40,9 @@ public class EventArgs
 	{
 		params = Utils.stringArraysToStringObjectMap(keys, values);
 	}
-	public EventArgs(HashMap<String,Object> params)
+	public EventArgs(Map<String, Object> args)
 	{
-		this.params = params;
+		this.params = args;
 	}
 	//TODO: Documentation, pretty simple class though :)
 	public Object getParam(String key)

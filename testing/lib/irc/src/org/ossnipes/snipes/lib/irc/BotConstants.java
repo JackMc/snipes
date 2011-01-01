@@ -21,7 +21,7 @@ package org.ossnipes.snipes.lib.irc;
  * 
  * You should have received a copy of the GNU General Public License along with The Snipes IRC Framework. 
  * If not, see http:www.gnu.org/licenses/.
- 
+ */
 
 /**
  * Interface for all bot constants (bot constants are constants that are not IRC

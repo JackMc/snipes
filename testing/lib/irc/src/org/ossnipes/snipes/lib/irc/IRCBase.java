@@ -2,6 +2,8 @@ package org.ossnipes.snipes.lib.irc;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.SocketFactory;
 
@@ -50,6 +52,8 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	// Default constructor
 	public IRCBase()
 	{
+		// Init maps.
+		topics = new HashMap<String,String>();
 	}
 
 	/**
@@ -104,7 +108,7 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 		_handler = new IRCInputHandler(this);
 
 		// Quick, init the IRCReciever before the server kills us for not
-		// registering our USER and NICK commands :P!
+		// registering our USER, NICK and PING commands :P!
 		_reciever = new IRCReciever(_manager, _handler);
 		// Create/Start the recv Thread
 		Thread t = new Thread(_reciever);
@@ -112,7 +116,7 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 
 		// We can start!
 		sendInit();
-		// TODO: Implement more connection
+		// We're connected!
 	}
 	
 	/** Sends a few lines we need to the server before we start */
@@ -166,6 +170,8 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	 */
 	public void connect(String server) throws IOException, UnknownHostException
 	{
+		// Connect to the server with the default IRC port and 
+		// SocketFactory.
 		connect(server, IRC_DEFAULT_PORT, null);
 	}
 
@@ -227,6 +233,11 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	{
 		return BotOptions.VERBOSE;
 	}
+	
+	protected void who(String target)
+	{
+		_manager.sendRaw("WHO :" + target);
+	}
 
 	/** The current nick of the bot */
 	private String _nick = DEFAULT_NICK;
@@ -252,5 +263,8 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	private IRCReciever _reciever;
 	/** The IRCInputHandler that will pass all received messages to us. */
 	private IRCInputHandler _handler;
+	
+	/** Holds all the topics of the channels we're in. */
+	private Map<String,String> topics;
 
 }

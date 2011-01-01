@@ -71,6 +71,24 @@ IRCConstants
 				// PRIVMSG command: If the user sends a PRIVMSG to us or to a channel
 				else if (exSplit.length > 4 && exSplit[1].equalsIgnoreCase("PRIVMSG"))
 				{
+					// Hold the args.
+					Map<String,Object> params = new HashMap<String,Object>();
+					// Add the sender
+					// We don't need to check the length, 
+					// it was already checked at the top.
+					params.put("from", exSplit[0].split("!")[0].
+							// Support for servers which don't 
+							// put : in front of the host.
+							substring((exSplit[0].startsWith(":") ? 1 : 0)));
+					
+					// Put the hostname in from-host
+					params.put("from-host", exSplit[0].split("@")[1]);
+					
+					// Add the recipient, this will be getNick()
+					// if we receive a PRIVMSG personally.
+					params.put("to", exSplit[2]);
+					
+					/* Start getting the actual message */
 					// Variable to hold the message
 					String msg;
 					// Supporting non-standard servers that don't use : in front of all of them, even 1
@@ -97,15 +115,10 @@ IRCConstants
 							}
 						}
 					}
-					// Hold the args.
-					Map<String,Object> params = new HashMap<String,Object>();
-					// Add the sender
-					// We don't need to check the length, 
-					// it was already checked at the top.
-					params.put("from", exSplit[0].split("@")[0]);
-					//TODO: More events! :D
+					// Stick it into the message variable.
+					params.put("message", msg);
 					
-					sendEvent(Event.IRC_PRIVMSG, new EventArgs());
+					sendEvent(Event.IRC_PRIVMSG, new EventArgs(params));
 				}
 	}
 	

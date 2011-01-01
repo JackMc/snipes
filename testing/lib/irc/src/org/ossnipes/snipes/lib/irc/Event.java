@@ -4,7 +4,8 @@ public enum Event
 {
 	/** This event is triggered when the server sends us a PING command, or someone else does.
 	 * This is handled in the {@link IRCBase#handleInternalEvent(Event, EventArgs)} method,
-	 * but it can also be handled in the {@link IRCBase#handleEvent(Event, EventArgs)} method.
+	 * but it can also be handled in the {@link IRCBase#handleEvent(Event, EventArgs)} method
+	 * without impairing normal functionality.
 	 * 
 	 * Params (gotten with {@link EventArgs#getParam(String)}):
 	 * server -- The server we're recieving a ping from (may also be a nickname, not sure though.)
@@ -20,5 +21,17 @@ public enum Event
 	 * 
 	 * 
 	 */
-	IRC_PRIVMSG
+	IRC_PRIVMSG,
+	/** This event is triggered when we join and are notified of the topic.
+	 * This is handled in the {@link IRCBase#handleInternalEvent(Event, EventArgs)} 
+	 * method, but it can also be handled in the {@link IRCBase#handleEvent(Event, EventArgs)}
+	 * method without impairing the normal functionality.
+	 * 
+	 * Params (gotten with {@link EventArgs#getParam(String)}:
+	 * server -- The server that told us about it.
+	 * channel -- The channel we were told about.
+	 * topic -- The actual topic.
+	 */
+	IRC_JOIN_TOPIC,
+	IRC_TOPIC
 }

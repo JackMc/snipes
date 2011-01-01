@@ -1,7 +1,5 @@
 package org.ossnipes.snipes.lib.irc;
 
-import java.io.IOException;
-
 /* 
  * 
  * Copyright 2010 Jack McCracken
@@ -22,65 +20,28 @@ import java.io.IOException;
  * may be made "legally" a part of the project.
  * 
  * You should have received a copy of the GNU General Public License along with The Snipes IRC Framework. 
- * If not, see http://www.gnu.org/licenses/.
+ * If not, see http:www.gnu.org/licenses/.
  */
 
-/**
- * Encapsulates the receiving of data from the IRC server.
- * 
- * @since Snipes 0.6
+/** This class represents a user on IRC
  * @author Jack McCracken
+ * @since Snipes 0.6
  */
-
-class IRCReciever implements Runnable
+public class IRCUser
 {
-	/**
-	 * Instantiates a object of the class.
-	 * 
-	 * @param manager
-	 *            The socket manager that this thread should be watching for
-	 *            messages
-	 * @param parent
-	 *            The "parent" IRCBase of this object. In other words: The
-	 *            object it will notify if it gets a message.
+	IRCUser(final IRCBase parent)
+	{
+		_parent = parent;
+	}
+	
+	/** 
 	 */
-	IRCReciever(IRCSocketManager manager, IRCInputHandler parent)
+	public void getHostname()
 	{
-		_manager = manager;
-		_handler = parent;
+		//TODO: Stuff to do with users and their properties. (possibly /who them?)
 	}
-
-	@Override
-	public void run()
-	{
-		try
-		{
-			while (_manager.isConnected())
-			{
-				String s = _manager.recvRaw();
-				if (s != null)
-				{
-					_handler.handle(s);
-				}
-				else
-				{
-					System.out.println("Disconnected from server.");
-					break;
-				}
-			}
-		} catch (IOException e)
-		{/*
-		 * :( we've Disconnected, or we've been disconnected. Just return.
-		 */
-		}
-	}
-
-	public boolean isConnected()
-	{
-		return _manager.isConnected();
-	}
-
-	private IRCSocketManager _manager;
-	private IRCInputHandler _handler;
-
+	
+	// Class-scope variables
+	String _hostname;
+	IRCBase _parent;
 }
