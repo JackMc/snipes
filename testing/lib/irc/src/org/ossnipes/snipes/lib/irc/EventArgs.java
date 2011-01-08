@@ -26,11 +26,14 @@ package org.ossnipes.snipes.lib.irc;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: Docs.
+/** Wrapper class for arguments to Snipes events. 
+ * @author jack 
+ */
 public class EventArgs
 {
 	private Map<String,Object> params = null;
-	
+	/** Constructs a event arguments object with no keys.
+	 */
 	public EventArgs()
 	{
 		params = new HashMap<String,Object>();
@@ -38,13 +41,15 @@ public class EventArgs
 	
 	public EventArgs(String[] keys, String[] values)
 	{
-		params = Utils.stringArraysToStringObjectMap(keys, values);
+		params = BotUtils.stringObjectArraysToStringObjectMap(keys, values);
 	}
 	public EventArgs(Map<String, Object> args)
 	{
 		this.params = args;
 	}
-	//TODO: Documentation, pretty simple class though :)
+	/** Gets the parameter with the specified key.
+	 * @return The value of the parameter. Null if there's no mapping.
+	 */
 	public Object getParam(String key)
 	{
 		return params.get(key);

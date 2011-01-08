@@ -215,13 +215,15 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	}
 	
 	/** Sends a event to the bot, checking if it is a internal one,
-	 *  and if it is, it calls the appropriate method.
+	 * and if it is, it calls the appropriate method. Really just 
+	 * a alias for {@link BotUtils#sendEvent(Event, EventArgs, IRCBase)}
+	 * with this as the third argument :).
 	 * @param ev The event to send.
 	 * @param args The arguments to use.
 	 */
 	public void sendEvent(Event ev, EventArgs args)
 	{
-		_handler.sendEvent(ev, args);
+		BotUtils.sendEvent(ev, args, this);
 	}
 	
 	protected void setVerbose(boolean on)

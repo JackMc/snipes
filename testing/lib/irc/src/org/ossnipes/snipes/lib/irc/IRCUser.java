@@ -28,17 +28,26 @@ package org.ossnipes.snipes.lib.irc;
  * @since Snipes 0.6
  */
 public class IRCUser
+implements BotConstants
 {
+	private String hostname = null;
 	IRCUser(final IRCBase parent)
 	{
 		_parent = parent;
 	}
 	
-	/** 
-	 */
+	/** Gets this user Object's hostname. */
 	public void getHostname()
 	{
-		//TODO: Stuff to do with users and their properties. (possibly /who them?)
+		// Have we gotten this user's host before?
+		if (hostname == null)
+		{
+		}
+	}
+	
+	void setHostname(String hostname)
+	{
+		
 	}
 	
 	// Class-scope variables

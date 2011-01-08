@@ -24,7 +24,7 @@ package org.ossnipes.snipes.lib.irc;
  */
 /**
  * Represents all IRC reply codes
- * Thanks SO MUCH to the people in &pound;Perl for the 
+ * Thanks SO MUCH to the people in &#35;Perl for the 
  * script that helped me do this!
  * 
  * I probably would have had to have spent a day on this :p.

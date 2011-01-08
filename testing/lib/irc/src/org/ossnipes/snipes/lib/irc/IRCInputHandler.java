@@ -34,9 +34,7 @@ import java.util.Map;
  * @since Snipes 0.6
  */
 
-class IRCInputHandler
-implements BotConstants,
-IRCConstants
+class IRCInputHandler implements BotConstants, IRCConstants
 {
 	IRCInputHandler(IRCBase parent)
 	{
@@ -51,93 +49,89 @@ IRCConstants
 	 */
 	void handle(String line)
 	{
+		// Is the bot verbose?
 		if (BotOptions.VERBOSE)
 		{
 			System.out.println(line);
 		}
-			String[] exSplit = line.split(" ");
-			if (exSplit.length == 0)
+		
+		String[] exSplit = line.split(" ");
+		
+		
+		if (exSplit.length == 0)
+		{
+			return;
+		}
+		// PING command: we need this or the server'll disconnect us!
+		if (exSplit[0].equals("PING"))
+		{
+			// Key: server = The server we're connected to
+			BotUtils.sendEvent(Event.IRC_PING, new EventArgs(new String[] { "server" },
+			// Substringed because we need to take off the :.
+					new String[] { exSplit[1].substring(1) }),_parent);
+		}
+		
+		// PRIVMSG command: If the user sends a PRIVMSG to us or to a channel
+		// Example: ":Auv5!~auv5@projectinfinity.net PRIVMSG #Snipes :A IRC PRIVMSG!"
+		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("PRIVMSG"))
+		{
+			// Hold the args.
+			Map<String, Object> params = new HashMap<String, Object>();
+			// Add the sender
+			// We don't need to check the length,
+			// it was already checked at the top.
+			params.put("from", exSplit[0].split("!")[0].
+			// Support for servers which don't
+			// put : in front of the host.
+			substring((exSplit[0].startsWith(":") ? 1 : 0)));
+
+			// Put the hostname in from-host
+			params.put("from-host", exSplit[0].split("@")[1]);
+
+			// Add the recipient, this will be getNick()
+			// if we receive a PRIVMSG personally.
+			params.put("to", exSplit[2]);
+
+			/* Start getting the actual message */
+			// Variable to hold the message
+			String msg;
+			// Supporting non-standard servers that don't use : in front of all
+			// of them, even 1
+			// -word. :\
+			if (!exSplit[3].startsWith(":"))
 			{
-				return;
-			}
-				// PING command: we need this or the server'll disconnect us!
-				if (exSplit[0].equals("PING"))
+				msg = exSplit[3];
+			} else
+			{
+				msg = "";
+				for (int i = 3; i < exSplit.length; i++)
 				{
-					// Key: server = The server we're connected to
-					sendEvent(Event.IRC_PING,new EventArgs(new String [] {"server"}, 
-							// Substringed because we need to take off the :.
-							new String [] {exSplit[1].substring(1)}));
-				}
-				// PRIVMSG command: If the user sends a PRIVMSG to us or to a channel
-				else if (exSplit.length > 4 && exSplit[1].equalsIgnoreCase("PRIVMSG"))
-				{
-					// Hold the args.
-					Map<String,Object> params = new HashMap<String,Object>();
-					// Add the sender
-					// We don't need to check the length, 
-					// it was already checked at the top.
-					params.put("from", exSplit[0].split("!")[0].
-							// Support for servers which don't 
-							// put : in front of the host.
-							substring((exSplit[0].startsWith(":") ? 1 : 0)));
-					
-					// Put the hostname in from-host
-					params.put("from-host", exSplit[0].split("@")[1]);
-					
-					// Add the recipient, this will be getNick()
-					// if we receive a PRIVMSG personally.
-					params.put("to", exSplit[2]);
-					
-					/* Start getting the actual message */
-					// Variable to hold the message
-					String msg;
-					// Supporting non-standard servers that don't use : in front of all of them, even 1
-					//-word. :\
-					if (!exSplit[3].startsWith(":"))
+					// Is it the first one?
+					// Then we need to take away the :.
+					if (i == 3)
 					{
-						msg = exSplit[3];
+						msg += exSplit[i].substring(1);
 					}
+					// We just concat it! :D
 					else
 					{
-						msg = "";
-						for (int i = 3; i < exSplit.length; i++)
-						{
-							// Is it the first one?
-							// Then we need to take away the :.
-							if (i == 3)
-							{
-								msg += exSplit[i].substring(1);
-							}
-							// We just concat it! :D
-							else
-							{
-								msg += exSplit[i];
-							}
-						}
+						msg += exSplit[i];
 					}
-					// Stick it into the message variable.
-					params.put("message", msg);
-					
-					sendEvent(Event.IRC_PRIVMSG, new EventArgs(params));
 				}
-	}
-	
-	public void sendEvent(Event ev, EventArgs args)
-	{
-		boolean isInternal = false;
-		for (int i = 0; i < INT_EVENTS.length; i++)
-		{
-			if (INT_EVENTS[i] == ev)
-			{
-				isInternal = true;
 			}
+			// Stick it into the message variable.
+			params.put("message", msg);
+
+			BotUtils.sendEvent(Event.IRC_PRIVMSG, new EventArgs(params),_parent);
 		}
-		if (isInternal)
+		// When the topic is sent to us at join.
+		// Example: ":Equinox.GeekShed.net 332 SnipesBot #Snipes :Article in progress about Snipes :D"
+		else if (exSplit.length >= 4 && BotUtils.convertToInt(exSplit[1]).intValue() == RPL_TOPIC)
 		{
-			_parent.handleInternalEvent(ev, args);
+			Map<String, Object> params = new HashMap<String, Object>();
+			//TODO: Moar topic stuff.
 		}
-		_parent.handleEvent(ev, args);
 	}
-	
+
 	IRCBase _parent;
 }

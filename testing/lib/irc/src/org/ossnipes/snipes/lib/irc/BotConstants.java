@@ -54,6 +54,9 @@ interface BotConstants
 	 */
 	static final String DEFAULT_REALNAME = "Snipes IRC bot, version " + VERSION_STRING;
 	
-	static final Event[] INT_EVENTS = {Event.IRC_PING};
+	/** The set of events that need handling by the bot framework itself, along with possibly 
+	 * the user.
+	 */
+	static final Event[] INT_EVENTS = { Event.IRC_PING, Event.IRC_TOPIC, Event.IRC_JOIN_TOPIC };
 
  }
