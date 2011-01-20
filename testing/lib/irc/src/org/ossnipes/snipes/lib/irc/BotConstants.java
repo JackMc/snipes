@@ -48,7 +48,7 @@ interface BotConstants
 	/**
 	 * The default nick (you know what a nick is :P) if it has not been set
 	 */
-	static final String DEFAULT_NICK = "SnipesBot";
+	static final String DEFAULT_NICK = "Snipes-RunSetNick";
 	/**
 	 * The default realname for the bot if it has not been set
 	 */
@@ -58,5 +58,4 @@ interface BotConstants
 	 * the user.
 	 */
 	static final Event[] INT_EVENTS = { Event.IRC_PING, Event.IRC_TOPIC, Event.IRC_JOIN_TOPIC };
-
  }

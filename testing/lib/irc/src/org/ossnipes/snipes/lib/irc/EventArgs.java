@@ -25,33 +25,62 @@ package org.ossnipes.snipes.lib.irc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** Wrapper class for arguments to Snipes events. 
  * @author jack 
  */
 public class EventArgs
 {
-	private Map<String,Object> params = null;
+	private Map<String,Object> _params = null;
 	/** Constructs a event arguments object with no keys.
 	 */
 	public EventArgs()
 	{
-		params = new HashMap<String,Object>();
+		_params = new HashMap<String,Object>();
 	}
-	
+	/** Converts the two specified arrays and uses the keys array as the keys for the parameters, and 
+	 * uses the values array as the values of the Strings of the keys array with the same index.
+	 * @param keys An array of keys, must be the same size as values.
+	 * @param values An array of values, must be the same size as keys.
+	 * @throws IllegalArgumentException If keys.length != values.length or if keys ==null || values == null.
+	 */
 	public EventArgs(String[] keys, String[] values)
 	{
-		params = BotUtils.stringObjectArraysToStringObjectMap(keys, values);
+		if (keys == null || values == null)
+			throw new IllegalArgumentException("Keys/values cannot be null.");
+		_params = BotUtils.stringObjectArraysToStringObjectMap(keys, values);
 	}
+	/** Creates a EventArgs object with the specified arguments as it's parameters.
+	 * @param args The String Object map of the arguments.
+	 */
 	public EventArgs(Map<String, Object> args)
 	{
-		this.params = args;
+		if (args == null)
+		{
+			throw new IllegalArgumentException("args cannot be null.");
+		}
+		this._params = args;
 	}
 	/** Gets the parameter with the specified key.
 	 * @return The value of the parameter. Null if there's no mapping.
 	 */
 	public Object getParam(String key)
 	{
-		return params.get(key);
+		return _params.get(key);
+	}
+	/** Gets all the keys in this args set.<BR/>
+	 * A common use of this would be: <BR/><BR/>
+	 * <code>for (String s : args.getKeySet()) {<BR/>
+	 * someList.add(args.getParam(s));<BR/>
+	 * }<BR/><BR/>
+	 * </code>
+	 * Which would add all the values in the args set to someList (or whatever list
+	 *  you replaced it with.)
+	 * @return A set of all the keys in the args set.
+	 */
+	public Set<String> getKeySet()
+	{
+		return _params.keySet();
 	}
 }

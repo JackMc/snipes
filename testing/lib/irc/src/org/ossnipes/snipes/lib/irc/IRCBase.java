@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.net.SocketFactory;
 
@@ -47,13 +49,15 @@ import javax.net.SocketFactory;
  */
 public abstract class IRCBase implements IRCConstants, BotConstants
 {
-
+	// If the bot is connected.
+  boolean conn = false;
+  
 	/** The default constructor, performs no action. */
 	// Default constructor
 	public IRCBase()
 	{
 		// Init maps.
-		topics = new HashMap<String,String>();
+		_topics = new HashMap<String,String>();
 	}
 
 	/**
@@ -103,20 +107,22 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 
 		// Create the socket, pass it to the new manager.
 		_manager = new IRCSocketManager(_factory.createSocket(server, port));
-
+		
 		// Initialise the IRCInputHandler
 		_handler = new IRCInputHandler(this);
 
 		// Quick, init the IRCReciever before the server kills us for not
 		// registering our USER, NICK and PING commands :P!
-		_reciever = new IRCReciever(_manager, _handler);
+		_reciever = new IRCReceiver(_manager, _handler);
+		
 		// Create/Start the recv Thread
 		Thread t = new Thread(_reciever);
 		t.start();
-
+		
 		// We can start!
 		sendInit();
 		// We're connected!
+		
 	}
 	
 	/** Sends a few lines we need to the server before we start */
@@ -156,9 +162,6 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	 * @param server
 	 *            The server IP/host to connect to. If null, a
 	 *            {@link IllegalArgumentException} is thrown.
-	 * @param port
-	 *            The port to connect on. If it is not between 1 and 65535,
-	 *            throws {@link IllegalArgumentException}.
 	 * @throws IOException
 	 *             If there is a unknown IO error while connecting to the
 	 *             server.
@@ -174,6 +177,47 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 		// SocketFactory.
 		connect(server, IRC_DEFAULT_PORT, null);
 	}
+	
+	/** Sends a IRC PRIVMSG to the server.
+	 * @param target The channel/nick to send to.
+	 * @param msg The message to send.
+	 */
+	public void sendPrivMsg(String target, String msg)
+	{
+		_manager.sendRaw("PRIVMSG " + target + " :" + msg);
+	}
+	
+	/** Sets the topic of the specified channel. If the channel is mode +t (topic protection)
+	 * then the bot will be required to have operator status in channel.
+	 * @param channel The channel to set the topic of.
+	 * @param topic The topic to set it to.
+	 */
+	public void setTopic(String channel, String topic)
+	{
+		_manager.sendRaw("TOPIC " + channel + " " + topic);
+	}
+	
+	/** Identifies to NickServ with the specified password.
+	 * @param pass The password to use.
+	 */
+	public void nickServIdent(String pass)
+	{
+		// We try our best using a NICKSERV command.
+		// We really don't have a way of checking the response, 
+		// so we can't tell if it worked right or not.
+		// Also, IRC services aren't standardized, so we would 
+		// run into troubles with messages differing even if
+		// the implementation allowed recieving of packets from
+		// classes other than IRCInputHandler.
+		_manager.sendRaw("NICKSERV IDENTIFY " + pass);
+	}
+	/** Sends a raw line to the server.
+	 * @param line The line to send.
+	 */
+	public void sendRaw(String line)
+	{
+		_manager.sendRaw(line);
+	}
 
 	public void setNick(String nick)
 	{
@@ -182,12 +226,11 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 			throw new IllegalArgumentException("Nick cannot be null.");
 		}
 		this._nick = nick;
-		if (_reciever.isConnected())
-		{
-			_manager.sendRaw("NICK " + _nick);
-		}
+		_manager.sendRaw("NICK " + _nick);
 	}
-	
+	/** Joins a channel on the current IRC server.
+	 * @param channel The channel to join.
+	 */
 	protected void join(String channel)
 	{
 		_manager.sendRaw("JOIN " + channel);
@@ -202,13 +245,23 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	{
 		switch (ev)
 		{
+		// When the server's PING'd us.
 		case IRC_PING:
 		{
 			_manager.sendRaw("PONG :" + (String)args.getParam("server"));
+			break;
+		}
+		// When we first receive the topic from the server upon joining a channel.
+		case IRC_JOIN_TOPIC:
+		{
+			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
+			break;
 		}
 		}
 	}
-	
+	/** Gets the bot's current nick.
+	 * @return The current nick.
+	 */
 	public String getNick()
 	{
 		return _nick;
@@ -217,7 +270,7 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	/** Sends a event to the bot, checking if it is a internal one,
 	 * and if it is, it calls the appropriate method. Really just 
 	 * a alias for {@link BotUtils#sendEvent(Event, EventArgs, IRCBase)}
-	 * with this as the third argument :).
+	 * with <code>this</code> as the third argument :).
 	 * @param ev The event to send.
 	 * @param args The arguments to use.
 	 */
@@ -226,19 +279,31 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 		BotUtils.sendEvent(ev, args, this);
 	}
 	
+	/** Sets the verbose value of the bot.
+	 * @param on What the value should be set to.
+	 */
 	protected void setVerbose(boolean on)
 	{
 		BotOptions.VERBOSE = on;
 	}
 	
+	/** Gets if the bot is verbose.
+	 * @return If the verbose property is true.
+	 */
 	protected boolean isVerbose()
 	{
 		return BotOptions.VERBOSE;
 	}
 	
-	protected void who(String target)
+	private void debug(String line)
 	{
-		_manager.sendRaw("WHO :" + target);
+		debug(line, Level.INFO);
+	}
+
+	private void debug(String line, Level level)
+	{
+		if (BotOptions.DEBUG)
+			_logger.log(level, line);
 	}
 
 	/** The current nick of the bot */
@@ -262,11 +327,12 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	 * The IRCReciever that will be in a separate thread, passing messages to
 	 * the handler
 	 */
-	private IRCReciever _reciever;
+	private IRCReceiver _reciever;
 	/** The IRCInputHandler that will pass all received messages to us. */
 	private IRCInputHandler _handler;
 	
 	/** Holds all the topics of the channels we're in. */
-	private Map<String,String> topics;
-
+	private Map<String,String> _topics;
+	
+	private Logger _logger = Logger.getLogger(this.getClass().getCanonicalName());
 }

@@ -36,6 +36,9 @@ import java.util.Map;
 
 class IRCInputHandler implements BotConstants, IRCConstants
 {
+    // Solution to the problem of the VERSION message being a PRIVMSG :\.
+    private boolean finishedConnection = false;
+    
 	IRCInputHandler(IRCBase parent)
 	{
 		_parent = parent;
@@ -62,6 +65,27 @@ class IRCInputHandler implements BotConstants, IRCConstants
 		{
 			return;
 		}
+
+        if (!finishedConnection)
+        {
+            // If it's more than or equal to four, we can
+            // continue.
+            if (line.length() >= 4)
+            {
+                // Check for a response code guaranteed to be sent by the server
+                // Before the MOTD. We don't want to use the end of MOTD response
+                // for this, because that would mean that this wouldn't work on
+                // servers with no MOTD.
+                if (BotUtils.isInteger(exSplit[1]) && BotUtils.convertToInt(exSplit[1])
+                        == RPL_LUSERME)
+                {
+                    finishedConnection = true;
+                }
+            }
+            return;
+        }
+        
+        
 		// PING command: we need this or the server'll disconnect us!
 		if (exSplit[0].equals("PING"))
 		{
@@ -115,21 +139,109 @@ class IRCInputHandler implements BotConstants, IRCConstants
 					// We just concat it! :D
 					else
 					{
-						msg += exSplit[i];
+						msg += " " + exSplit[i];
 					}
 				}
 			}
+			
 			// Stick it into the message variable.
 			params.put("message", msg);
 
+			// Fire off the event.
 			BotUtils.sendEvent(Event.IRC_PRIVMSG, new EventArgs(params),_parent);
 		}
+		
 		// When the topic is sent to us at join.
+		// This is *different* than when the topic is set. That is the next if statement down.
 		// Example: ":Equinox.GeekShed.net 332 SnipesBot #Snipes :Article in progress about Snipes :D"
-		else if (exSplit.length >= 4 && BotUtils.convertToInt(exSplit[1]).intValue() == RPL_TOPIC)
+		else if (exSplit.length >= 4 && BotUtils.isInteger(exSplit[1]) &&
+				BotUtils.convertToInt(exSplit[1]) == RPL_TOPIC)
+		{
+			// Holds the parameters
+			Map<String, Object> params = new HashMap<String, Object>();
+			// Server: The server sending the notice to us.
+			params.put("server", exSplit[0].substring(1));
+			// Channel: The channel we're being notified about.
+			params.put("channel", exSplit[3]);
+			// Topic: The actual text of the topic.
+			// We need to fiddle with this, taking off the : (unless we're on a nasty
+			// protocol-denier :().
+			// Also, we need to stick it together, I forgot about that.
+			
+			// Will hold the final topic string.
+			String msg;
+			
+			if (!exSplit[4].startsWith(":"))
+			{
+				msg = exSplit[4];
+			} else
+			{
+				msg = "";
+				for (int i = 4; i < exSplit.length; i++)
+				{
+					// Is it the first one?
+					// Then we need to take away the :.
+					if (i == 4)
+					{
+						msg += exSplit[i].substring(1);
+					}
+					// We just concat it! :D
+					else
+					{
+						msg += " " + exSplit[i];
+					}
+				}
+			}
+			// Actually put the parameter! :).
+			params.put("topic", msg);
+			
+			// Fire off the event.
+			BotUtils.sendEvent(Event.IRC_JOIN_TOPIC, new EventArgs(params), _parent);
+		}
+		// When the topic is changed by (typicly) a operator
+		// This is *different* than when the topic send to us at join.
+		// That is the previous event.
+		// Example: ":Unix!~auv5@projectinfinity.net TOPIC #Snipes :Read this! It's a good document for all who want to use Snipes' plugin API :). http://ossnipes.org/docs/snipes/snipes-article.html | ?? PROFIT"
+		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("TOPIC"))
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			//TODO: Moar topic stuff.
+			// Stick the setter's nick in there.
+			params.put("setter", exSplit[0].split("!")[0]);
+			// The host of the setter
+			params.put("setter-host", exSplit[0].split("@")[1]);
+			// The channel the topic was set on
+			params.put("channel", exSplit[2]);
+			
+			String msg;
+			
+			if (!exSplit[3].startsWith(":"))
+			{
+				msg = exSplit[3];
+			} else
+			{
+				msg = "";
+				for (int i = 3; i < exSplit.length; i++)
+				{
+					// Is it the first one?
+					// Then we need to take away the :.
+					if (i == 3)
+					{
+						msg += exSplit[i].substring(1);
+					}
+					// We just concat it! :D
+					else
+					{
+						msg += " " + exSplit[i];
+					}
+				}
+			}
+			// Actually put the parameter! :).
+			params.put("topic", msg);
+			
+			// Fire off the event! :)
+			BotUtils.sendEvent(Event.IRC_TOPIC,
+					new EventArgs(params),
+					_parent);
 		}
 	}
 

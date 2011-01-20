@@ -74,6 +74,8 @@ implements BotConstants
 			if (INT_EVENTS[i] == ev)
 			{
 				isInternal = true;
+				// No sense in continuing checks.
+				break;
 			}
 		}
 		// Is it internal?
@@ -105,5 +107,18 @@ implements BotConstants
 	   {
 	      return null;
 	   }
+	}
+	public static boolean isInteger(String s)
+	{
+		// HACK: We have to use a stack trace :(.
+		if (s == null)
+		{
+			return false;
+		}
+		try
+		{
+			Integer.parseInt(s);
+			return true;
+		} catch (NumberFormatException e) {return false;}
 	}
 }

@@ -30,8 +30,7 @@ package org.ossnipes.snipes.lib.irc;
 public class IRCUser
 implements BotConstants
 {
-	private String hostname = null;
-	IRCUser(final IRCBase parent)
+	IRCUser(final IRCBase parent, final String nick)
 	{
 		_parent = parent;
 	}
@@ -40,17 +39,30 @@ implements BotConstants
 	public void getHostname()
 	{
 		// Have we gotten this user's host before?
-		if (hostname == null)
+		if (_hostname == null)
 		{
+			// Populate the hostname variable.
+			populateUserHost();
 		}
 	}
 	
+	private void populateUserHost()
+	{
+		
+	}
+
 	void setHostname(String hostname)
 	{
 		
 	}
 	
+	public String getNick()
+	{
+		return _nick;
+	}
+	
 	// Class-scope variables
 	String _hostname;
+	String _nick;
 	IRCBase _parent;
 }

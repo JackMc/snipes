@@ -32,7 +32,7 @@ import java.io.IOException;
  * @author Jack McCracken
  */
 
-class IRCReciever implements Runnable
+class IRCReceiver implements Runnable
 {
 	/**
 	 * Instantiates a object of the class.
@@ -44,13 +44,12 @@ class IRCReciever implements Runnable
 	 *            The "parent" IRCBase of this object. In other words: The
 	 *            object it will notify if it gets a message.
 	 */
-	IRCReciever(IRCSocketManager manager, IRCInputHandler parent)
+	IRCReceiver(IRCSocketManager manager, IRCInputHandler parent)
 	{
 		_manager = manager;
 		_handler = parent;
 	}
 
-	@Override
 	public void run()
 	{
 		try

@@ -13,9 +13,10 @@ public class ExampleBot extends IRCBase
 	{
 		try
 		{
+			setVerbose(true);
 			connect("irc.geekshed.net");
 			join("#Snipes");
-			setVerbose(true);
+			join("#Snipes-Testing");
 		} catch (UnknownHostException e)
 		{
 			e.printStackTrace();
@@ -27,7 +28,18 @@ public class ExampleBot extends IRCBase
 	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
-		
-		
+		// Switch through the events.
+        switch (ev) {
+            case IRC_PRIVMSG: {
+            	
+                break;
+            }
+            case IRC_PING:
+                break;
+            case IRC_JOIN_TOPIC:
+                break;
+            case IRC_TOPIC:
+                break;
+        }
 	}
 }

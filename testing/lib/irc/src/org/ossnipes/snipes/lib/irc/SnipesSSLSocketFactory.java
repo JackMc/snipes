@@ -66,7 +66,13 @@ public class SnipesSSLSocketFactory extends SocketFactory implements
 	// The default, returned by getDefault()
 	private static final SnipesSSLSocketFactory def = new SnipesSSLSocketFactory();
 
-	// TODO: WORK
+	
+	
+	private SnipesSSLSocketFactory()
+	{
+		
+	}
+	
 	@Override
 	public Socket createSocket(String host, int port) throws IOException,
 			UnknownHostException

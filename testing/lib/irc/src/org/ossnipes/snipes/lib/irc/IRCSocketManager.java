@@ -76,6 +76,11 @@ class IRCSocketManager
 	 */
 	public void sendRaw(String line)
 	{
+		if (!isConnected())
+		{
+			throw new NotConnectedException("You can't send something if you're not connected! Try a call to" +
+					" IRCBase.connect first!");
+		}
 		if (BotOptions.VERBOSE)
 		{
 			System.out.println("US: " + line);
