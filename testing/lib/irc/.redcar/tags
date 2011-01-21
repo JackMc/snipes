@@ -1,4 +1,4 @@
-1295575882
+1295576186
 BotConstants	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotConstants.java	interface BotConstants
 BotOptions	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotOptions.java	class BotOptions
 BotUtils	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotUtils.java	class BotUtils
@@ -55,6 +55,7 @@ getNick()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCB
 getNick()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java		public String getNick()
 getParam(String key)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventArgs.java		public Object getParam(String key)
 handle(String line)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCInputHandler.java		void handle(String line)
+handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventHandlerManager.java	    void handleEvent(Event ev, EventArgs args)
 handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/ExampleBot.java		public void handleEvent(Event ev, EventArgs args)
 handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCEventListener.java	    public void handleEvent(Event ev, EventArgs args)
 handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java	    public void handleEvent(Event ev, EventArgs args)

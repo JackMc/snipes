@@ -48,6 +48,11 @@ class EventHandlerManager
         return _subscribedEvents.contains((Object)ev);
     }
     
+    void handleEvent(Event ev, EventArgs args)
+    {
+        _managed.handleEvent(ev, args);
+    }
+    
     private List<Event> _subscribedEvents;
     private IRCEventListener _managed;
 }
