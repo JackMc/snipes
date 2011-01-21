@@ -28,13 +28,22 @@ package org.ossnipes.snipes.lib.irc;
  * @since Snipes 0.6
  */
 public class IRCUser
-implements BotConstants
+implements BotConstants,
+IRCEventListener
 {
 	IRCUser(final IRCBase parent, final String nick)
 	{
 		_parent = parent;
 	}
 	
+    public void handleEvent(Event ev, EventArgs args)
+    {
+        switch (ev)
+        {
+            
+        }
+    }
+    
 	/** Gets this user Object's hostname. */
 	public void getHostname()
 	{
@@ -48,7 +57,7 @@ implements BotConstants
 	
 	private void populateUserHost()
 	{
-		
+	    
 	}
 
 	void setHostname(String hostname)
@@ -61,6 +70,8 @@ implements BotConstants
 		return _nick;
 	}
 	
+    
+    public Event[] register() {return new Event[] {};}
 	// Class-scope variables
 	String _hostname;
 	String _nick;

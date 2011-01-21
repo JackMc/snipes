@@ -63,6 +63,9 @@ implements BotConstants
 	 * @param args The arguments Object.
 	 * @param bot The bot to send to.
 	 */
+    //FIXME: Modify so that method uses interface IRCEventListener
+    // and also takes into account IRCBase's soon to be implemented 
+    // methods. Also, do that!
 	public static void sendEvent(Event ev, EventArgs args, IRCBase bot)
 	{
 		// Stores if the event is a internal one of not.

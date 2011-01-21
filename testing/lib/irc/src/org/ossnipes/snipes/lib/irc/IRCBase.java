@@ -47,18 +47,40 @@ import javax.net.SocketFactory;
  * @since Snipes 0.6
  * 
  */
-public abstract class IRCBase implements IRCConstants, BotConstants
+public abstract class IRCBase implements IRCConstants, BotConstants, 
+IRCEventListener
 {
 	// If the bot is connected.
-  boolean conn = false;
-  
+    boolean conn = false;
+    //TODO: Make it so that a List<String,IRCEventHandler> keeps all of
+    // the listeners that have registered.
+    //TODO: Also add a method so that the BotUtils class may get the array
+    // of registered listeners (package-level scope.)
+    
+    
 	/** The default constructor, performs no action. */
 	// Default constructor
 	public IRCBase()
 	{
 		// Init maps.
 		_topics = new HashMap<String,String>();
+        _evmngrs = new ArrayList<EventHandlerManager>();
+        addEventListener(this);
 	}
+    
+    /**
+     * Registers this class for listening of events.
+     * This does not apply to us, as we are a IRCBase,
+     * given extra power by the event sending mechinism
+     * to "enforce the rules" of who gets what events sent
+     * to them.
+     * 
+     * This method is never called, and is thus empty.
+     */
+    public final Event[] register()
+    {
+        return new Event[] {};
+    }
 
 	/**
 	 * Connects to the IRC server.
@@ -111,12 +133,12 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 		// Initialise the IRCInputHandler
 		_handler = new IRCInputHandler(this);
 
-		// Quick, init the IRCReciever before the server kills us for not
+		// Quick, init the IRCReceiver before the server kills us for not
 		// registering our USER, NICK and PING commands :P!
-		_reciever = new IRCReceiver(_manager, _handler);
+		_receiver = new IRCReceiver(_manager, _handler);
 		
 		// Create/Start the recv Thread
-		Thread t = new Thread(_reciever);
+		Thread t = new Thread(_receiver, "Snipes-IRC-Framework-Receiver");
 		t.start();
 		
 		// We can start!
@@ -266,6 +288,29 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	{
 		return _nick;
 	}
+    
+    /** Adds a listener for events from the bot.
+     * @param listener The IRCEventListener
+     * @return The passed event listener, for convienience.
+     */
+    public IRCEventHandler addEventListener(IRCEventListener listener)
+    {
+        if (listener == null)
+        {
+            throw new IllegalArgumentException("Cannot add null event handler.");
+        }
+        else
+        {
+            EventHandlerManager ehm = new EventHandlerManager(listener);
+            for (Event e : listener.register())
+            {
+                ehm.addEvent(e);
+            }
+            _evmngrs.add(ehm);
+            return listener;
+        }
+    }
+    
 	
 	/** Sends a event to the bot, checking if it is a internal one,
 	 * and if it is, it calls the appropriate method. Really just 
@@ -327,7 +372,7 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	 * The IRCReciever that will be in a separate thread, passing messages to
 	 * the handler
 	 */
-	private IRCReceiver _reciever;
+	private IRCReceiver _receiver;
 	/** The IRCInputHandler that will pass all received messages to us. */
 	private IRCInputHandler _handler;
 	
@@ -335,4 +380,6 @@ public abstract class IRCBase implements IRCConstants, BotConstants
 	private Map<String,String> _topics;
 	
 	private Logger _logger = Logger.getLogger(this.getClass().getCanonicalName());
+    
+    List<EventHandlerManager> _evmngrs;
 }

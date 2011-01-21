@@ -69,5 +69,20 @@ public enum Event
 	 * channel -- The channel the topic was set on.<BR/>
 	 * topic -- The text of the topic.<BR/>
 	 */
-	IRC_TOPIC
+	IRC_TOPIC,
+    /** This event is triggered when we get sent any IRC response code.
+    * This may be any of the things in IRCConstants.
+    * This is not handled by {@link IRCBase#handleInternalEvent(Event, EventArgs)}
+    * method.<BR/><BR/>
+    * 
+    * Params (gotten with {@link EventArgs#getParam(String)}):
+    * <BR/>
+    * code: The numeric representation of the sent code. Matches with a value in
+    * the {@link IRCConstants} class.
+    * <BR/>
+    * text: The text of the response.
+    * <BR/>
+    * server: The server sending the code.
+    */
+    IRC_RESPONSE_CODE
 }
