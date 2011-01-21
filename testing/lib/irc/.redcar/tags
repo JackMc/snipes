@@ -1,4 +1,4 @@
-1295575403
+1295575882
 BotConstants	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotConstants.java	interface BotConstants
 BotOptions	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotOptions.java	class BotOptions
 BotUtils	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotUtils.java	class BotUtils
@@ -32,7 +32,7 @@ _receiver	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCB
 _user	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		private String _user =
 _writer	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCSocketManager.java		private PrintStream _writer;
 addEvent(Event ev)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventHandlerManager.java	    void addEvent(Event ev)
-addEventListener(IRCEventListener listener)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java	    public IRCEventHandler addEventListener(IRCEventListener listener)
+addEventListener(IRCEventListener listener)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java	    public IRCEventListener addEventListener(IRCEventListener listener)
 connect(String server)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void connect(String server)
 connect(String server, int port)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void connect(String server, int port)
 connect(String server, int port, SocketFactory factory)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void connect(String server, int port, SocketFactory factory)

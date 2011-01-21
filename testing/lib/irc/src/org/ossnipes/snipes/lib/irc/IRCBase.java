@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
+import java.util.ArrayList;
 
 import javax.net.SocketFactory;
 
@@ -293,7 +295,7 @@ IRCEventListener
      * @param listener The IRCEventListener
      * @return The passed event listener, for convienience.
      */
-    public IRCEventHandler addEventListener(IRCEventListener listener)
+    public IRCEventListener addEventListener(IRCEventListener listener)
     {
         if (listener == null)
         {
