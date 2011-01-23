@@ -78,7 +78,7 @@ public enum Event
     * Params (gotten with {@link EventArgs#getParam(String)}):
     * <BR/>
     * code: The numeric representation of the sent code. Matches with a value in
-    * the {@link IRCConstants} class.
+    * the {@link IRCConstants} class. This is of type {@link Integer}.
     * <BR/>
     * text: The text of the response.
     * <BR/>

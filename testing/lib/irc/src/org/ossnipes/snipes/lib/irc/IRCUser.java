@@ -34,6 +34,7 @@ IRCEventListener
 	IRCUser(final IRCBase parent, final String nick)
 	{
 		_parent = parent;
+        _parent.addEventListener(this);
 	}
 	
     public void handleEvent(Event ev, EventArgs args)
@@ -51,18 +52,27 @@ IRCEventListener
 		if (_hostname == null)
 		{
 			// Populate the hostname variable.
-			populateUserHost();
+			populateUserHost(null);
 		}
 	}
 	
-	private void populateUserHost()
+	private void beginGettingUserHost()
 	{
-	    
+        _parent.who("");
 	}
+    
+    private void populateUserHost(String host)
+    {
+        
+    }
 
 	void setHostname(String hostname)
 	{
-		
+        if (_hostname == null)
+        {
+            throw new IllegalArgumentException("hostname cannot be null.");
+        }
+        _hostname = null;
 	}
 	
 	public String getNick()
@@ -71,7 +81,7 @@ IRCEventListener
 	}
 	
     
-    public Event[] register() {return new Event[] {};}
+    public Event[] register() {return new Event[] {Event.IRC_RESPONSE_CODE};}
 	// Class-scope variables
 	String _hostname;
 	String _nick;

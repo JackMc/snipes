@@ -17,6 +17,7 @@ public class ExampleBot extends IRCBase
 			connect("irc.geekshed.net");
 			join("#Snipes");
 			join("#Snipes-Testing");
+            new TestHandler(this);
 		} catch (UnknownHostException e)
 		{
 			e.printStackTrace();
@@ -31,7 +32,6 @@ public class ExampleBot extends IRCBase
 		// Switch through the events.
         switch (ev) {
             case IRC_PRIVMSG: {
-            	
                 break;
             }
             case IRC_PING:

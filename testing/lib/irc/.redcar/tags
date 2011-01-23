@@ -1,4 +1,4 @@
-1295576186
+1295757599
 BotConstants	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotConstants.java	interface BotConstants
 BotOptions	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotOptions.java	class BotOptions
 BotUtils	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotUtils.java	class BotUtils
@@ -8,7 +8,6 @@ EventHandlerManager	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/li
 ExampleBot	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/ExampleBot.java	class ExampleBot
 IRCBase	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java	class IRCBase
 IRCConstants	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCConstants.java	interface IRCConstants
-IRCEventListener	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotUtils.java	interface IRCEventListener
 IRCEventListener	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCEventListener.java	interface IRCEventListener
 IRCInputHandler	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCInputHandler.java	class IRCInputHandler
 IRCReceiver	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCReceiver.java	class IRCReceiver
@@ -17,6 +16,7 @@ IRCUser	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUse
 NotConnectedException	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/NotConnectedException.java	class NotConnectedException
 SnipesSSLSocketFactory	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/SnipesSSLSocketFactory.java	class SnipesSSLSocketFactory
 SnipesSocketFactory	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/SnipesSocketFactory.java	class SnipesSocketFactory
+TestHandler	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/TestHandler.java	class TestHandler
 _factory	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		private SocketFactory _factory;
 _handler	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		private IRCInputHandler _handler;
 _handler	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCReceiver.java		private IRCInputHandler _handler;
@@ -25,6 +25,7 @@ _managed	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/Event
 _manager	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		private IRCSocketManager _manager;
 _manager	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCReceiver.java		private IRCSocketManager _manager;
 _nick	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		private String _nick =
+_parent	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/TestHandler.java	    private IRCBase _parent;
 _rawSocket	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCSocketManager.java		private Socket _rawSocket;
 _reader	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCSocketManager.java		private BufferedReader _reader;
 _realname	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		private String _realname =
@@ -33,6 +34,7 @@ _user	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.
 _writer	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCSocketManager.java		private PrintStream _writer;
 addEvent(Event ev)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventHandlerManager.java	    void addEvent(Event ev)
 addEventListener(IRCEventListener listener)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java	    public IRCEventListener addEventListener(IRCEventListener listener)
+beginGettingUserHost()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java		private void beginGettingUserHost()
 connect(String server)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void connect(String server)
 connect(String server, int port)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void connect(String server, int port)
 connect(String server, int port, SocketFactory factory)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void connect(String server, int port, SocketFactory factory)
@@ -51,6 +53,8 @@ getDefault()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/S
 getDefault()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/SnipesSocketFactory.java		public static SocketFactory getDefault()
 getHostname()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java		public void getHostname()
 getKeySet()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventArgs.java		public Set<String> getKeySet()
+getListeners()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java	    List<EventHandlerManager> getListeners()
+getManaged()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventHandlerManager.java	    IRCEventListener getManaged()
 getNick()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public String getNick()
 getNick()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java		public String getNick()
 getParam(String key)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventArgs.java		public Object getParam(String key)
@@ -59,9 +63,11 @@ handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/
 handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/ExampleBot.java		public void handleEvent(Event ev, EventArgs args)
 handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCEventListener.java	    public void handleEvent(Event ev, EventArgs args)
 handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java	    public void handleEvent(Event ev, EventArgs args)
+handleEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/TestHandler.java	    public void handleEvent(Event ev, EventArgs args)
 is	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCSocketManager.java	class is
 isConnected()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCReceiver.java		public boolean isConnected()
 isConnected()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCSocketManager.java		public boolean isConnected()
+isIRCBase()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventHandlerManager.java	    boolean isIRCBase()
 isInteger(String s)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotUtils.java		public static boolean isInteger(String s)
 isSubscribed(Event ev)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventHandlerManager.java	    boolean isSubscribed(Event ev)
 isVerbose()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		protected boolean isVerbose()
@@ -70,14 +76,15 @@ main(String args[])	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/li
 may	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java	class may
 might	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/SnipesSSLSocketFactory.java	class might
 nickServIdent(String pass)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void nickServIdent(String pass)
-populateUserHost()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java		private void populateUserHost()
+populateUserHost(String host)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java	    private void populateUserHost(String host)
 recvRaw()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCSocketManager.java		public String recvRaw()
 removeEvent(Event ev)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventHandlerManager.java	    boolean removeEvent(Event ev)
 represents	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCUser.java	class represents
 run()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/ExampleBot.java		public void run()
 run()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCReceiver.java		public void run()
+sendEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/EventHandlerManager.java	    void sendEvent(Event ev, EventArgs args)
 sendEvent(Event ev, EventArgs args)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void sendEvent(Event ev, EventArgs args)
-sendEvent(Event ev, EventArgs args, IRCBase bot)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotUtils.java		public static void sendEvent(Event ev, EventArgs args, IRCBase bot)
+sendEvent(Event ev, EventArgs args, IRCBase bot)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/BotUtils.java	    public static void sendEvent(Event ev, EventArgs args, IRCBase bot)
 sendInit()	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		private void sendInit()
 sendPrivMsg(String target, String msg)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void sendPrivMsg(String target, String msg)
 sendRaw(String line)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void sendRaw(String line)
@@ -86,4 +93,6 @@ setHostname(String hostname)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/
 setNick(String nick)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void setNick(String nick)
 setTopic(String channel, String topic)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		public void setTopic(String channel, String topic)
 setVerbose(boolean on)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java		protected void setVerbose(boolean on)
+to	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/TestHandler.java	class to
+who(String name)	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/IRCBase.java	    public void who(String name)
 would	/home/jack/Snipes/testing/lib/irc/src/org/ossnipes/snipes/lib/irc/SnipesSSLSocketFactory.java	class would

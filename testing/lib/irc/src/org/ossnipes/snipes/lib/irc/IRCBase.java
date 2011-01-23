@@ -58,9 +58,7 @@ IRCEventListener
     // the listeners that have registered.
     //TODO: Also add a method so that the BotUtils class may get the array
     // of registered listeners (package-level scope.)
-    
-    
-	/** The default constructor, performs no action. */
+
 	// Default constructor
 	public IRCBase()
 	{
@@ -220,6 +218,11 @@ IRCEventListener
 	{
 		_manager.sendRaw("TOPIC " + channel + " " + topic);
 	}
+    
+    public void who(String name)
+    {
+        _manager.sendRaw("WHO :" + name);
+    }
 	
 	/** Identifies to NickServ with the specified password.
 	 * @param pass The password to use.
@@ -303,6 +306,7 @@ IRCEventListener
         }
         else
         {
+            debug("Added event listener.");
             EventHandlerManager ehm = new EventHandlerManager(listener);
             for (Event e : listener.register())
             {
@@ -352,6 +356,11 @@ IRCEventListener
 		if (BotOptions.DEBUG)
 			_logger.log(level, line);
 	}
+    
+    List<EventHandlerManager> getListeners()
+    {
+        return _evmngrs;
+    }
 
 	/** The current nick of the bot */
 	private String _nick = DEFAULT_NICK;

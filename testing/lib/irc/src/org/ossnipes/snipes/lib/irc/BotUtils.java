@@ -58,38 +58,42 @@ implements BotConstants
 		return result;
 	}
 	
-	/** Sends a event to the specified bot.
-	 * @param ev The event to send.
-	 * @param args The arguments Object.
-	 * @param bot The bot to send to.
-	 */
-    //FIXME: Modify so that method uses interface IRCEventListener
-    // and also takes into account IRCBase's soon to be implemented 
-    // methods. Also, do that!
-	public static void sendEvent(Event ev, EventArgs args, IRCBase bot)
-	{
-		// Stores if the event is a internal one of not.
-		boolean isInternal = false;
-		// Loop through the events
+    
+    
+    public static void sendEvent(Event ev, EventArgs args, IRCBase bot)
+    {
+        // Is it a internal event?
+        boolean isInternal = false;
+        
+        // Loop through the events
 		for (int i = 0; i < INT_EVENTS.length; i++)
 		{
-			// Check if it's internal.
-			if (INT_EVENTS[i] == ev)
-			{
-				isInternal = true;
-				// No sense in continuing checks.
-				break;
-			}
-		}
-		// Is it internal?
-		if (isInternal)
-		{
-			// Call the method that handles internal events.
-			bot.handleInternalEvent(ev, args);
-		}
-		// Always call this so the user can deal with events too :)!
-		bot.handleEvent(ev, args);
-	}
+		    // Check if it's internal.
+		    if (INT_EVENTS[i] == ev)
+		    {
+			    isInternal = true;
+			    // No sense in continuing checks.
+			    break;
+		    }
+	    }
+        
+        // Loop through the listeners
+        for (EventHandlerManager ehm : bot.getListeners())
+        {
+            if (!ehm.isIRCBase() && ehm.isSubscribed(ev))
+            {
+                ehm.sendEvent(ev, args);
+            }
+            else
+            {
+                if (isInternal)
+                {
+                    ((IRCBase)ehm.getManaged()).handleInternalEvent(ev,args);
+                }
+                ehm.sendEvent(ev,args);
+            }
+        }
+    }
 	
 	/** Does the behaviour of {@link Integer#parseInt(String)}, but without throwing a 
 	 * Exception. It returns null on error. This method is converted from a method in the

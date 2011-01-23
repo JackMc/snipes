@@ -51,7 +51,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
 	 *            The line that we are to handle. Cannot be null.
 	 */
 	void handle(String line)
-	{
+    {
 		// Is the bot verbose?
 		if (BotOptions.VERBOSE)
 		{
@@ -85,6 +85,46 @@ class IRCInputHandler implements BotConstants, IRCConstants
             return;
         }
         
+        
+        if (exSplit.length > 1 && BotUtils.isInteger(exSplit[1]))
+        {
+            Map<String,Object> params = new HashMap<String,Object>();
+            
+            // The response code
+            params.put("code", BotUtils.convertToInt(exSplit[1]));
+            
+            // We need to stick it together.
+            String msg;
+            // Boo!! Protocol fail!
+            if (!exSplit[3].startsWith(":"))
+			{
+				msg = exSplit[3];
+			} else
+			{
+				msg = "";
+				for (int i = 3; i < exSplit.length; i++)
+				{
+					// Is it the first one?
+					// Then we need to take away the :.
+					if (i == 3)
+					{
+						msg += exSplit[i].substring(1);
+					}
+					// We just concat it! :D
+					else
+					{
+						msg += " " + exSplit[i];
+					}
+				}
+			}
+            
+            params.put("text", msg);
+            
+            params.put("server", exSplit[0].substring(1));
+            
+            // Fire off the event.
+            BotUtils.sendEvent(Event.IRC_RESPONSE_CODE, new EventArgs(params), _parent);
+        }
         
 		// PING command: we need this or the server'll disconnect us!
 		if (exSplit[0].equals("PING"))

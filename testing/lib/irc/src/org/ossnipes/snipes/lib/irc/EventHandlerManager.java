@@ -53,6 +53,20 @@ class EventHandlerManager
         _managed.handleEvent(ev, args);
     }
     
+    boolean isIRCBase()
+    {
+        return _managed instanceof IRCBase;
+    }
+    
+    IRCEventListener getManaged()
+    {
+        return _managed;
+    }
+    void sendEvent(Event ev, EventArgs args)
+    {
+        _managed.handleEvent(ev,args);
+    }
+    
     private List<Event> _subscribedEvents;
     private IRCEventListener _managed;
 }
