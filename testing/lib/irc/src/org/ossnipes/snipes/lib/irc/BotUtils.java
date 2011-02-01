@@ -26,15 +26,23 @@ package org.ossnipes.snipes.lib.irc;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: Docs.
 
+/** Utility methods used a lot in the bot and not really tied to a certain class.
+ * This class also contains an important method that is at the core of the Snipes
+ * event-sending mechanism. All the methods in this class are static.
+ *
+ * @author Jack McCracken (Auv5)
+ * @since Snipes 0.6
+ */
 public class BotUtils
 implements BotConstants
 {
-	// We can't be created by anyone but us :).
+	// We can't be created by anyone but us. We don't even create us :P.
 	private BotUtils() {}
 	
-	/** Takes a String array and a Object array and outputs a String Object Map.
+	/** Takes a String array and a Object array and outputs a Map of Strings (keys) and Objects.<BR/>
+     * The main use of this method is to convert arrays given as parameters to {@link EventArgs#EventArgs(String[], String[])}<BR/>
+     * to a {@link HashMap} (how event arguments are stored internally.)
 	 * @param keys The first array, used as the keys in the map.
 	 * @param values The second array, used as values in the map for the keys with the same index.
 	 * @return A String Object Map, with the keys array as keys and the values array as values.
@@ -57,9 +65,16 @@ implements BotConstants
 		}
 		return result;
 	}
-	
-    
-    
+
+
+    /** This method is the heart of the Snipes event-sending mechanism. It sends the event specified by ev with the
+     * parameters in args to all registered {@link IRCEventListener}s.<BR/>
+     * This method treats {@link IRCBase}s specially, casting them down to IRCBase and calling it's {@link IRCBase#handleInternalEvent(Event, EventArgs)}
+     * method.
+     * @param ev The enumerated identifier for the event to be sent.
+     * @param args The arguments object to be passed to the functions.
+     * @param bot The bot that this event originated from. This is used to get the event handlers registered to it.
+     */
     public static void sendEvent(Event ev, EventArgs args, IRCBase bot)
     {
         // Is it a internal event?
@@ -80,9 +95,13 @@ implements BotConstants
         // Loop through the listeners
         for (EventHandlerManager ehm : bot.getListeners())
         {
-            if (!ehm.isIRCBase() && ehm.isSubscribed(ev))
+            boolean isBase = ehm.isIRCBase();
+            if (!isBase)
             {
-                ehm.sendEvent(ev, args);
+                if (ehm.isSubscribed(ev))
+                {
+                    ehm.sendEvent(ev, args);
+                }
             }
             else
             {
@@ -97,7 +116,7 @@ implements BotConstants
 	
 	/** Does the behaviour of {@link Integer#parseInt(String)}, but without throwing a 
 	 * Exception. It returns null on error. This method is converted from a method in the
-	 * fourth post in <a href="http://www.coderanch.com/t/401142/java/java/check-if-String-value-numeric">This article</a>
+	 * fourth post in <a href="http://www.coderanch.com/t/401142/java/java/check-if-String-value-numeric">This thread</a>
 	 * 
 	 * @param input The input String Object.
 	 * @return The Integer Object of the number if it is parsable, null otherwise.

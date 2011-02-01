@@ -56,16 +56,14 @@ IRCEventListener
     boolean conn = false;
     //TODO: Make it so that a List<String,IRCEventHandler> keeps all of
     // the listeners that have registered.
-    //TODO: Also add a method so that the BotUtils class may get the array
-    // of registered listeners (package-level scope.)
 
 	// Default constructor
 	public IRCBase()
 	{
 		// Init maps.
 		_topics = new HashMap<String,String>();
-        _evmngrs = new ArrayList<EventHandlerManager>();
-        addEventListener(this);
+                _evmngrs = new ArrayList<EventHandlerManager>();
+                addEventListener(this);
 	}
     
     /**
@@ -129,7 +127,8 @@ IRCEventListener
 
 		// Create the socket, pass it to the new manager.
 		_manager = new IRCSocketManager(_factory.createSocket(server, port));
-		
+                new IRCUser(this, "JoeBobGeorge");
+
 		// Initialise the IRCInputHandler
 		_handler = new IRCInputHandler(this);
 
@@ -261,6 +260,7 @@ IRCEventListener
 	protected void join(String channel)
 	{
 		_manager.sendRaw("JOIN " + channel);
+		who(channel);
 	}
 	/** Used to handle a event sent by {@link #sendEvent(Event, EventArgs)}.
 	 * @param ev The event that was sent.
@@ -284,6 +284,11 @@ IRCEventListener
 			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
 			break;
 		}
+		/*case IRC_TOPIC:
+			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
+			break;*/
+		default:
+			System.err.println("Internal event handler: Unknown internal event " + ev + ".");
 		}
 	}
 	/** Gets the bot's current nick.
@@ -296,9 +301,9 @@ IRCEventListener
     
     /** Adds a listener for events from the bot.
      * @param listener The IRCEventListener
-     * @return The passed event listener, for convienience.
+     * @return The passed event listener, for convenience.
      */
-    public IRCEventListener addEventListener(IRCEventListener listener)
+    public final IRCEventListener addEventListener(IRCEventListener listener)
     {
         if (listener == null)
         {
@@ -306,7 +311,8 @@ IRCEventListener
         }
         else
         {
-            debug("Added event listener.");
+            debug("Added event listener: " + listener.getClass().getName() + 
+            		". This is #" + (_evmngrs.size() + 1) + ".");
             EventHandlerManager ehm = new EventHandlerManager(listener);
             for (Event e : listener.register())
             {
@@ -390,7 +396,7 @@ IRCEventListener
 	/** Holds all the topics of the channels we're in. */
 	private Map<String,String> _topics;
 	
-	private Logger _logger = Logger.getLogger(this.getClass().getCanonicalName());
+	private static final Logger _logger = Logger.getLogger(IRCBase.class.getCanonicalName());
     
-    List<EventHandlerManager> _evmngrs;
+        private List<EventHandlerManager> _evmngrs;
 }

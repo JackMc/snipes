@@ -1,5 +1,7 @@
 package org.ossnipes.snipes.lib.irc;
 
+import java.util.List;
+
 /* 
  * 
  * Copyright 2010 Jack McCracken
@@ -28,51 +30,64 @@ package org.ossnipes.snipes.lib.irc;
  * @since Snipes 0.6
  */
 public class IRCUser
-implements BotConstants,
+implements IRCConstants,
 IRCEventListener
 {
+	boolean lookingForHost = false;
 	IRCUser(final IRCBase parent, final String nick)
 	{
 		_parent = parent;
-        _parent.addEventListener(this);
+		_nick = nick;
+                _parent.addEventListener(this);
+                 startGet();
 	}
 	
     public void handleEvent(Event ev, EventArgs args)
     {
         switch (ev)
         {
-            
+        case IRC_RESPONSE_CODE:
+        {
+        	if (((Integer)args.getParam("code")) == RPL_NAMREPLY)
+        	{
+        		System.out.println("Got a names reply! :D");
+        	}
+        }
         }
     }
     
 	/** Gets this user Object's hostname. */
-	public void getHostname()
+	private void startGet()
 	{
 		// Have we gotten this user's host before?
 		if (_hostname == null)
 		{
 			// Populate the hostname variable.
-			populateUserHost(null);
+			beginGettingUserHost();
 		}
 	}
 	
 	private void beginGettingUserHost()
 	{
-        _parent.who("");
+		lookingForHost = true;
+                 _parent.who(_nick);
 	}
     
     private void populateUserHost(String host)
     {
-        
+        if (host != null)
+        {
+        	_hostname = host;
+        }
     }
 
-	void setHostname(String hostname)
+	private void setHostname(String hostname)
 	{
         if (_hostname == null)
         {
             throw new IllegalArgumentException("hostname cannot be null.");
         }
-        _hostname = null;
+        _hostname = hostname;
 	}
 	
 	public String getNick()
@@ -86,4 +101,5 @@ IRCEventListener
 	String _hostname;
 	String _nick;
 	IRCBase _parent;
+        List<String> _channels;
 }
