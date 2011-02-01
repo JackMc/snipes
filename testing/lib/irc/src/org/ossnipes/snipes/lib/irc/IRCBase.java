@@ -52,18 +52,13 @@ import javax.net.SocketFactory;
 public abstract class IRCBase implements IRCConstants, BotConstants, 
 IRCEventListener
 {
-	// If the bot is connected.
-    boolean conn = false;
-    //TODO: Make it so that a List<String,IRCEventHandler> keeps all of
-    // the listeners that have registered.
-
 	// Default constructor
 	public IRCBase()
 	{
-		// Init maps.
+		// Init topics and event manager lists and hashmaps.
 		_topics = new HashMap<String,String>();
-                _evmngrs = new ArrayList<EventHandlerManager>();
-                addEventListener(this);
+        _evmngrs = new ArrayList<EventHandlerManager>();
+        addEventListener(this);
 	}
     
     /**
