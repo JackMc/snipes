@@ -11,7 +11,7 @@ class TestHandler implements IRCEventListener
     
     public Event[] register()
     {
-        return Event.values();
+        return new Event[] {Event.IRC_RESPONSE_CODE};
     }
     
     public void handleEvent(Event ev, EventArgs args)

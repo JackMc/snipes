@@ -238,11 +238,12 @@ class IRCInputHandler implements BotConstants, IRCConstants
 			// Fire off the event.
 			BotUtils.sendEvent(Event.IRC_JOIN_TOPIC, new EventArgs(params), _parent);
 		}
-		// When the topic is changed by (typicly) a operator
+		// When the topic is changed by (typically) an operator
 		// This is *different* than when the topic send to us at join.
-		// That is the previous event.
+		// That is the previous event. If a network offers "services" such as Chanserv with a topic
+        // retention feature, then this event may trigger when joining a empty channel.
 		// Example: ":Unix!~auv5@projectinfinity.net TOPIC #Snipes :Read this! It's a good document for all who want to use Snipes' plugin API :). http://ossnipes.org/docs/snipes/snipes-article.html | ?? PROFIT"
-		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("TOPIC"))
+		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("TOPIC") && exSplit[2].startsWith("#"))
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			// Stick the setter's nick in there.
@@ -283,7 +284,102 @@ class IRCInputHandler implements BotConstants, IRCConstants
 					new EventArgs(params),
 					_parent);
 		}
+        // When a user joins a channel we are in.
+        // Example: ":Unix!rubicon@projectinfinity.net JOIN :#Snipes"
+        //TODO: Works, might need a better check though. Command is pretty small though.
+        else if (exSplit.length == 3 && exSplit[1].equalsIgnoreCase("JOIN"))
+        {
+            // More support for protocol defiance
+            String channel = exSplit[2].substring((exSplit[2].startsWith(":") ? 1 : 0));
+            // Holds the arguments
+            Map<String,Object> params = new HashMap<String,Object>();
+            // nick -- The nick of the user joining the channel
+            params.put("nick", exSplit[0].split("!")[0].substring(exSplit[0].startsWith(":") ? 1 : 0));
+            // host -- The hostname of the user joining
+            params.put("host", exSplit[0].split("@")[1]);
+            // channel -- The channel being joined.
+            // Oh, look at that. We already have a variable for that.
+            params.put("channel", channel);
+            // Fire off the event.
+            BotUtils.sendEvent(Event.IRC_JOIN,
+                    new EventArgs(params),
+                    _parent);
+        }
+
+        // When a user or a network service/server sets a mode on a channel we are in.
+        // Example: ":ChanServ!services@geekshed.net MODE #Snipes +qo Unix Unix"
+        else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("MODE") && (exSplit[3].startsWith("+") || exSplit[3].startsWith("-")))
+        {
+
+            Map<String,Object> params = new HashMap<String,Object>();
+            // channel -- The channel the mode is being set on
+            params.put("channel", exSplit[2]);
+            // TODO: Should really make this more clear. It works, but it seems a bit hard to understand. Determine if it is worth the extra time checking if it is a server.
+            // It works because when splitting a String, you always get at least a 1-length array back. This means that your String does not have to contain a ! for this to work,
+            // And it just returns the entire String in the first element.
+            // setter -- The nick of the nick setting the mode, or the address of the server if it is a server setting it.
+            params.put("setter", exSplit[0].split("!")[0].substring((exSplit[0].startsWith(":") ? 1 : 0)));
+
+            // START getting setter-host (the hostname of the user setting the mode, or the address of the server if it's a server setting it)
+            String[] atSplit = exSplit[0].split("@");
+
+            if (atSplit.length == 1)
+            {
+               // It's a server. Just give them the same as setter.
+                params.put("setter-host", params.get("setter"));
+            }
+            else if (atSplit.length > 1)
+            {
+                // Normal host-splitting behavior.
+                params.put("setter-host", atSplit[1]);
+            }
+            else
+            {
+                System.err.println("Reached imposable case. Please check which dimension you are in. A split of a String always returns at least a 1-length String array. " +
+                        "If this is not true on your implementation of the JDK, please tell me :3.");
+                System.exit(2);
+            }
+            // END getting setter-host
+
+            params.put("mode", exSplit[3]);
+
+            //START getting mode-param (the parameters after the mode, e.g. the part after +qo in ":ChanServ!services@geekshed.net MODE #Snipes +qo Unix Unix")
+            // Check if there are any params to the mode.
+            if (exSplit.length > 4)
+            {
+                String msg = "";
+                // If there are...
+                // Stick them together and send it off in the params.
+				for (int i = 4; i < exSplit.length; i++)
+				{
+					msg += (i == 4 ? "" : " ") + exSplit[i];
+				}
+                params.put("mode-params", msg);
+            }
+            else
+            {
+                // Map will keep it as null.
+            }
+            // START getting mode-param
+
+            // Fire off the event.
+            BotUtils.sendEvent(Event.IRC_MODE, new EventArgs(params), _parent);
+        }
+
+        // When a user parts a channel we are in.
+        // Example: ":Unix!rubicon@projectinfinity.net PART #Snipes :Ciao."
+        // We can't test if there's a message. The RFC says that commands can be sent without a message.
+        // This command is similar to the JOIN command :\.
+        else if (exSplit.length >= 3 && exSplit[2].equalsIgnoreCase("PART"))
+        {
+            //TODO: Do.
+        }
+
+        //TODO: Implement "PART" functionality
+        //TODO: Implement "NICK" functionality
 	}
+
+
 
 	IRCBase _parent;
 }

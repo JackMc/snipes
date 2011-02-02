@@ -261,7 +261,7 @@ IRCEventListener
 	 * @param ev The event that was sent.
 	 * @param args The arguments for the event.
 	 */
-	public abstract void handleEvent(Event ev, EventArgs args);
+	public void handleEvent(Event ev, EventArgs args) {}
 	
 	public final void handleInternalEvent(Event ev, EventArgs args)
 	{
@@ -279,9 +279,9 @@ IRCEventListener
 			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
 			break;
 		}
-		/*case IRC_TOPIC:
+		case IRC_TOPIC:
 			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
-			break;*/
+			break;
 		default:
 			System.err.println("Internal event handler: Unknown internal event " + ev + ".");
 		}

@@ -84,5 +84,11 @@ public enum Event
     * <BR/>
     * server: The server sending the code.
     */
-    IRC_RESPONSE_CODE
+    IRC_RESPONSE_CODE,
+    //TODO: Doc these events
+    IRC_JOIN,
+    IRC_PART,
+    IRC_KICK,
+    IRC_NICK_CHANGE,
+    IRC_MODE
 }
