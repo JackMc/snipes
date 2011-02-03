@@ -90,5 +90,6 @@ public enum Event
     IRC_PART,
     IRC_KICK,
     IRC_NICK_CHANGE,
-    IRC_MODE
+    IRC_MODE,
+    IRC_UNKNOWN
 }

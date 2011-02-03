@@ -52,6 +52,7 @@ import javax.net.SocketFactory;
 public abstract class IRCBase implements IRCConstants, BotConstants, 
 IRCEventListener
 {
+    //TODO: Add more methods for doing things
 	// Default constructor
 	public IRCBase()
 	{
@@ -64,7 +65,7 @@ IRCEventListener
     /**
      * Registers this class for listening of events.
      * This does not apply to us, as we are a IRCBase,
-     * given extra power by the event sending mechinism
+     * given extra power by the event sending mechanism
      * to "enforce the rules" of who gets what events sent
      * to them.
      * 

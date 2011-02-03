@@ -3,6 +3,9 @@ package org.ossnipes.snipes.lib.irc;
 import java.util.HashMap;
 import java.util.Map;
 
+// So we don't have to type BotUtils.<insert method> all the time.
+import static org.ossnipes.snipes.lib.irc.BotUtils.*;
+
 /* 
  * 
  * Copyright 2010 Jack McCracken
@@ -52,6 +55,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
 	 */
 	void handle(String line)
     {
+        boolean isResponseCode = false;
 		// Is the bot verbose?
 		if (BotOptions.VERBOSE)
 		{
@@ -76,7 +80,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
                 // Before the MOTD. We don't want to use the end of MOTD response
                 // for this, because that would mean that this wouldn't work on
                 // servers with no MOTD.
-                if (BotUtils.isInteger(exSplit[1]) && BotUtils.convertToInt(exSplit[1])
+                if (isInteger(exSplit[1]) && convertToInt(exSplit[1])
                         == RPL_LUSERME)
                 {
                     finishedConnection = true;
@@ -85,30 +89,25 @@ class IRCInputHandler implements BotConstants, IRCConstants
             return;
         }
         
-        
-        if (exSplit.length > 1 && BotUtils.isInteger(exSplit[1]))
+        // When a IRC response is sent to us.
+        if (exSplit.length > 1 && isInteger(exSplit[1]))
         {
+            isResponseCode = true;
             Map<String,Object> params = new HashMap<String,Object>();
             
             // The response code
-            params.put("code", BotUtils.convertToInt(exSplit[1]));
+            params.put("code", convertToInt(exSplit[1]));
             
             // We need to stick it together.
             String msg;
-            // Boo!! Protocol fail!
-            if (!exSplit[3].startsWith(":"))
-			{
-				msg = exSplit[3];
-			} else
-			{
 				msg = "";
 				for (int i = 3; i < exSplit.length; i++)
 				{
 					// Is it the first one?
-					// Then we need to take away the :.
+					// Then we may need to take away the :.
 					if (i == 3)
 					{
-						msg += exSplit[i].substring(1);
+						msg += exSplit[i].substring((exSplit[i].startsWith(":") ? 1 : 0));
 					}
 					// We just concat it! :D
 					else
@@ -116,23 +115,22 @@ class IRCInputHandler implements BotConstants, IRCConstants
 						msg += " " + exSplit[i];
 					}
 				}
-			}
             
             params.put("text", msg);
             
             params.put("server", exSplit[0].substring(1));
             
             // Fire off the event.
-            BotUtils.sendEvent(Event.IRC_RESPONSE_CODE, new EventArgs(params), _parent);
+            sendEvent(Event.IRC_RESPONSE_CODE, new EventArgs(params), _parent);
         }
         
 		// PING command: we need this or the server'll disconnect us!
 		if (exSplit[0].equals("PING"))
 		{
 			// Key: server = The server we're connected to
-			BotUtils.sendEvent(Event.IRC_PING, new EventArgs(new String[] { "server" },
-			// Substringed because we need to take off the :.
-					new String[] { exSplit[1].substring(1) }),_parent);
+			sendEvent(Event.IRC_PING, new EventArgs(new String[]{"server"},
+                    // Substringed because we need to take off the :.
+                    new String[]{exSplit[1].substring(1)}), _parent);
 		}
 		
 		// PRIVMSG command: If the user sends a PRIVMSG to us or to a channel
@@ -188,14 +186,14 @@ class IRCInputHandler implements BotConstants, IRCConstants
 			params.put("message", msg);
 
 			// Fire off the event.
-			BotUtils.sendEvent(Event.IRC_PRIVMSG, new EventArgs(params),_parent);
+			sendEvent(Event.IRC_PRIVMSG, new EventArgs(params), _parent);
 		}
 		
 		// When the topic is sent to us at join.
 		// This is *different* than when the topic is set. That is the next if statement down.
 		// Example: ":Equinox.GeekShed.net 332 SnipesBot #Snipes :Article in progress about Snipes :D"
-		else if (exSplit.length >= 4 && BotUtils.isInteger(exSplit[1]) &&
-				BotUtils.convertToInt(exSplit[1]) == RPL_TOPIC)
+		else if (exSplit.length >= 4 && isInteger(exSplit[1]) &&
+				convertToInt(exSplit[1]) == RPL_TOPIC)
 		{
 			// Holds the parameters
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -236,7 +234,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
 			params.put("topic", msg);
 			
 			// Fire off the event.
-			BotUtils.sendEvent(Event.IRC_JOIN_TOPIC, new EventArgs(params), _parent);
+			sendEvent(Event.IRC_JOIN_TOPIC, new EventArgs(params), _parent);
 		}
 		// When the topic is changed by (typically) an operator
 		// This is *different* than when the topic send to us at join.
@@ -280,13 +278,12 @@ class IRCInputHandler implements BotConstants, IRCConstants
 			params.put("topic", msg);
 			
 			// Fire off the event! :)
-			BotUtils.sendEvent(Event.IRC_TOPIC,
-					new EventArgs(params),
-					_parent);
+			sendEvent(Event.IRC_TOPIC,
+                    new EventArgs(params),
+                    _parent);
 		}
         // When a user joins a channel we are in.
         // Example: ":Unix!rubicon@projectinfinity.net JOIN :#Snipes"
-        //TODO: Works, might need a better check though. Command is pretty small though.
         else if (exSplit.length == 3 && exSplit[1].equalsIgnoreCase("JOIN"))
         {
             // More support for protocol defiance
@@ -301,7 +298,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
             // Oh, look at that. We already have a variable for that.
             params.put("channel", channel);
             // Fire off the event.
-            BotUtils.sendEvent(Event.IRC_JOIN,
+            sendEvent(Event.IRC_JOIN,
                     new EventArgs(params),
                     _parent);
         }
@@ -343,7 +340,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
 
             params.put("mode", exSplit[3]);
 
-            //START getting mode-param (the parameters after the mode, e.g. the part after +qo in ":ChanServ!services@geekshed.net MODE #Snipes +qo Unix Unix")
+            //START getting mode-params (the parameters after the mode, e.g. the part after +qo in ":ChanServ!services@geekshed.net MODE #Snipes +qo Unix Unix")
             // Check if there are any params to the mode.
             if (exSplit.length > 4)
             {
@@ -360,23 +357,77 @@ class IRCInputHandler implements BotConstants, IRCConstants
             {
                 // Map will keep it as null.
             }
-            // START getting mode-param
+            // END getting mode-param
 
             // Fire off the event.
-            BotUtils.sendEvent(Event.IRC_MODE, new EventArgs(params), _parent);
+            sendEvent(Event.IRC_MODE, new EventArgs(params), _parent);
         }
 
         // When a user parts a channel we are in.
         // Example: ":Unix!rubicon@projectinfinity.net PART #Snipes :Ciao."
         // We can't test if there's a message. The RFC says that commands can be sent without a message.
         // This command is similar to the JOIN command :\.
-        else if (exSplit.length >= 3 && exSplit[2].equalsIgnoreCase("PART"))
+        else if (exSplit.length >= 3 && exSplit[1].equalsIgnoreCase("PART"))
         {
-            //TODO: Do.
+            // Holds the arguments
+            Map<String,Object> params = new HashMap<String,Object>();
+            // nick -- The nick of the user joining the channel
+            params.put("nick", exSplit[0].split("!")[0].substring(exSplit[0].startsWith(":") ? 1 : 0));
+            // host -- The hostname of the user joining
+            params.put("host", exSplit[0].split("@")[1]);
+            // channel -- The channel being joined.
+            params.put("channel", exSplit[2]);
+
+            //START getting message (the part message).
+            // Check if there is a message
+            if (exSplit.length > 3)
+            {
+                String msg = "";
+                // If there is...
+                // Stick them together and send it off in the params.
+				for (int i = 3; i < exSplit.length; i++)
+				{
+					msg += (i == 3 ? "" : " ") + exSplit[i];
+				}
+                params.put("message", msg.substring((msg.startsWith(":") ? 1 : 0)));
+            }
+            else
+            {
+                // Map will keep it as null.
+            }
+            // END getting mode-param
+
+
+            // Fire off the event.
+            sendEvent(Event.IRC_PART,
+                    new EventArgs(params),
+                    _parent);
         }
 
-        //TODO: Implement "PART" functionality
-        //TODO: Implement "NICK" functionality
+
+        // When someone changes their nick in a channel we are in.
+        // Example: ":Unix!rubicon@projectinfinity.net NICK Auv5"
+        else if (exSplit.length == 3 && exSplit[1].equalsIgnoreCase("NICK"))
+        {
+            Map<String,Object> params = new HashMap<String,Object>();
+            params.put("nick-old", exSplit[0].split("!")[0].substring((exSplit[0].startsWith(":") ? 1 : 0)));
+            params.put("nick-new", exSplit[2].substring(exSplit[2].startsWith(":") ? 1 : 0));
+            params.put("host", exSplit[0].split("@")[1]);
+
+            sendEvent(Event.IRC_NICK_CHANGE, new EventArgs(params), _parent);
+        }
+
+
+        // If we've tried our best, and we have no idea what it is from all our checks,
+        // send a IRC_UNKNOWN event anyways. The user might know something about it.
+        else if (!isResponseCode)
+        {
+            // Send a unknown event, with the line as the only param.
+            sendEvent(Event.IRC_UNKNOWN, new EventArgs(new String [] {"line"},new String [] {line}), _parent);
+        }
+
+        //TODO: Low priority: Implement "NOTICE" functionality.
+        //TODO: Implement "KICK" functionality.
 	}
 
 
