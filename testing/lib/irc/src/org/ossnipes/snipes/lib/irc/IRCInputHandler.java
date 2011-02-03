@@ -64,11 +64,57 @@ class IRCInputHandler implements BotConstants, IRCConstants
 		
 		String[] exSplit = line.split(" ");
 		
-		
+		// Imposable case
 		if (exSplit.length == 0)
 		{
 			return;
 		}
+
+        // When a IRC response is sent to us.
+        // This event is checked for before the safeguard because the IRCBase class requires it to test
+        // if the nick is already in use.
+        if (exSplit.length > 1 && isInteger(exSplit[1]))
+        {
+            isResponseCode = true;
+            Map<String,Object> params = new HashMap<String,Object>();
+            int code = convertToInt(exSplit[1]);
+            // The response code
+            params.put("code", code);
+
+            // We need to stick it together.
+            String msg;
+				msg = "";
+				for (int i = 3; i < exSplit.length; i++)
+				{
+					// Is it the first one?
+					// Then we may need to take away the :.
+					if (i == 3)
+					{
+						msg += exSplit[i].substring((exSplit[i].startsWith(":") ? 1 : 0));
+					}
+					// We just concat it! :D
+					else
+					{
+						msg += " " + exSplit[i];
+					}
+				}
+
+            params.put("text", msg);
+
+            params.put("server", exSplit[0].substring(1));
+
+            // We won't fire off the IRC_RESPONSE_CODE now, because
+            // we want the IRC_NICKINUSE internal handler to be able to terminate
+            // before the other handlers get the IRC_RESPONSE_CODE.
+            //BEGIN EXTRA CHECKS FOR ERR_NICKNAMEINUSE
+            if (code == ERR_NICKNAMEINUSE)
+            {
+                sendEvent(Event.IRC_NICKINUSE, new EventArgs(new String [] {"line"}, new String[] {line}), _parent);
+            }
+            //END EXTRA CHECKS FOR ERR_NICKNAMEINUSE
+            // Fire off the IRC_RESPONSE_CODE
+            sendEvent(Event.IRC_RESPONSE_CODE, new EventArgs(params), _parent);
+        }
 
         if (!finishedConnection)
         {
@@ -87,41 +133,6 @@ class IRCInputHandler implements BotConstants, IRCConstants
                 }
             }
             return;
-        }
-        
-        // When a IRC response is sent to us.
-        if (exSplit.length > 1 && isInteger(exSplit[1]))
-        {
-            isResponseCode = true;
-            Map<String,Object> params = new HashMap<String,Object>();
-            
-            // The response code
-            params.put("code", convertToInt(exSplit[1]));
-            
-            // We need to stick it together.
-            String msg;
-				msg = "";
-				for (int i = 3; i < exSplit.length; i++)
-				{
-					// Is it the first one?
-					// Then we may need to take away the :.
-					if (i == 3)
-					{
-						msg += exSplit[i].substring((exSplit[i].startsWith(":") ? 1 : 0));
-					}
-					// We just concat it! :D
-					else
-					{
-						msg += " " + exSplit[i];
-					}
-				}
-            
-            params.put("text", msg);
-            
-            params.put("server", exSplit[0].substring(1));
-            
-            // Fire off the event.
-            sendEvent(Event.IRC_RESPONSE_CODE, new EventArgs(params), _parent);
         }
         
 		// PING command: we need this or the server'll disconnect us!
@@ -357,7 +368,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
             {
                 // Map will keep it as null.
             }
-            // END getting mode-param
+            // END getting mode-params
 
             // Fire off the event.
             sendEvent(Event.IRC_MODE, new EventArgs(params), _parent);
@@ -395,7 +406,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
             {
                 // Map will keep it as null.
             }
-            // END getting mode-param
+            // END getting message
 
 
             // Fire off the event.
@@ -418,16 +429,146 @@ class IRCInputHandler implements BotConstants, IRCConstants
         }
 
 
+        // When a user (possibly us) is kicked from a channel we are in.
+        // Example: ":Unix!rubicon@projectinfinity.net KICK #Snipes Auv5[Away] :Event tests ftw :)"
+        else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("KICK"))
+        {
+            Map<String,Object> params = new HashMap<String,Object>();
+            // kicker -- The person who sent the /KICK command.
+            params.put("kicker", exSplit[0].split("!")[0].substring(exSplit[0].startsWith(":") ? 1 : 0));
+            // I'm a little iffy on this param. It might need
+            params.put("kicker-host", exSplit[0].split("@")[1]);
+            params.put("channel", exSplit[2]);
+            params.put("kicked", exSplit[3]);
+            // We need to check if there was a message.
+            //START getting message (the part message).
+            if (exSplit.length > 4)
+            {
+                String msg = "";
+                // If there is...
+                // Stick them together and send it off in the params.
+				for (int i = 4; i < exSplit.length; i++)
+				{
+					msg += (i == 4 ? "" : " ") + exSplit[i];
+				}
+                params.put("message", msg.substring((msg.startsWith(":") ? 1 : 0)));
+            }
+            else
+            {
+                // Map will keep it as null.
+            }
+            // END getting mode-param
+
+            // Fire off the event.
+            sendEvent(Event.IRC_KICK, new EventArgs(params), _parent);
+        }
+
+        // When a user sends a NOTICE command to us or a channel we are in.
+        // Example: ":Unix!rubicon@projectinfinity.net NOTICE Snipes-RunSetNick :Hello world!"
+        else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("NOTICE"))
+        {
+            // Hold the args.
+			Map<String, Object> params = new HashMap<String, Object>();
+			// Add the sender
+			// We don't need to check the length,
+			// it was already checked at the top.
+			params.put("from", exSplit[0].split("!")[0].
+			// Support for servers which don't
+			// put : in front of the host.
+			substring((exSplit[0].startsWith(":") ? 1 : 0)));
+
+			// Put the hostname in from-host
+			params.put("from-host", exSplit[0].split("@")[1]);
+
+			// Add the recipient, this will be getNick()
+			// if we receive a PRIVMSG personally.
+			params.put("to", exSplit[2]);
+
+			/* Start getting the actual message */
+			// Variable to hold the message
+			String msg;
+			// Supporting non-standard servers that don't use : in front of all
+			// of them, even 1
+			// -word. :\
+			if (!exSplit[3].startsWith(":"))
+			{
+				msg = exSplit[3];
+			} else
+			{
+				msg = "";
+				for (int i = 3; i < exSplit.length; i++)
+				{
+					// Is it the first one?
+					// Then we need to take away the :.
+					if (i == 3)
+					{
+						msg += exSplit[i].substring(1);
+					}
+					// We just concat it! :D
+					else
+					{
+						msg += " " + exSplit[i];
+					}
+				}
+			}
+
+			// Stick it into the message variable.
+			params.put("message", msg);
+
+			// Fire off the event.
+			sendEvent(Event.IRC_NOTICE, new EventArgs(params), _parent);
+        }
+
+        // When a user leaves the network in a channel we are in.
+        // We cannot produce a "channel" parameter for this command for two reasons:
+        // 1. It is not a argument to the command
+        // 2. The command is only sent once, regardless of how many channels we have in common with the user.
+        // Example: ":Auv5[Away]!~auv5@projectinfinity.net QUIT :Goodbye world!"
+        else if (exSplit.length >= 2 && exSplit[1].equalsIgnoreCase("QUIT"))
+        {
+            // Holds the arguments
+            Map<String,Object> params = new HashMap<String,Object>();
+            // nick -- The nick of the user joining the channel
+            params.put("nick", exSplit[0].split("!")[0].substring(exSplit[0].startsWith(":") ? 1 : 0));
+            // host -- The hostname of the user joining
+            params.put("host", exSplit[0].split("@")[1]);
+
+            //START getting message (the part message).
+            // Check if there is a message
+            if (exSplit.length > 2)
+            {
+                String msg = "";
+                // If there is...
+                // Stick them together and send it off in the params.
+				for (int i = 2; i < exSplit.length; i++)
+				{
+					msg += (i == 2 ? "" : " ") + exSplit[i];
+				}
+                params.put("message", msg.substring((msg.startsWith(":") ? 1 : 0)));
+            }
+            else
+            {
+                // Map will keep it as null.
+            }
+            // END getting message
+
+
+            // Fire off the event.
+            sendEvent(Event.IRC_QUIT,
+                    new EventArgs(params),
+                    _parent);
+        }
+
         // If we've tried our best, and we have no idea what it is from all our checks,
         // send a IRC_UNKNOWN event anyways. The user might know something about it.
+        // PLEASE KEEP THIS AS THE LAST ELSE IF.
         else if (!isResponseCode)
         {
             // Send a unknown event, with the line as the only param.
             sendEvent(Event.IRC_UNKNOWN, new EventArgs(new String [] {"line"},new String [] {line}), _parent);
         }
 
-        //TODO: Low priority: Implement "NOTICE" functionality.
-        //TODO: Implement "KICK" functionality.
+        //TODO: Implement QUIT functionality.
 	}
 
 

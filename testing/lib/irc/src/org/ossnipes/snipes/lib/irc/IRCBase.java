@@ -123,7 +123,6 @@ IRCEventListener
 
 		// Create the socket, pass it to the new manager.
 		_manager = new IRCSocketManager(_factory.createSocket(server, port));
-                new IRCUser(this, "JoeBobGeorge");
 
 		// Initialise the IRCInputHandler
 		_handler = new IRCInputHandler(this);
@@ -139,7 +138,6 @@ IRCEventListener
 		// We can start!
 		sendInit();
 		// We're connected!
-		
 	}
 	
 	/** Sends a few lines we need to the server before we start */
@@ -283,6 +281,10 @@ IRCEventListener
 		case IRC_TOPIC:
 			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
 			break;
+        case IRC_NICKINUSE:
+            System.err.println("Error. Nickname already in use. Please make sure no other instances are running and restart this application.");
+            System.exit(3);
+            break;
 		default:
 			System.err.println("Internal event handler: Unknown internal event " + ev + ".");
 		}

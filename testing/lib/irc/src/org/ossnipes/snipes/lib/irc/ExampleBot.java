@@ -55,7 +55,7 @@ public class ExampleBot extends IRCBase
 	public synchronized void handleEvent(Event ev, EventArgs args)
 	{
         Set<String> keys = args.getKeySet();
-        StringBuilder stringBuilder = new StringBuilder("Got a event: " + ev.toString());
+        StringBuilder stringBuilder = new StringBuilder("Got an event: " + ev.toString() + " ");
         int counter = 0;
         for (String s : keys)
         {
