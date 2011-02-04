@@ -39,6 +39,7 @@ public class ExampleBot extends IRCBase
 		try
 		{
 			setVerbose(true);
+            setNick("Snipes-TestBot");
 			connect("irc.geekshed.net");
 			join("#Snipes");
 			join("#Snipes-Testing");
@@ -64,5 +65,20 @@ public class ExampleBot extends IRCBase
         }
 
 		System.err.println(stringBuilder.toString());
+
+        switch (ev)
+        {
+            case IRC_PRIVMSG:
+            {
+                String chanFrom = (String)args.getParam("to");
+                String msg = (String)args.getParam("message");
+                String[] msgSplit = msg.split(" ");
+                if (msgSplit.length == 2 && msgSplit[0].equalsIgnoreCase("!nick"))
+                {
+                    setNick(msgSplit[1]);
+                }
+                break;
+            }
+        }
 	}
 }

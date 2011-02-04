@@ -316,7 +316,8 @@ class IRCInputHandler implements BotConstants, IRCConstants
 
         // When a user or a network service/server sets a mode on a channel we are in.
         // Example: ":ChanServ!services@geekshed.net MODE #Snipes +qo Unix Unix"
-        else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("MODE") && (exSplit[3].startsWith("+") || exSplit[3].startsWith("-")))
+        else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("MODE") && (exSplit[3].startsWith("+")
+                || exSplit[3].startsWith("-")))
         {
 
             Map<String,Object> params = new HashMap<String,Object>();
@@ -382,11 +383,11 @@ class IRCInputHandler implements BotConstants, IRCConstants
         {
             // Holds the arguments
             Map<String,Object> params = new HashMap<String,Object>();
-            // nick -- The nick of the user joining the channel
+            // nick -- The nick of the user parting the channel
             params.put("nick", exSplit[0].split("!")[0].substring(exSplit[0].startsWith(":") ? 1 : 0));
-            // host -- The hostname of the user joining
+            // host -- The hostname of the user parting
             params.put("host", exSplit[0].split("@")[1]);
-            // channel -- The channel being joined.
+            // channel -- The channel being left.
             params.put("channel", exSplit[2]);
 
             //START getting message (the part message).
