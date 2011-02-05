@@ -52,29 +52,29 @@ import javax.net.SocketFactory;
 public abstract class IRCBase implements IRCConstants, BotConstants, 
 IRCEventListener
 {
-    //TODO: Add more methods for doing things
+	//TODO: Add more methods for doing things
 	// Default constructor
 	public IRCBase()
 	{
 		// Init topics and event manager lists and hashmaps.
 		_topics = new HashMap<String,String>();
-        _evmngrs = new ArrayList<EventHandlerManager>();
-        addEventListener(this);
+		_evmngrs = new ArrayList<EventHandlerManager>();
+		addEventListener(this);
 	}
-    
-    /**
-     * Registers this class for listening of events.
-     * This does not apply to us, as we are a IRCBase,
-     * given extra power by the event sending mechanism
-     * to "enforce the rules" of who gets what events sent
-     * to them.
-     * 
-     * This method is never called, and is thus empty.
-     */
-    public final Event[] register()
-    {
-        return new Event[] {};
-    }
+
+	/**
+	 * Registers this class for listening of events.
+	 * This does not apply to us, as we are a IRCBase,
+	 * given extra power by the event sending mechanism
+	 * to "enforce the rules" of who gets what events sent
+	 * to them.
+	 * 
+	 * This method is never called, and is thus empty.
+	 */
+	public final Event[] register()
+	{
+		return new Event[] {};
+	}
 
 	/**
 	 * Connects to the IRC server.
@@ -94,8 +94,8 @@ IRCEventListener
 	 * @throws UnknownHostException
 	 *             If the host specified by "server" doesn't exist.
 	 */
-	public void connect(String server, int port, SocketFactory factory)
-			throws IOException, UnknownHostException
+	public IRCBase connect(String server, int port, SocketFactory factory)
+	throws IOException, UnknownHostException
 	{
 		Thread.currentThread().setName("Snipes-IRC-Framework-Main");
 		// If port <= 0 || port > 65535, throw IllegalArgumentException
@@ -104,7 +104,7 @@ IRCEventListener
 		if (port <= 0 || port > 65535)
 		{
 			throw new IllegalArgumentException(
-					"Port must be between 1 and 65535.");
+			"Port must be between 1 and 65535.");
 		}
 
 		// If the server is null, throw a IllegalArgumentException (do I really
@@ -130,16 +130,17 @@ IRCEventListener
 		// Quick, init the IRCReceiver before the server kills us for not
 		// registering our USER, NICK and PING commands :P!
 		_receiver = new IRCReceiver(_manager, _handler);
-		
+
 		// Create/Start the recv Thread
 		Thread t = new Thread(_receiver, "Snipes-IRC-Framework-Receiver");
 		t.start();
-		
+
 		// We can start!
 		sendInit();
 		// We're connected!
+		return this;
 	}
-	
+
 	/** Sends a few lines we need to the server before we start */
 	private void sendInit()
 	{
@@ -163,11 +164,11 @@ IRCEventListener
 	 *             If the host specified by "server" doesn't exist.
 	 * @see #connect(String, int, SocketFactory)
 	 */
-	public void connect(String server, int port) throws IOException,
-			UnknownHostException
+	public IRCBase connect(String server, int port) throws IOException,
+	UnknownHostException
 	{
 		// Defaults to a SnipesSocketFactory if third parameter is null.
-		connect(server, port, null);
+		return connect(server, port, null);
 	}
 
 	/**
@@ -186,13 +187,13 @@ IRCEventListener
 	 * @see BotConstants#IRC_DEFAULT_PORT for the port used by default by
 	 *      Snipes. I won't specify it here, as it may change.
 	 */
-	public void connect(String server) throws IOException, UnknownHostException
+	public IRCBase connect(String server) throws IOException, UnknownHostException
 	{
 		// Connect to the server with the default IRC port and 
 		// SocketFactory.
-		connect(server, IRC_DEFAULT_PORT, null);
+		return connect(server, IRC_DEFAULT_PORT, null);
 	}
-	
+
 	/** Sends a IRC PRIVMSG to the server.
 	 * @param target The channel/nick to send to.
 	 * @param msg The message to send.
@@ -201,7 +202,7 @@ IRCEventListener
 	{
 		sendRaw("PRIVMSG " + target + " :" + msg);
 	}
-	
+
 	/** Sets the topic of the specified channel. If the channel is mode +t (topic protection)
 	 * then the bot will be required to have operator status in channel.
 	 * @param channel The channel to set the topic of.
@@ -212,89 +213,89 @@ IRCEventListener
 		sendRaw("TOPIC " + channel + " " + topic);
 	}
 
-    /** Sends a PONG command to the server. A PONG command is the command to respond to a
-     * server's PING message (keeps us connected to the server.)
-     * @param server The server to specify in the PONG command.
-     */
-    public void sendPong(String server)
-    {
-        sendRaw("PONG :" + server);
-    }
+	/** Sends a PONG command to the server. A PONG command is the command to respond to a
+	 * server's PING message (keeps us connected to the server.)
+	 * @param server The server to specify in the PONG command.
+	 */
+	public void sendPong(String server)
+	{
+		sendRaw("PONG :" + server);
+	}
 
-    /** Sends a IRC WHO command, sending IRC_RESPONSE_CODE events for the different parts of
-     * the WHO response.
-     * @param name The name of the user, or the mask to use.
-     */
-    public void who(String name)
-    {
-        sendRaw("WHO :" + name);
-    }
+	/** Sends a IRC WHO command, sending IRC_RESPONSE_CODE events for the different parts of
+	 * the WHO response.
+	 * @param name The name of the user, or the mask to use.
+	 */
+	public void who(String name)
+	{
+		sendRaw("WHO :" + name);
+	}
 
-    /** Parts (leaves) the specified channel.
-     * @param channel The channel to leave.
-     */
-    public void part(String channel)
-    {
-        sendRaw("PART " + channel);
-    }
+	/** Parts (leaves) the specified channel.
+	 * @param channel The channel to leave.
+	 */
+	public void part(String channel)
+	{
+		sendRaw("PART " + channel);
+	}
 
 
-    /** Kicks a user from a channel.
-     * @param user The nick of the user to kick. May be a comma-separated list (no spaces)
-     * @param channel The channel to kick from. If user was a comma separated list, this
-     * should also be one, specifying the channels to kick from.
-     * @param reason The reason to use for kicking. The protocol does not allow for specification
-     * of the reasons to be used for each user of a comma-separated list, so this will be treated
-     * as a single String. If this is null, a reason will not be given. (The server may fill it in
-     * for you with something like your nick.)
-     */
-    public void kick(String user, String channel, String reason)
-    {
-        sendRaw("KICK " + channel + " " + user + (reason != null ? " :" + reason : ""));
-    }
+	/** Kicks a user from a channel.
+	 * @param user The nick of the user to kick. May be a comma-separated list (no spaces)
+	 * @param channel The channel to kick from. If user was a comma separated list, this
+	 * should also be one, specifying the channels to kick from.
+	 * @param reason The reason to use for kicking. The protocol does not allow for specification
+	 * of the reasons to be used for each user of a comma-separated list, so this will be treated
+	 * as a single String. If this is null, a reason will not be given. (The server may fill it in
+	 * for you with something like your nick.)
+	 */
+	public void kick(String user, String channel, String reason)
+	{
+		sendRaw("KICK " + channel + " " + user + (reason != null ? " :" + reason : ""));
+	}
 
-    /** Kicks a user from a channel. Calling this method is the same as kick(user,channel,null)
-     * @param user The nick of the user to kick. May be a comma-separated list (no spaces)
-     * @param channel The channel to kick from. If user was a comma separated list, this
-     * should also be one, specifying the channels to kick from.
-     */
-    public void kick(String user, String channel)
-    {
-        kick(user, channel, null);
-    }
+	/** Kicks a user from a channel. Calling this method is the same as kick(user,channel,null)
+	 * @param user The nick of the user to kick. May be a comma-separated list (no spaces)
+	 * @param channel The channel to kick from. If user was a comma separated list, this
+	 * should also be one, specifying the channels to kick from.
+	 */
+	public void kick(String user, String channel)
+	{
+		kick(user, channel, null);
+	}
 
-    /** Sends a IRC NOTICE command to the server. NOTICEs are generally used for automatic
-     * responses. As such, NOTICEs are not counted in idle time.
-     * @param to The user or channel to send the NOTICE to.
-     * @param msg The message to send as the body of the command.
-     */
-    public void sendNotice(String to, String msg)
-    {
-        sendRaw("NOTICE " + to + " :" + msg);
-    }
+	/** Sends a IRC NOTICE command to the server. NOTICEs are generally used for automatic
+	 * responses. As such, NOTICEs are not counted in idle time.
+	 * @param to The user or channel to send the NOTICE to.
+	 * @param msg The message to send as the body of the command.
+	 */
+	public void sendNotice(String to, String msg)
+	{
+		sendRaw("NOTICE " + to + " :" + msg);
+	}
 
-    public void disconnect(String msg)
-    {
-        sendRaw("QUIT" + (msg != null ? " :" + msg : ""));
-    }
+	public void disconnect(String msg)
+	{
+		sendRaw("QUIT" + (msg != null ? " :" + msg : ""));
+	}
 
-    /**Sets a mode on a channel or user with the specified parameters.
-     * @param channel The channel to set the mode on. e.x.: "#Snipes"
-     * @param mode The mode to set. e.x.: "+qo".
-     * @param params The parameters to use. e.x.: "Unix Unix" (with mode +qo). May be null.
-     * If it is, no parameters are sent. Instead of providing null, try
-     * {@link #setMode(String, String)}.
-     */
-    public void setMode(String channel, String mode, String params)
-    {
-        sendRaw("MODE " + channel + " " + mode + (params != null ? " " + params : ""));
-    }
+	/**Sets a mode on a channel or user with the specified parameters.
+	 * @param channel The channel to set the mode on. e.x.: "#Snipes"
+	 * @param mode The mode to set. e.x.: "+qo".
+	 * @param params The parameters to use. e.x.: "Unix Unix" (with mode +qo). May be null.
+	 * If it is, no parameters are sent. Instead of providing null, try
+	 * {@link #setMode(String, String)}.
+	 */
+	public void setMode(String channel, String mode, String params)
+	{
+		sendRaw("MODE " + channel + " " + mode + (params != null ? " " + params : ""));
+	}
 
-    public void setMode(String channel, String mode)
-    {
-        setMode(mode, channel, null);
-    }
-	
+	public void setMode(String channel, String mode)
+	{
+		setMode(mode, channel, null);
+	}
+
 	/** Identifies to NickServ with the specified password.
 	 * @param pass The password to use.
 	 */
@@ -317,34 +318,37 @@ IRCEventListener
 		_manager.sendRaw(line);
 	}
 
-    /** Sets the bot's nick. If we are connected to a server, the server will be notified of
-     * the nick change.
-     * @param nick The nick to change to.
-     */
-	public void setNick(String nick)
+	/** Sets the bot's nick. If we are connected to a server, the server will be notified of
+	 * the nick change.
+	 * @param nick The nick to change to.
+	 */
+	public IRCBase setNick(String nick)
 	{
 		if (nick == null)
 		{
 			throw new IllegalArgumentException("Nick cannot be null.");
 		}
 		this._nick = nick;
-        // Before attempting a send operation, we have to make sure we're actually
-        // connected to a server, and that the bot's connect() method has been called.
-        if (_manager == null || !_manager.isConnected())
-        {
-            // Return back to the caller, we shouldn't try and set the nick on the server if
-            // we're not connected to one.
-            return;
-        }
+		// Before attempting a send operation, we have to make sure we're actually
+		// connected to a server, and that the bot's connect() method has been called.
+		if (_manager == null || !_manager.isConnected())
+		{
+			// Return back to the caller, we shouldn't try and set the nick on the server if
+			// we're not connected to one.
+			return this;
+		}
 		sendRaw("NICK " + _nick);
+		return this;
 	}
 	/** Joins a channel on the current IRC server.
 	 * @param channel The channel to join.
+	 * @return The current IRCBase, for convenience.
 	 */
-	protected void join(String channel)
+	public IRCBase join(String channel)
 	{
 		_manager.sendRaw("JOIN " + channel);
 		who(channel);
+		return this;
 	}
 	/** Used to handle a event sent by {@link #sendEvent(Event, EventArgs)}.
 	 * @param ev The event that was sent.
@@ -352,11 +356,11 @@ IRCEventListener
 	 */
 	public abstract void handleEvent(Event ev, EventArgs args);
 
-    /** This method is called when a event in the {@link BotConstants#INT_EVENTS} array
-     * is triggered.
-     * @param ev The event that was sent.
-     * @param args The arguments for the event.
-     */
+	/** This method is called when a event in the {@link BotConstants#INT_EVENTS} array
+	 * is triggered.
+	 * @param ev The event that was sent.
+	 * @param args The arguments for the event.
+	 */
 	public final void handleInternalEvent(Event ev, EventArgs args)
 	{
 		switch (ev)
@@ -376,10 +380,10 @@ IRCEventListener
 		case IRC_TOPIC:
 			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
 			break;
-        case IRC_NICKINUSE:
-            System.err.println("Error. Nickname already in use. Please make sure no other instances are running and restart this application.");
-            System.exit(3);
-            break;
+		case IRC_NICKINUSE:
+			System.err.println("Error. Nickname already in use. Please make sure no other instances are running and restart this application.");
+			System.exit(3);
+			break;
 		default:
 			System.err.println("Internal event handler: Unknown internal event " + ev + ".");
 		}
@@ -392,39 +396,39 @@ IRCEventListener
 		return _nick;
 	}
 
-    /** Controls the printing of debug statements to the default Snipes logger.
-     * @param on If it should be turned on or off.
-     */
-    public void setDebugging(boolean on)
-    {
-        BotOptions.DEBUG = on;
-    }
-    
-    /** Adds a listener for events from the bot.
-     * @param listener The IRCEventListener
-     * @return The passed event listener, for convenience.
-     */
-    public final IRCEventListener addEventListener(IRCEventListener listener)
-    {
-        if (listener == null)
-        {
-            throw new IllegalArgumentException("Cannot add null event handler.");
-        }
-        else
-        {
-            debug("Added event listener: " + listener.getClass().getName() + 
-            		". This is #" + (_evmngrs.size() + 1) + ".");
-            EventHandlerManager ehm = new EventHandlerManager(listener);
-            for (Event e : listener.register())
-            {
-                ehm.addEvent(e);
-            }
-            _evmngrs.add(ehm);
-            return listener;
-        }
-    }
-    
-	
+	/** Controls the printing of debug statements to the default Snipes logger.
+	 * @param on If it should be turned on or off.
+	 */
+	public void setDebugging(boolean on)
+	{
+		BotOptions.DEBUG = on;
+	}
+
+	/** Adds a listener for events from the bot.
+	 * @param listener The IRCEventListener
+	 * @return The passed event listener, for convenience.
+	 */
+	public final IRCEventListener addEventListener(IRCEventListener listener)
+	{
+		if (listener == null)
+		{
+			throw new IllegalArgumentException("Cannot add null event handler.");
+		}
+		else
+		{
+			debug("Added event listener: " + listener.getClass().getName() + 
+					". This is #" + (_evmngrs.size() + 1) + ".");
+			EventHandlerManager ehm = new EventHandlerManager(listener);
+			for (Event e : listener.register())
+			{
+				ehm.addEvent(e);
+			}
+			_evmngrs.add(ehm);
+			return listener;
+		}
+	}
+
+
 	/** Sends a event to the bot, checking if it is a internal one,
 	 * and if it is, it calls the appropriate method. Really just 
 	 * a alias for {@link BotUtils#sendEvent(Event, EventArgs, IRCBase)}
@@ -436,7 +440,7 @@ IRCEventListener
 	{
 		BotUtils.sendEvent(ev, args, this);
 	}
-	
+
 	/** Sets the verbose value of the bot.
 	 * @param on What the value should be set to.
 	 */
@@ -444,7 +448,7 @@ IRCEventListener
 	{
 		BotOptions.VERBOSE = on;
 	}
-	
+
 	/** Gets if the bot is verbose.
 	 * @return If the verbose property is true.
 	 */
@@ -452,7 +456,7 @@ IRCEventListener
 	{
 		return BotOptions.VERBOSE;
 	}
-	
+
 	private void debug(String line)
 	{
 		debug(line, Level.INFO);
@@ -464,14 +468,14 @@ IRCEventListener
 			_logger.log(level, line);
 	}
 
-    /** Gets the list of {@link EventHandlerManager}s that are assigned {@link IRCEventListener}s
-     * that have subscribed to receive events from the bot.
-     * @return The list of {@link EventHandlerManager}s.
-     */
-    List<EventHandlerManager> getListeners()
-    {
-        return _evmngrs;
-    }
+	/** Gets the list of {@link EventHandlerManager}s that are assigned {@link IRCEventListener}s
+	 * that have subscribed to receive events from the bot.
+	 * @return The list of {@link EventHandlerManager}s.
+	 */
+	List<EventHandlerManager> getListeners()
+	{
+		return _evmngrs;
+	}
 
 	/** The current nick of the bot */
 	private String _nick = DEFAULT_NICK;
@@ -480,7 +484,7 @@ IRCEventListener
 	 * definition of username)
 	 */
 	private String _user = DEFAULT_USER;
-	
+
 	private String _realname = DEFAULT_REALNAME;
 
 	/** The SocketFactory which all connections to a server will be created with */
@@ -497,11 +501,11 @@ IRCEventListener
 	private IRCReceiver _receiver;
 	/** The IRCInputHandler that will pass all received messages to us. */
 	private IRCInputHandler _handler;
-	
+
 	/** Holds all the topics of the channels we're in. */
 	private Map<String,String> _topics;
-	
+
 	private static final Logger _logger = Logger.getLogger(IRCBase.class.getCanonicalName());
-    
-        private List<EventHandlerManager> _evmngrs;
+
+	private List<EventHandlerManager> _evmngrs;
 }

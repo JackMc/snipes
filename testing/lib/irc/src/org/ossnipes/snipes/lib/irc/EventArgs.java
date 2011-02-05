@@ -83,4 +83,15 @@ public class EventArgs
 	{
 		return _params.keySet();
 	}
+
+	/** Retrieves a event parameter as a String, using the {@link Object#toString()} method (so that it is more typesafe than
+	 * casting to a String). This is just a convenience method, and is the same as {@link #getParam(String)}.toString().
+	 * 
+	 * @param key The key to retrieve the value of.
+	 * @return The value of the parameter with the specified key.
+	 */
+	public String getParamAsString(String key)
+	{
+		return getParam(key).toString();
+	}
 }

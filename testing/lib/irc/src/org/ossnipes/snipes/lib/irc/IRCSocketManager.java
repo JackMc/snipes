@@ -79,7 +79,7 @@ class IRCSocketManager
 		if (!isConnected())
 		{
 			throw new NotConnectedException("You can't send something if you're not connected! Try a call to" +
-					" IRCBase.connect first!");
+			" IRCBase.connect first!");
 		}
 		if (BotOptions.VERBOSE)
 		{

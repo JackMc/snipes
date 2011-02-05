@@ -53,7 +53,7 @@ import javax.net.ssl.SSLSocketFactory;
  */
 
 public class SnipesSSLSocketFactory extends SocketFactory implements
-		BotConstants
+BotConstants
 {
 	// This class might be considered a hack for SSL compatibility, as there's
 	// no documentation on
@@ -66,16 +66,16 @@ public class SnipesSSLSocketFactory extends SocketFactory implements
 	// The default, returned by getDefault()
 	private static final SnipesSSLSocketFactory def = new SnipesSSLSocketFactory();
 
-	
-	
+
+
 	private SnipesSSLSocketFactory()
 	{
-		
+
 	}
-	
+
 	@Override
 	public Socket createSocket(String host, int port) throws IOException,
-			UnknownHostException
+	UnknownHostException
 	{
 		Socket s = parent.createSocket(host, port);
 		s.setSoTimeout(IRC_TIMEOUT);
@@ -93,20 +93,20 @@ public class SnipesSSLSocketFactory extends SocketFactory implements
 	@Override
 	public Socket createSocket(String host, int port, InetAddress localHost,
 			int localPort) throws IOException, UnknownHostException
-	{
+			{
 		Socket s = parent.createSocket(host, port, localHost, localPort);
 		s.setSoTimeout(IRC_TIMEOUT);
 		return s;
-	}
+			}
 
 	@Override
 	public Socket createSocket(InetAddress address, int port,
 			InetAddress localAddress, int localPort) throws IOException
-	{
+			{
 		Socket s = parent.createSocket(address, port, localAddress, localPort);
 		s.setSoTimeout(IRC_TIMEOUT);
 		return s;
-	}
+			}
 
 	public static SocketFactory getDefault()
 	{

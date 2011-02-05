@@ -26,7 +26,6 @@ package org.ossnipes.snipes.lib.irc;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 public class ExampleBot extends IRCBase
 {
@@ -39,11 +38,11 @@ public class ExampleBot extends IRCBase
 		try
 		{
 			setVerbose(true);
-            setNick("Snipes-TestBot");
+			setNick("Snipes-TestBot");
 			connect("irc.geekshed.net");
 			join("#Snipes");
 			join("#Snipes-Testing");
-            join("#Bots");
+			join("#Bots");
 		} catch (UnknownHostException e)
 		{
 			e.printStackTrace();
@@ -55,30 +54,29 @@ public class ExampleBot extends IRCBase
 	@Override
 	public synchronized void handleEvent(Event ev, EventArgs args)
 	{
-        Set<String> keys = args.getKeySet();
-        StringBuilder stringBuilder = new StringBuilder("Got an event: " + ev.toString() + " ");
-        int counter = 0;
-        for (String s : keys)
-        {
-            stringBuilder.append((counter != 0 ? " " : "") + s + "=\"" + args.getParam(s) + "\"");
-            counter ++;
-        }
+		Set<String> keys = args.getKeySet();
+		StringBuilder stringBuilder = new StringBuilder("Got an event: " + ev.toString() + " ");
+		int counter = 0;
+		for (String s : keys)
+		{
+			stringBuilder.append((counter != 0 ? " " : "") + s + "=\"" + args.getParam(s) + "\"");
+			counter ++;
+		}
 
 		System.err.println(stringBuilder.toString());
 
-        switch (ev)
-        {
-            case IRC_PRIVMSG:
-            {
-                String chanFrom = (String)args.getParam("to");
-                String msg = (String)args.getParam("message");
-                String[] msgSplit = msg.split(" ");
-                if (msgSplit.length == 2 && msgSplit[0].equalsIgnoreCase("!nick"))
-                {
-                    setNick(msgSplit[1]);
-                }
-                break;
-            }
-        }
+		switch (ev)
+		{
+		case IRC_PRIVMSG:
+		{
+			String msg = (String)args.getParam("message");
+			String[] msgSplit = msg.split(" ");
+			if (msgSplit.length == 2 && msgSplit[0].equalsIgnoreCase("!nick"))
+			{
+				setNick(msgSplit[1]);
+			}
+			break;
+		}
+		}
 	}
 }

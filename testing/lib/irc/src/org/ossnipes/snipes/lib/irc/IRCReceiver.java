@@ -54,7 +54,7 @@ class IRCReceiver implements Runnable
 	{
 		try
 		{
-            // Loop until the bot disconnects from the server.
+			// Loop until the bot disconnects from the server.
 			while (isConnected())
 			{
 				String s = _manager.recvRaw();

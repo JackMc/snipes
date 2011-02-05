@@ -57,7 +57,7 @@ public class SnipesSocketFactory extends SocketFactory implements BotConstants
 
 	@Override
 	public Socket createSocket(String host, int port) throws IOException,
-			UnknownHostException
+	UnknownHostException
 	{
 		Socket s = new Socket(host, port);
 		s.setSoTimeout(IRC_TIMEOUT);
@@ -75,21 +75,21 @@ public class SnipesSocketFactory extends SocketFactory implements BotConstants
 	@Override
 	public Socket createSocket(String host, int port, InetAddress localHost,
 			int localPort) throws IOException, UnknownHostException
-	{
+			{
 		Socket s = new Socket(host, port, localHost, localPort);
 		s.setSoTimeout(IRC_TIMEOUT);
 		return s;
-	}
+			}
 
 	@Override
 	public Socket createSocket(InetAddress address, int port,
 			InetAddress localAddress, int localPort) throws IOException
-	{
+			{
 		Socket s = new Socket(address.getHostName(), port, localAddress,
 				localPort);
 		s.setSoTimeout(IRC_TIMEOUT);
 		return s;
-	}
+			}
 
 	public static SocketFactory getDefault()
 	{
