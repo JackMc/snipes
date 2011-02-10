@@ -34,7 +34,7 @@ package org.ossnipes.snipes.lib.irc;
  * @since Snipes 0.6
  */
 
-interface IRCConstants
+public interface IRCConstants
 {
 	public static final int ERR_NOSUCHNICK = 401;
 	public static final int ERR_NOSUCHSERVER = 402;

@@ -75,6 +75,11 @@ IRCEventListener
 	{
 		return new Event[] {};
 	}
+	
+	public boolean isDebugging()
+	{
+		return BotOptions.DEBUG;
+	}
 
 	/**
 	 * Connects to the IRC server.
@@ -340,6 +345,22 @@ IRCEventListener
 		sendRaw("NICK " + _nick);
 		return this;
 	}
+	/** Sets the bot's realname. This should be called before connecting to a server, as there is
+	 * no way in the protocol to change the realname after the original USER command.
+	 * @param name
+	 * @return
+	 */
+	public IRCBase setRealname(String name)
+	{
+		if (name == null)
+		{
+			throw new IllegalArgumentException("Name cannot be null.");
+		}
+		
+		this._realname = name;
+		return this;
+	}
+	
 	/** Joins a channel on the current IRC server.
 	 * @param channel The channel to join.
 	 * @return The current IRCBase, for convenience.
@@ -457,12 +478,12 @@ IRCEventListener
 		return BotOptions.VERBOSE;
 	}
 
-	private void debug(String line)
+	protected void debug(String line)
 	{
 		debug(line, Level.INFO);
 	}
 
-	private void debug(String line, Level level)
+	protected void debug(String line, Level level)
 	{
 		if (BotOptions.DEBUG)
 			_logger.log(level, line);

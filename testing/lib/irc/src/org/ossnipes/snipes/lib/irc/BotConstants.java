@@ -30,16 +30,17 @@ package org.ossnipes.snipes.lib.irc;
  * @since Snipes 0.6
  * @author Jack McCracken
  */
-interface BotConstants
+public interface BotConstants
 {
-	/** The float-represented version of SnipesBot */
-	static final float VERSION = 0.6f;
+	/** The float-represented version of the Snipes IRC library */
+	static final float VERSION = 1.01f;
 	/** The String representation of {@link #VERSION} */
 	static final String VERSION_STRING = Float.toString(VERSION);
 	/** The default port for IRC servers */
 	static final int IRC_DEFAULT_PORT = 6667;
 	/** The IRC server timeout in milliseconds */
 	static final int IRC_TIMEOUT = 120 * 1000;
+	static final char[] IRC_CHANPREFIXES = {'#', '&', '+'};
 	/**
 	 * The default username (before the @ and after the ! in the hostname) if it
 	 * has not been set.

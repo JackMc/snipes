@@ -117,7 +117,7 @@ implements BotConstants
 	/** Does the behaviour of {@link Integer#parseInt(String)}, but without throwing a 
 	 * Exception. It returns null on error. This method is converted from a method in the
 	 * fourth post in <a href="http://www.coderanch.com/t/401142/java/java/check-if-String-value-numeric">This thread</a>
-	 * 
+	 * 15
 	 * @param input The input String Object.
 	 * @return The Integer Object of the number if it is parsable, null otherwise.
 	 */
@@ -134,9 +134,14 @@ implements BotConstants
 			return null;
 		}
 	}
+	
+	/** Determines if a String can be successfully parsed as a Integer.
+	 * @param s The String to check
+	 * @return True if the String can be parsed as a Integer.
+	 */
 	public static boolean isInteger(String s)
 	{
-		// HACK: We have to use a stack trace :(.
+		/*// HACK: We have to use a stack trace :(.
 		if (s == null)
 		{
 			return false;
@@ -145,6 +150,7 @@ implements BotConstants
 		{
 			Integer.parseInt(s);
 			return true;
-		} catch (NumberFormatException e) {return false;}
+		} catch (NumberFormatException e) {return false;}*/
+		return s.matches("^\\d+$");
 	}
 }
