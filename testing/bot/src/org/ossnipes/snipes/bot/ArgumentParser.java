@@ -23,13 +23,11 @@ public class ArgumentParser
 		{
 			arg = args[i++];
 
-			// use this type of check for "wordy" arguments
 			if (arg.equals("--verbose"))
 			{
 				this.onVerbose(c);
 			}
 
-			// use this type of check for arguments that require arguments
 			else if (arg.equals("--define"))
 			{
 				if (i < args.length)
@@ -73,7 +71,7 @@ public class ArgumentParser
 							else
 							{
 								System.err
-										.println("--define requires a property=value argument.");
+										.println("-D requires a property=value argument.");
 								break;
 							}
 							break;
