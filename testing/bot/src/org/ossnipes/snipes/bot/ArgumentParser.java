@@ -1,19 +1,38 @@
 package org.ossnipes.snipes.bot;
 
-public class ArgumentParser
+import org.ossnipes.snipes.lib.irc.BotConstants;
+
+/** Abstraction of Snipes argument parsing.
+ * 
+ * @author Jack McCracken (Auv5)
+ * @since Snipes 0.6 */
+public class ArgumentParser implements ArgumentConstants, BotConstants
 {
 	private static final ArgumentParser inst = new ArgumentParser();
 
+	/** Gets the ArgumentParser instance.
+	 * 
+	 * @return The instance. */
 	public static ArgumentParser getParser()
 	{
-		return inst;
+		return getParser(false);
 	}
 
+	/** Gets the ArgumentParser instance.
+	 * 
+	 * @param debugCreateNew If a new instance should be created. This is used
+	 *            for debug purposes.
+	 * @return The instance, new if debugCreateNew is true. */
 	public static ArgumentParser getParser(boolean debugCreateNew)
 	{
 		return debugCreateNew ? new ArgumentParser() : inst;
 	}
 
+	/** Parses the arguments passed in, acting on the given
+	 * {@link org.ossnipes.snipes.bot.Configuration} Object.
+	 * 
+	 * @param c The {@link org.ossnipes.snipes.bot.Configuration} to act on.
+	 * @param args The arguments to parse, generally from main(String[] args) */
 	public void parseArgs(Configuration c, String[] args)
 	{
 		int i = 0, j;
@@ -23,12 +42,12 @@ public class ArgumentParser
 		{
 			arg = args[i++];
 
-			if (arg.equals("--verbose"))
+			if (arg.equals(VERBOSE_L_ARG_NAME))
 			{
 				this.onVerbose(c);
 			}
 
-			else if (arg.equals("--define"))
+			else if (arg.equals(DEFINE_L_ARG_NAME))
 			{
 				if (i < args.length)
 				{
@@ -36,11 +55,14 @@ public class ArgumentParser
 				}
 				else
 				{
-					System.err
-							.println("--define requires a property=value argument.");
+					System.err.println(DEFINE_L_ARG_NAME
+							+ " requires a property=value argument.");
 					break;
 				}
-
+			}
+			else if (arg.equals(VERSION_L_ARG_NAME))
+			{
+				this.printVersion();
 			}
 
 			// Check for small flag args.
@@ -51,18 +73,18 @@ public class ArgumentParser
 					char flag = arg.charAt(j);
 					switch (flag)
 					{
-						case '-':
+						case ARG_PREFIX:
 						{
 							// The initial -
 							break;
 						}
-						case 'v':
+						case VERBOSE_S_ARG_NAME:
 						{
 							// Verbose on
 							this.onVerbose(c);
 							break;
 						}
-						case 'D':
+						case DEFINE_S_ARG_NAME:
 						{
 							if (i < args.length)
 							{
@@ -71,7 +93,9 @@ public class ArgumentParser
 							else
 							{
 								System.err
-										.println("-D requires a property=value argument.");
+										.println(ARG_PREFIX
+												+ DEFINE_S_ARG_NAME
+												+ " requires a property=value argument.");
 								break;
 							}
 							break;
@@ -89,16 +113,43 @@ public class ArgumentParser
 		}
 	}
 
-	private void define(Configuration c, String key, String value)
+	/** Prints out the version of the bot and the Snipes IRC Framework. */
+	private void printVersion()
 	{
-		c.setTempProperty(key, value);
+		System.out
+				.println("Snipes IRC bot, part of the Open Source Snipes Project.");
+		System.out.println("This is version " + Constants.SNIPESBOT_VERSTR
+				+ " of the Snipes IRC Bot.");
+		System.out
+				.println("This IRC bot makes use of the Snipes IRC API. The API this bot is currently using is at version "
+						+ SNIRC_VERSION_STRING);
+		System.exit(Exit.EXIT_NORMAL.ordinal());
 	}
 
+	/** Defines a property on the given {@link Configuration} Object.
+	 * 
+	 * @param c The {@link Configuration} to act on.
+	 * @param key The key to set.
+	 * @param value The value to set it to. */
+	private void define(Configuration c, String key, String value)
+	{
+		c.setProperty(key, value);
+	}
+
+	/** Sets the bot's verboseness on.
+	 * 
+	 * @param c The {@link Configuration} to act on. */
 	private void onVerbose(Configuration c)
 	{
 		this.define(c, "verbose", "TRUE");
 	}
 
+	/** Parses a define command.
+	 * 
+	 * @param c The {@link Configuration} to act on.
+	 * @param arg The original first argument, used for error printing.
+	 * @param arg2 The argument after arg.
+	 * @return True if there was no syntax errors, false otherwise. */
 	private boolean onDefine(Configuration c, String arg, String arg2)
 	{
 		String[] eqSplit = arg2.split("=");

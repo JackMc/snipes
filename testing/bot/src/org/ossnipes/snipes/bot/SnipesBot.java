@@ -3,9 +3,7 @@ package org.ossnipes.snipes.bot;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import org.ossnipes.snipes.lib.irc.Event;
-import org.ossnipes.snipes.lib.irc.EventArgs;
-import org.ossnipes.snipes.lib.irc.IRCBase;
+import org.ossnipes.snipes.lib.irc.*;
 
 public class SnipesBot extends IRCBase implements PropertyConstants
 {
@@ -13,17 +11,13 @@ public class SnipesBot extends IRCBase implements PropertyConstants
 
 	public SnipesBot(String[] args) throws UnknownHostException, IOException
 	{
-		this.initializeConfiguration();
+		this.parseCmdArgs(args);
 
-		this.c.setProperty("debug", "TRUE");
-		this.c.setProperty("verbose", "TRUE");
-		this.c.setProperty("channels", "#Snipes,#Snipes-Testing");
+		this.initializeConfiguration();
 
 		this.readSetNickRealname();
 
 		this.readSetDebugVerbose();
-
-		this.parseCmdArgs(args);
 
 		this.readServerPortConnect();
 
@@ -53,7 +47,15 @@ public class SnipesBot extends IRCBase implements PropertyConstants
 
 	private void initializeConfiguration()
 	{
-		this.c = new Configuration();
+		try
+		{
+			this.c = new Configuration(Constants.CONFIGURATION_LOCATION);
+		} catch (IOException e)
+		{
+			System.err.println("Could not load configuration file "
+					+ Constants.CONFIGURATION_LOCATION);
+			System.exit(Exit.EXIT_CONFIGNOLOAD.ordinal());
+		}
 	}
 
 	private void parseCmdArgs(String[] args)
@@ -120,6 +122,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants
 				this.join(channel);
 			}
 		}
+
 	}
 
 	@Override
