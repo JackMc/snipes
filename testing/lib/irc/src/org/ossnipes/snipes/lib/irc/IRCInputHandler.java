@@ -57,7 +57,7 @@ class IRCInputHandler implements BotConstants, IRCConstants
 	{
 		boolean isResponseCode = false;
 		// Is the bot verbose?
-		if (BotOptions.VERBOSE)
+		if (_parent.isVerbose())
 		{
 			System.out.println(line);
 		}
@@ -178,8 +178,6 @@ class IRCInputHandler implements BotConstants, IRCConstants
 		{
 			handleUnknownEvent(line);
 		}
-
-		//TODO: Implement QUIT functionality.
 	}
 
 	private void handleUnknownEvent(String line) {

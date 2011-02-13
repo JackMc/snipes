@@ -33,9 +33,9 @@ package org.ossnipes.snipes.lib.irc;
 public interface BotConstants
 {
 	/** The float-represented version of the Snipes IRC library */
-	static final float VERSION = 1.01f;
-	/** The String representation of {@link #VERSION} */
-	static final String VERSION_STRING = Float.toString(VERSION);
+	static final float SNIRC_VERSION = 1.01f;
+	/** The String representation of {@link #SNIRC_VERSION} */
+	static final String SNIRC_VERSION_STRING = Float.toString(SNIRC_VERSION);
 	/** The default port for IRC servers */
 	static final int IRC_DEFAULT_PORT = 6667;
 	/** The IRC server timeout in milliseconds */
@@ -53,7 +53,7 @@ public interface BotConstants
 	/**
 	 * The default realname for the bot if it has not been set
 	 */
-	static final String DEFAULT_REALNAME = "Snipes IRC bot, version " + VERSION_STRING;
+	static final String DEFAULT_REALNAME = "Snipes IRC bot, version " + SNIRC_VERSION_STRING;
 
 	/** The set of events that need handling by the bot framework itself, along with possibly 
 	 * the user.
