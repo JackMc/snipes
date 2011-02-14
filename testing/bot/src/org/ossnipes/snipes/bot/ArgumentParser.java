@@ -8,7 +8,6 @@ import org.ossnipes.snipes.lib.irc.BotConstants;
  * @since Snipes 0.6 */
 public class ArgumentParser implements ArgumentConstants, BotConstants
 {
-	private static final ArgumentParser inst = new ArgumentParser();
 
 	/** Gets the ArgumentParser instance.
 	 * 
@@ -25,7 +24,7 @@ public class ArgumentParser implements ArgumentConstants, BotConstants
 	 * @return The instance, new if debugCreateNew is true. */
 	public static ArgumentParser getParser(boolean debugCreateNew)
 	{
-		return debugCreateNew ? new ArgumentParser() : inst;
+		return debugCreateNew ? new ArgumentParser() : _inst;
 	}
 
 	/** Parses the arguments passed in, acting on the given
@@ -118,7 +117,7 @@ public class ArgumentParser implements ArgumentConstants, BotConstants
 	{
 		System.out
 				.println("Snipes IRC bot, part of the Open Source Snipes Project.");
-		System.out.println("This is version " + Constants.SNIPESBOT_VERSTR
+		System.out.println("This is version " + SnipesConstants.SNIPESBOT_VERSTR
 				+ " of the Snipes IRC Bot.");
 		System.out
 				.println("This IRC bot makes use of the Snipes IRC API. The API this bot is currently using is at version "
@@ -166,4 +165,6 @@ public class ArgumentParser implements ArgumentConstants, BotConstants
 			return true;
 		}
 	}
+
+	private static final ArgumentParser _inst = new ArgumentParser();
 }

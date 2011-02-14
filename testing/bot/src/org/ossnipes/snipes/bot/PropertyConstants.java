@@ -17,6 +17,9 @@ public interface PropertyConstants extends BotConstants
 	static final String[] CHANNELS_PROP_DEFAULTS =
 	{ "#Snipes-Testing" };
 
+	static final String MODULES_PROP_NAME = "modules";
+	static final String[] MODULES_PROP_DEFAULTS = {};
+
 	static final String PORT_PROP_NAME = "port";
 	static final int PORT_PROP_DEFAULT = IRC_DEFAULT_PORT;
 
