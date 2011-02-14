@@ -123,8 +123,9 @@ class IRCInputHandler implements BotConstants, IRCConstants
 
 		// When a user or a network service/server sets a mode on a channel we are in.
 		// Example: ":ChanServ!services@geekshed.net MODE #Snipes +qo Unix Unix"
-		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("MODE") && (exSplit[3].startsWith("+")
-				|| exSplit[3].startsWith("-")))
+		// ?: ":Snipes-RunSetNick MODE Snipes-RunSetNick :+iRx"
+		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("MODE") && (exSplit[3].substring((exSplit[3].startsWith(":") ? 1 : 0)).startsWith("+")
+				|| exSplit[3].substring((exSplit[3].startsWith(":") ? 1 : 0)).startsWith("-")))
 		{
 			handleModeSet(exSplit);
 		}
