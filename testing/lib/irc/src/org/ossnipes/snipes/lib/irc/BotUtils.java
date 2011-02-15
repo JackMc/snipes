@@ -24,6 +24,7 @@ package org.ossnipes.snipes.lib.irc;
  */
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -91,10 +92,16 @@ implements BotConstants
 				break;
 			}
 		}
-
+		
+		List<EventHandlerManager> mans = bot.getListeners();
+		
+		int i = 0;
+		
 		// Loop through the listeners
-		for (EventHandlerManager ehm : bot.getListeners())
+		while (i < mans.size())
 		{
+			EventHandlerManager ehm = mans.get(i);
+			
 			boolean isBase = ehm.isIRCBase();
 			if (!isBase)
 			{
@@ -111,7 +118,30 @@ implements BotConstants
 				}
 				ehm.sendEvent(ev,args);
 			}
+			
+			i++;
 		}
+	}
+	
+	/** Determines if a array of any type contains the given item. Comparison is done with
+	 * the {@link Object}'s equals(Object) method. This method is not currently used by the API, but it
+	 * has proved useful to me on many IRC-related occasions, so it is included. This is especially helpful
+	 * to do with message splitting.
+	 * @param <T> The type being compared to.
+	 * @param arr The array being checked for a element.
+	 * @param item The item to check for.
+	 * @return True if the array contains the specified element.
+	 */
+	public static <T> boolean arrayContains(T[] arr, T item)
+	{
+		for (T t : arr)
+		{
+			if (t.equals(item))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/** Does the behaviour of {@link Integer#parseInt(String)}, but without throwing a 

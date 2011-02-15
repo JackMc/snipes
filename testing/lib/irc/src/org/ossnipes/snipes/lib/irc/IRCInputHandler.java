@@ -520,10 +520,28 @@ class IRCInputHandler implements BotConstants, IRCConstants
 
 		// Put the hostname in from-host
 		params.put("from-host", exSplit[0].split("@")[1]);
-
+		
+		String chan = exSplit[2];
+		
+		for (char pre : IRC_CHANPREFIXES)
+		{
+			if (chan.length() == 0)
+			{
+				break;
+			}
+			if (pre == chan.charAt(0))
+			{
+				params.put("channel", chan);
+			}
+		}
+		
 		// Add the recipient, this will be getNick()
 		// if we receive a PRIVMSG personally.
+		// This is maintained for compatibility.
 		params.put("to", exSplit[2]);
+		
+		// Add who replies to this message should be generally sent to.
+		params.put("sendto", params.get("channel") != null ? params.get("channel") : params.get("from"));
 
 		/* Start getting the actual message */
 		// Variable to hold the message

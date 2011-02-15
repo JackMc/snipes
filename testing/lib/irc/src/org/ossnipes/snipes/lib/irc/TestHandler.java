@@ -16,11 +16,9 @@ class TestHandler implements IRCEventListener
 
 	public void handleEvent(Event ev, EventArgs args)
 	{
-		switch (ev)
+		if (ev == Event.IRC_RESPONSE_CODE)
 		{
-		case IRC_RESPONSE_CODE:
 			System.out.println("Test: text=" + args.getParam("text") + "server=" + args.getParam("server") + "code=" + args.getParam("code"));
-			break;
 		}
 	}
 

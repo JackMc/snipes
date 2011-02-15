@@ -64,10 +64,7 @@ public class ExampleBot extends IRCBase
 		}
 
 		System.err.println(stringBuilder.toString());
-
-		switch (ev)
-		{
-		case IRC_PRIVMSG:
+		if (ev == Event.IRC_PRIVMSG)
 		{
 			String msg = (String)args.getParam("message");
 			String[] msgSplit = msg.split(" ");
@@ -75,8 +72,6 @@ public class ExampleBot extends IRCBase
 			{
 				setNick(msgSplit[1]);
 			}
-			break;
-		}
 		}
 	}
 }

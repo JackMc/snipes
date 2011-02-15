@@ -283,6 +283,11 @@ IRCEventListener
 	{
 		sendRaw("QUIT" + (msg != null ? " :" + msg : ""));
 	}
+	
+	public void disconnect()
+	{
+		disconnect("Quit");
+	}
 
 	/**Sets a mode on a channel or user with the specified parameters.
 	 * @param channel The channel to set the mode on. e.x.: "#Snipes"
@@ -384,28 +389,23 @@ IRCEventListener
 	 */
 	public final void handleInternalEvent(Event ev, EventArgs args)
 	{
-		switch (ev)
+		if (ev == Event.IRC_PING)
 		{
-		// When the server's PING'd us.
-		case IRC_PING:
-		{
-			sendPong((String)args.getParam("server"));
-			break;
+			sendPong(args.getParamAsString("server"));
 		}
-		// When we first receive the topic from the server upon joining a channel.
-		case IRC_JOIN_TOPIC:
+		// When we first receive the topic from the server upon joining a channel or
+		// it is changed.
+		else if (ev == Event.IRC_JOIN_TOPIC || ev == Event.IRC_TOPIC)
 		{
 			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
-			break;
 		}
-		case IRC_TOPIC:
-			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
-			break;
-		case IRC_NICKINUSE:
+		else if (ev == Event.IRC_NICKINUSE)
+		{
 			System.err.println("Error. Nickname already in use. Please make sure no other instances are running and restart this application.");
 			System.exit(3);
-			break;
-		default:
+		}
+		else
+		{
 			System.err.println("Internal event handler: Unknown internal event " + ev + ".");
 		}
 	}
@@ -435,6 +435,10 @@ IRCEventListener
 		{
 			throw new IllegalArgumentException("Cannot add null event handler.");
 		}
+		else if (_evmngrs.contains(listener))
+		{
+			throw new IllegalArgumentException("Event handler already added.");
+		}
 		else
 		{
 			debug("Added event listener: " + listener.getClass().getName() + 
@@ -446,6 +450,31 @@ IRCEventListener
 			}
 			_evmngrs.add(ehm);
 			return listener;
+		}
+	}
+	
+	public final void removeEventListener(IRCEventListener listener)
+	{
+		if (listener == null)
+		{
+			throw new IllegalArgumentException("Cannot remove null event handler.");
+		}
+		else
+		{
+			List<EventHandlerManager> mans = this.getListeners();
+			
+			int i = 0;
+			
+			// Loop through the listeners
+			while (i < mans.size())
+			{
+				EventHandlerManager ehm = mans.get(i);
+				if (ehm.getManaged() == listener)
+				{
+					mans.remove(i);
+				}
+				i++;
+			}
 		}
 	}
 

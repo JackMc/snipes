@@ -110,6 +110,17 @@ class IRCSocketManager
 	{
 		return !_rawSocket.isClosed();
 	}
+	
+	public void close()
+	{
+		try
+		{
+			_rawSocket.close();
+		} catch (Exception e)
+		{
+			// We don't care.
+		}
+	}
 
 	// Class-scope variables
 	/** The raw socket we're managing */
