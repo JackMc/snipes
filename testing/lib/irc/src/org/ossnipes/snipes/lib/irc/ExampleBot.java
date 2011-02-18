@@ -42,7 +42,6 @@ public class ExampleBot extends IRCBase
 			connect("irc.geekshed.net");
 			join("#Snipes");
 			join("#Snipes-Testing");
-			join("#Bots");
 		} catch (UnknownHostException e)
 		{
 			e.printStackTrace();

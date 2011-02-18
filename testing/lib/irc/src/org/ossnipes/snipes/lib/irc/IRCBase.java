@@ -3,11 +3,10 @@ package org.ossnipes.snipes.lib.irc;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.List;
-import java.util.ArrayList;
 
 import javax.net.SocketFactory;
 
@@ -52,14 +51,15 @@ import javax.net.SocketFactory;
 public abstract class IRCBase implements IRCConstants, BotConstants, 
 IRCEventListener
 {
+
 	//TODO: Add more methods for doing things
 	// Default constructor
 	public IRCBase()
 	{
 		// Init topics and event manager lists and hashmaps.
 		_topics = new HashMap<String,String>();
-		_evmngrs = new ArrayList<EventHandlerManager>();
-		addEventListener(this);
+		_eventcoll = new EventHandlerCollection();
+		_eventcoll.addEventListener(this);
 	}
 
 	/**
@@ -81,6 +81,15 @@ IRCEventListener
 		return BotOptions.DEBUG;
 	}
 
+	public void addEventListener(IRCEventListener h)
+	{
+		_eventcoll.addEventListener(h);
+	}
+	public void removeEventListener(IRCEventListener h)
+	{
+		_eventcoll.removeEventListener(h);
+	}
+	
 	/**
 	 * Connects to the IRC server.
 	 * 
@@ -373,7 +382,7 @@ IRCEventListener
 	public IRCBase join(String channel)
 	{
 		_manager.sendRaw("JOIN " + channel);
-		who(channel);
+//		who(channel);
 		return this;
 	}
 	/** Used to handle a event sent by {@link #sendEvent(Event, EventArgs)}.
@@ -382,7 +391,7 @@ IRCEventListener
 	 */
 	public abstract void handleEvent(Event ev, EventArgs args);
 
-	/** This method is called when a event in the {@link BotConstants#INT_EVENTS} array
+	/** This method is called when a event in the {@link BotConstants#INTERNAL_EVENTS} array
 	 * is triggered.
 	 * @param ev The event that was sent.
 	 * @param args The arguments for the event.
@@ -424,61 +433,7 @@ IRCEventListener
 	{
 		BotOptions.DEBUG = on;
 	}
-
-	/** Adds a listener for events from the bot.
-	 * @param listener The IRCEventListener
-	 * @return The passed event listener, for convenience.
-	 */
-	public final IRCEventListener addEventListener(IRCEventListener listener)
-	{
-		if (listener == null)
-		{
-			throw new IllegalArgumentException("Cannot add null event handler.");
-		}
-		else if (_evmngrs.contains(listener))
-		{
-			throw new IllegalArgumentException("Event handler already added.");
-		}
-		else
-		{
-			debug("Added event listener: " + listener.getClass().getName() + 
-					". This is #" + (_evmngrs.size() + 1) + ".");
-			EventHandlerManager ehm = new EventHandlerManager(listener);
-			for (Event e : listener.register())
-			{
-				ehm.addEvent(e);
-			}
-			_evmngrs.add(ehm);
-			return listener;
-		}
-	}
 	
-	public final void removeEventListener(IRCEventListener listener)
-	{
-		if (listener == null)
-		{
-			throw new IllegalArgumentException("Cannot remove null event handler.");
-		}
-		else
-		{
-			List<EventHandlerManager> mans = this.getListeners();
-			
-			int i = 0;
-			
-			// Loop through the listeners
-			while (i < mans.size())
-			{
-				EventHandlerManager ehm = mans.get(i);
-				if (ehm.getManaged() == listener)
-				{
-					mans.remove(i);
-				}
-				i++;
-			}
-		}
-	}
-
-
 	/** Sends a event to the bot, checking if it is a internal one,
 	 * and if it is, it calls the appropriate method. Really just 
 	 * a alias for {@link BotUtils#sendEvent(Event, EventArgs, IRCBase)}
@@ -524,7 +479,12 @@ IRCEventListener
 	 */
 	List<EventHandlerManager> getListeners()
 	{
-		return _evmngrs;
+		return _eventcoll.getListeners();
+	}
+	
+	EventHandlerCollection getEventHandlerColl()
+	{
+		return _eventcoll;
 	}
 
 	/** The current nick of the bot */
@@ -556,6 +516,6 @@ IRCEventListener
 	private Map<String,String> _topics;
 
 	private static final Logger _logger = Logger.getLogger(IRCBase.class.getCanonicalName());
-
-	private List<EventHandlerManager> _evmngrs;
+	
+	private EventHandlerCollection _eventcoll;
 }

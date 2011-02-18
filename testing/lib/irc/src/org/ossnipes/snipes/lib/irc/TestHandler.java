@@ -16,6 +16,7 @@ class TestHandler implements IRCEventListener
 
 	public void handleEvent(Event ev, EventArgs args)
 	{
+		System.out.println("BE SCARED! Text: " + args.getParamAsString("text"));
 		if (ev == Event.IRC_RESPONSE_CODE)
 		{
 			System.out.println("Test: text=" + args.getParam("text") + "server=" + args.getParam("server") + "code=" + args.getParam("code"));

@@ -23,6 +23,7 @@ package org.ossnipes.snipes.lib.irc;
  * If not, see http://www.gnu.org/licenses/.
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,22 +79,31 @@ implements BotConstants
 	 */
 	public static void sendEvent(Event ev, EventArgs args, IRCBase bot)
 	{
+		sendEvent(ev, args, bot.getEventHandlerColl());
+	}
+	
+	/** This method is the heart of the Snipes event-sending mechanism. It sends the event specified by ev with the
+	 * parameters in args to all registered {@link IRCEventListener}s.<BR/>
+	 * This method treats {@link IRCBase}s specially, casting them down to IRCBase and calling it's {@link IRCBase#handleInternalEvent(Event, EventArgs)}
+	 * method.
+	 * @param ev The enumerated identifier for the event to be sent.
+	 * @param args The arguments object to be passed to the functions.
+	 * @param coll The collection containing the event listeners registered.
+	 */
+	public static void sendEvent(Event ev, EventArgs args, EventHandlerCollection coll)
+	{
 		// Is it a internal event?
-		boolean isInternal = false;
-
-		// Loop through the events
-		for (int i = 0; i < INT_EVENTS.length; i++)
-		{
-			// Check if it's internal.
-			if (INT_EVENTS[i] == ev)
-			{
-				isInternal = true;
-				// No sense in continuing checks.
-				break;
-			}
-		}
+		boolean isInternal = BotUtils.arrayContains(INTERNAL_EVENTS, ev);
+		List<EventHandlerManager> mans;
 		
-		List<EventHandlerManager> mans = bot.getListeners();
+		if (InternalConstants.USE_EVLIST_COPY)
+		{
+			mans = copyList(coll.getListeners());
+		}
+		else
+		{
+			mans = coll.getListeners();
+		}
 		
 		int i = 0;
 		
@@ -123,9 +133,19 @@ implements BotConstants
 		}
 	}
 	
+	public static <T> List<T> copyList(
+			List<T> list) {
+		List<T> copy = new ArrayList<T>();
+		for (T t : list)
+		{
+			copy.add(t);
+		}
+		
+		return copy;
+	}
+
 	/** Determines if a array of any type contains the given item. Comparison is done with
-	 * the {@link Object}'s equals(Object) method. This method is not currently used by the API, but it
-	 * has proved useful to me on many IRC-related occasions, so it is included. This is especially helpful
+	 * the {@link Object}'s equals(Object) method. This is especially helpful
 	 * to do with message splitting.
 	 * @param <T> The type being compared to.
 	 * @param arr The array being checked for a element.
