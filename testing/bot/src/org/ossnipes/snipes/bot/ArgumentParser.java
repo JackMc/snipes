@@ -5,7 +5,7 @@ import org.ossnipes.snipes.lib.irc.BotConstants;
 /** Abstraction of Snipes argument parsing.
  * 
  * @author Jack McCracken (Auv5)
- * @since Snipes 0.6 */
+ * @since Snipes 0.01 */
 public class ArgumentParser implements ArgumentConstants, PropertyConstants,
 		BotConstants
 {

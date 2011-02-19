@@ -4,7 +4,7 @@ package org.ossnipes.snipes.bot;
  * 
  * @author Jack McCracken (Auv5)
  * 
- * @since Snipes 0.6 */
+ * @since Snipes 0.01 */
 interface ArgumentConstants
 {
 	public static final char ARG_PREFIX = '-';

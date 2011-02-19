@@ -4,7 +4,7 @@ package org.ossnipes.snipes.bot;
  * not be used by modules, but the bot should be able to use them.
  * 
  * @author Jack McCracken (Auv5)
- * @since Snipes 0.6 */
+ * @since Snipes 0.01 */
 class ModuleManager
 {
 
