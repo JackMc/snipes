@@ -30,10 +30,7 @@ public class EventHandlerCollection {
 			debug("Added event listener: " + listener.getClass().getName() + 
 					". This is #" + (_evmngrs.size() + 1) + ".");
 			EventHandlerManager ehm = new EventHandlerManager(listener);
-			for (Event e : listener.register())
-			{
-				ehm.addEvent(e);
-			}
+			ehm.registerInitialEvents();
 			_evmngrs.add(ehm);
 			return listener;
 		}

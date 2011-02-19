@@ -71,7 +71,7 @@ IRCEventListener
 	 * 
 	 * This method is never called, and is thus empty.
 	 */
-	public final Event[] register()
+	public final Event[] getRegisteredEvents()
 	{
 		return new Event[] {};
 	}

@@ -67,7 +67,7 @@ public class TestEventHandlerManager extends TestCase
 	{
 
 		@Override
-		public Event[] register() {
+		public Event[] getRegisteredEvents() {
 			return Event.values();
 		}
 

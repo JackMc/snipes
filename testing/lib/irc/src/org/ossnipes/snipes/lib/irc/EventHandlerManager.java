@@ -1,7 +1,7 @@
 package org.ossnipes.snipes.lib.irc;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 class EventHandlerManager
 {
@@ -28,6 +28,17 @@ class EventHandlerManager
 			throw new IllegalArgumentException("Cannot add a Event already in the list.");
 		}
 		_subscribedEvents.add(ev);
+	}
+	
+	/** Adds a event array to the list of subscribed events.
+	 * 
+	 */
+	void addEvent(Event[] evs)
+	{
+		for (Event ev : evs)
+		{
+			addEvent(ev);
+		}
 	}
 
 	boolean removeEvent(Event ev)
@@ -66,7 +77,18 @@ class EventHandlerManager
 	{
 		_managed.handleEvent(ev,args);
 	}
-
+	
+	public Event[] registerInitialEvents()
+	{
+		Event[] registered = _managed.getRegisteredEvents();
+		addEvent(registered);
+		return registered;
+	}
+	
+	public Event[] getRegisteredEvents() {
+		return _managed.getRegisteredEvents();
+	}
+	
 	private List<Event> _subscribedEvents;
 	private IRCEventListener _managed;
 }

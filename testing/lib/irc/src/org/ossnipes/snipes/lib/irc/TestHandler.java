@@ -9,7 +9,7 @@ class TestHandler implements IRCEventListener
 		_parent.addEventListener(this);
 	}
 
-	public Event[] register()
+	public Event[] getRegisteredEvents()
 	{
 		return new Event[] {Event.IRC_RESPONSE_CODE};
 	}
