@@ -26,7 +26,7 @@ public class Configuration extends Properties
 	/** {@inheritDoc} */
 	public Configuration(Properties defaults)
 	{
-		this.defaults = defaults;
+		super(defaults);
 	}
 
 	/** Reads the Properties from a filename.
@@ -60,54 +60,10 @@ public class Configuration extends Properties
 	 * @throws IOException */
 	public Configuration(Reader readFrom) throws IOException
 	{
+		// Load them.
 		this.load(readFrom);
 	}
 
-	// /** {@inheritDoc} Also, when using a {@link Configuration} Object, this
-	// reads
-	// * in the comments. */
-	// @Override
-	// public synchronized void load(InputStream inStream) throws IOException
-	// {
-	// // Default behaviour
-	// super.load(inStream);
-	// // Read in the comments, too.
-	// this.readConfigurationComments(inStream);
-	// }
-
-	// /** Reads the configuration into the "comments" map.
-	// *
-	// * @param inStream The {@link InputStream} to read comments from,
-	// generally
-	// * the one from {@link #load(InputStream)}.
-	// * @throws IOException If reading the comments was unsuccessful. It is
-	// very
-	// * unlikely for this to happen, as the
-	// * {@link Properties#load(InputStream)} method probably would
-	// * have thrown it. */
-	// private void readConfigurationComments(InputStream inStream)
-	// throws IOException
-	// {
-	// // Clear the list of comments, so we can start new.
-	// this.comments.clear();
-	//
-	// // Create something to manage line number counting for us.
-	// LineNumberReader lineReader = new LineNumberReader(new BufferedReader(
-	// new InputStreamReader(inStream)));
-	//
-	// // Will hold the text of the current line
-	// String currentLine;
-	// // Your standard recipe for reading from a BufferedReader.
-	// while ((currentLine = lineReader.readLine()) != null)
-	// {
-	// // If it's a comment
-	// if (currentLine.startsWith("#"))
-	// {
-	// // Put it and it's line number in the comments map
-	// this.comments.put(lineReader.getLineNumber(), currentLine);
-	// }
-	// }
-	// }
 	/** {@inheritDoc} */
 	@Override
 	public String getProperty(String key)
@@ -146,7 +102,7 @@ public class Configuration extends Properties
 	 * @param key The key to get and convert to a Boolean.
 	 * @param defaultValue The value to return if the value does not exist.
 	 * @return The value of the key, converted to a Boolean Object as specified
-	 *         above, or defaultvalue if the property does not exist. */
+	 *         above, or defaultValue if the property does not exist. */
 	public Boolean getPropertyAsBoolean(String key, boolean defaultValue)
 	{
 		String prop = this.getProperty(key);
@@ -159,7 +115,7 @@ public class Configuration extends Properties
 		return prop.equalsIgnoreCase("TRUE") ? true : false;
 	}
 
-	/** Gets a property as a Integer value. Anything not a integer returns false.
+	/** Gets a property as a Integer value. Anything not a integer returns null.
 	 * 
 	 * @param key The key to get and convert to a Integer.
 	 * @return The value of the key, converted to a Integer Object as specified
@@ -183,12 +139,12 @@ public class Configuration extends Properties
 		}
 	}
 
-	/** Gets a property as a boolean value. Anything other than "TRUE" (case
-	 * insensitive) is considered false.
+	/** Gets a property as a integer value. Anything that is not a integer is
+	 * null.
 	 * 
-	 * @param key The key to get and convert to a Boolean.
+	 * @param key The key to get and convert to a Integer.
 	 * @param defaultValue The value to return if the value does not exist.
-	 * @return The value of the key, converted to a Boolean Object as specified
+	 * @return The value of the key, converted to a Integer Object as specified
 	 *         above, null if a error occurred while converting the integer, or
 	 *         defaultValue if the property did not exist. */
 	public Integer getPropertyAsInteger(String key, int defaultValue)
@@ -299,24 +255,6 @@ public class Configuration extends Properties
 	@Override
 	public void store(OutputStream out, String extraComment) throws IOException
 	{
-		/* PrintStream bw = new PrintStream(out); // The current line int line =
-		 * 1;
-		 * 
-		 * // Holds all the keys in the properties list. Enumeration<Object>
-		 * keys = this.keys();
-		 * 
-		 * Set<Object> s1 = this.keySet();
-		 * 
-		 * int totalLines = s1.size() + this.comments.size() + (extraComment !=
-		 * null ? 1 : 0) - 1;
-		 * 
-		 * System.out.println(String.valueOf(totalLines)); if (extraComment !=
-		 * null) { bw.println(extraComment); line++; } for (; line <=
-		 * totalLines; line++) { if (this.comments.containsKey(line)) {
-		 * bw.println(this.comments.get(line)); } else { Object o =
-		 * keys.nextElement(); if (!(o instanceof String)) { continue; } String
-		 * s = (String) keys.nextElement(); bw.println(s + "=" +
-		 * this.getProperty(s)); } } */
 		throw new NotImplementedException();
 	}
 }

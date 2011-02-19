@@ -15,6 +15,7 @@ public class ArgumentParser implements ArgumentConstants, PropertyConstants,
 	 * @return The instance. */
 	public static ArgumentParser getParser()
 	{
+		// Call the overload
 		return getParser(false);
 	}
 
@@ -25,6 +26,7 @@ public class ArgumentParser implements ArgumentConstants, PropertyConstants,
 	 * @return The instance, new if debugCreateNew is true. */
 	public static ArgumentParser getParser(boolean debugCreateNew)
 	{
+		// See if we need to create a new instance.
 		return debugCreateNew ? new ArgumentParser() : _inst;
 	}
 

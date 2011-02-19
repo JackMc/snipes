@@ -9,6 +9,7 @@ public class ModuleEvent extends Event
 {
 	protected ModuleEvent(String name)
 	{
+		// Create a normal event.
 		super(name);
 	}
 }

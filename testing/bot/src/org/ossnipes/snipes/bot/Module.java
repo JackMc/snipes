@@ -57,8 +57,6 @@ public abstract class Module implements IRCEventListener
 		return this._parentBot.getConfiguration();
 	}
 
-	private SnipesBot _parentBot;
-
 	@Override
 	public final Event[] getRegisteredEvents()
 	{
@@ -97,5 +95,6 @@ public abstract class Module implements IRCEventListener
 		this._permissions.put(permission, value);
 	}
 
-	Map<ModulePermission, Boolean> _permissions = new HashMap<ModulePermission, Boolean>();
+	private final Map<ModulePermission, Boolean> _permissions = new HashMap<ModulePermission, Boolean>();
+	private SnipesBot _parentBot;
 }

@@ -5,5 +5,10 @@ package org.ossnipes.snipes.bot;
  * @author Jack McCracken (Auv5) */
 public enum ModulePermission
 {
-	CAN_HOOK_INTERNAL, CAN_CANCEL_EVENTS
+	/** Represents the ability to hook (subscribe to) events other than the
+	 * Events in the default {@link Event} enumeration. */
+	CAN_HOOK_INTERNAL,
+	/** Represents the ability to intercept events before they get to the events
+	 * loaded after it. */
+	CAN_CANCEL_EVENTS
 }

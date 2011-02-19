@@ -24,7 +24,9 @@ class ModuleManager
 			throws ModuleLoadException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException
 	{
+		// Load and store the module Object.
 		this._managed = ModuleUtils.getModuleFromName(moduleClsName);
+		// Store the parent.
 		this._parent = parent;
 	}
 
@@ -51,6 +53,7 @@ class ModuleManager
 	 * @param state The state to signal to the module. */
 	void destruct(ModuleExitState state)
 	{
+		// Call the destructor.
 		this._managed.destruct(state);
 	}
 

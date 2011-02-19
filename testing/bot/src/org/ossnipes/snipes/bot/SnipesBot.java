@@ -17,57 +17,66 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		SnipesConstants
 {
 
-	public SnipesBot(String[] args) throws UnknownHostException, IOException
+	/** Creates a new SnipesBot Object.
+	 * 
+	 * @param args The arguments passed into the program.
+	 * @throws IOException If there is a error connecting to the specified
+	 *             server. */
+	public SnipesBot(String[] args) throws IOException
 	{
-		this.checkClassDeps();
 
+		// Parse our passed in args.
 		this.parseCmdArgs(args);
 
+		// Initialise the configuration Object.
 		this.initializeConfiguration();
 
+		// Get the nick, etc.
 		this.readSetNickRealname();
 
+		// See if we're in debugging/verbose mode.
 		this.readSetDebugVerbose();
 
-		this.readServerPortConnect();
-
-		this.readChannelsAndJoin();
-
-		this.readLoadModules();
-	}
-
-	private void checkClassDeps()
-	{
 		try
 		{
-			Class.forName("java.util.HashMap");
-		} catch (ClassNotFoundException e)
+			// Try and read the server and port.
+			this.readServerPortConnect();
+		} catch (UnknownHostException e)
+		{
+			System.err.println("Unknown host specified in " + SERVER_PROP_NAME
+					+ " property.");
+			throw e;
+		} catch (IOException e)
 		{
 			System.err
-					.println("Checks have shown that you do not have the Java Collections API. This API is required to run Snipes."
-							+ " The Java Collections API has existed in the Java standrad library since Java version 1.2, and you are running version "
-							+ System.getProperty("java.version")
-							+ ". Please upgrade Java and try again.");
-			System.exit(Exit.EXIT_JVM_VERSION_TOO_LOW.ordinal());
+					.println("Unknown IOException while connecting to host specified in "
+							+ SERVER_PROP_NAME + " property.");
+			throw e;
 		}
+
+		// Join channels.
+		this.readChannelsAndJoin();
+
+		// Load modules.
+		this.readLoadModules();
 	}
 
 	/** Reads the modules from the configuration and loads them */
 	private void readLoadModules()
 	{
+		// Concatenate the specified modules and the core ones.
 		List<String> tempLst = new ArrayList<String>();
 		tempLst.addAll(Arrays.asList(SnipesConstants.CORE_MODULES));
 		tempLst.addAll(Arrays.asList(this._c.getPropertyAsStringArray(
 				MODULES_PROP_NAME, MODULES_PROP_DEFAULTS)));
-		String[] modulesArr = tempLst.toArray(new String[tempLst.size()]);
-		this._coll = new ModuleCollection(this, modulesArr);
+		// Stick it in a module collection.
+		this._coll = new ModuleCollection(this,
+				tempLst.toArray(new String[tempLst.size()]));
 	}
 
 	/** Reads and sets the nick and realname of the bot. */
 	private void readSetNickRealname()
 	{
-		// We can't specify a default in the constants, because this is
-		// dependent on the bot's current nick.
 		this.setNick(this._c.getProperty(NICK_PROP_NAME, NICK_PROP_DEFAULT));
 		this.setRealname(this._c.getProperty(REALNAME_PROP_NAME,
 				REALNAME_PROP_DEFAULT));
@@ -104,6 +113,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	 * @param args The arguments to parse. */
 	private void parseCmdArgs(String[] args)
 	{
+		// Call up the ArgumentParser to do it for us.
 		ArgumentParser.getParser().parseArgs(this._c, args);
 	}
 
@@ -111,6 +121,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	private void readServerPortConnect() throws IOException,
 			UnknownHostException
 	{
+		// Get the port
 		Integer port = this._c.getPropertyAsInteger(PORT_PROP_NAME,
 				PORT_PROP_DEFAULT);
 
@@ -120,7 +131,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 					+ " could not be parsed as a integer. Using default value "
 					+ PORT_PROP_DEFAULT + ".");
 		}
-
+		// Use the connect method to try and connect to the server.
 		this.connect(
 				this._c.getProperty(SERVER_PROP_NAME, SERVER_PROP_DEFAULT),
 				port != null ? port : IRC_DEFAULT_PORT);
@@ -134,6 +145,8 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 		for (String channel : channels)
 		{
+			// If it's less than two (it doesn't have a prefix or is just the
+			// prefix)
 			if (channel.length() < 2)
 			{
 				System.err
@@ -142,6 +155,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 								+ ". Channel name too short (must be the prefix and at least one other character.). Not joining...");
 			}
 
+			// See if it has a valid prefix.
 			boolean validPrefix = false;
 			// Get the first char of the channel
 			char c = channel.charAt(0);
@@ -172,11 +186,10 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 	}
 
-	/** {@inheritDoc} */
+	/** {@inheritDoc} SnipesBot does not do anything in this method. */
 	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
-		// TODO: Event sending code.
 	}
 
 	/** Gets the current {@link Configuration} {@link Object} of this bot.
