@@ -49,7 +49,7 @@ class IRCSocketManager
 	 *             If there was a error (besides the stream being closed) while
 	 *             opening the streams.
 	 */
-	IRCSocketManager(Socket rawSocket) throws IOException
+	IRCSocketManager(IRCBase parent, Socket rawSocket) throws IOException
 	{
 		// If the provided Socket is null, throw an IllegalArgumentException
 		if (rawSocket == null)
@@ -66,6 +66,7 @@ class IRCSocketManager
 		_reader = new BufferedReader(new InputStreamReader(_rawSocket
 				.getInputStream()));
 		_writer = new PrintStream(_rawSocket.getOutputStream());
+		_parent = parent;
 	}
 
 	/**
@@ -81,7 +82,7 @@ class IRCSocketManager
 			throw new NotConnectedException("You can't send something if you're not connected! Try a call to" +
 			" IRCBase.connect first!");
 		}
-		if (BotOptions.VERBOSE)
+		if (_parent.isVerbose())
 		{
 			System.out.println("US: " + line);
 		}
@@ -131,4 +132,6 @@ class IRCSocketManager
 	private BufferedReader _reader;
 	/** The Writer that writes to _rawSocket, initialised at Object construction */
 	private PrintStream _writer;
+	/** The {@link IRCBase} this {@link IRCSocketManager} is servicing. */
+	private IRCBase _parent;
 }

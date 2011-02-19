@@ -2,8 +2,6 @@ package org.ossnipes.snipes.lib.irc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class EventHandlerCollection {
 	public EventHandlerCollection() {
@@ -27,8 +25,6 @@ public class EventHandlerCollection {
 		}
 		else
 		{
-			debug("Added event listener: " + listener.getClass().getName() + 
-					". This is #" + (_evmngrs.size() + 1) + ".");
 			EventHandlerManager ehm = new EventHandlerManager(listener);
 			ehm.registerInitialEvents();
 			_evmngrs.add(ehm);
@@ -61,17 +57,10 @@ public class EventHandlerCollection {
 		}
 	}
 	
-	private void debug(String s)
-	{
-		if (BotOptions.DEBUG)
-			_logger.log(Level.INFO, s);
-	}
-	
 	List<EventHandlerManager> getListeners() 
 	{
 		return _evmngrs;
 	}
 	
 	private List<EventHandlerManager> _evmngrs;
-	private static final Logger _logger = Logger.getLogger(EventHandlerCollection.class.getCanonicalName());
 }

@@ -59,6 +59,7 @@ IRCEventListener
 		// Init topics and event manager lists and hashmaps.
 		_topics = new HashMap<String,String>();
 		_eventcoll = new EventHandlerCollection();
+		_options = BotOptions.getInst();
 		_eventcoll.addEventListener(this);
 	}
 
@@ -78,7 +79,7 @@ IRCEventListener
 	
 	public boolean isDebugging()
 	{
-		return BotOptions.DEBUG;
+		return _options.isDebugging();
 	}
 
 	public void addEventListener(IRCEventListener h)
@@ -136,7 +137,7 @@ IRCEventListener
 				.getDefault());
 
 		// Create the socket, pass it to the new manager.
-		_manager = new IRCSocketManager(_factory.createSocket(server, port));
+		_manager = new IRCSocketManager(this, _factory.createSocket(server, port));
 
 		// Initialise the IRCInputHandler
 		_handler = new IRCInputHandler(this);
@@ -431,7 +432,7 @@ IRCEventListener
 	 */
 	public void setDebugging(boolean on)
 	{
-		BotOptions.DEBUG = on;
+		_options.setDebugging(on);
 	}
 	
 	/** Sends a event to the bot, checking if it is a internal one,
@@ -451,7 +452,7 @@ IRCEventListener
 	 */
 	protected void setVerbose(boolean on)
 	{
-		BotOptions.VERBOSE = on;
+		_options.setVerbose(on);
 	}
 
 	/** Gets if the bot is verbose.
@@ -459,7 +460,7 @@ IRCEventListener
 	 */
 	protected boolean isVerbose()
 	{
-		return BotOptions.VERBOSE;
+		return _options.isVerbose();
 	}
 
 	protected void debug(String line)
@@ -469,7 +470,7 @@ IRCEventListener
 
 	protected void debug(String line, Level level)
 	{
-		if (BotOptions.DEBUG)
+		if (_options.isDebugging())
 			_logger.log(level, line);
 	}
 
@@ -489,6 +490,8 @@ IRCEventListener
 
 	/** The current nick of the bot */
 	private String _nick = DEFAULT_NICK;
+	
+	private BotOptions _options;
 	/**
 	 * The current username (see {@link BotConstants#DEFAULT_USER} for a
 	 * definition of username)
