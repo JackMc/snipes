@@ -207,39 +207,56 @@ public class Event
 	protected Event(String name)
 	{
 		_name = name;
+		_ordinal = _ordinal_counter ++;
 	}
 	
+	/** Returns an array of all of the enumeration items in this class.
+	 * @return The array of all of the enumeration items in this class.
+	 */
 	public static Event[] values()
 	{
+		// The class we are.
 		Class<Event> thisClass = Event.class;
+		// A list of all the fields in this class.
 		Field[] fields = thisClass.getFields();
 		
+		// The modifiers we want.
 		int modifiers = modifierFromString("public") | modifierFromString("static") | modifierFromString("final");
 		
+		// No need in processing if there are no fields.
 		if (fields.length == 0)
 		{
 			return new Event [] {};
 		}
 		
+		// Will hold all of the Objects matching out needs.
 		List<Event> evs = new ArrayList<Event>();
 		for (Field f : fields)
 		{
+			// Is it not one of us?
 			if (f.getType() != Event.class)
 			{
 				continue;
 			}
 			
+			// Check for the modifiers.
 			if (f.getModifiers() == modifiers)
 			{
 				try {
+					// (f.get() is passed null because it has already been determined to be a static field)
 					evs.add((Event)f.get(null));
 				} catch (Exception e) {continue;}
 			}
 		}
+		// Return the array
 		return evs.toArray(new Event [evs.size()]);
 	}
 	
-	
+	/** A simple method to allow for turning of modifier names into integer constants.
+	 * 
+	 * @param s The name of the modifier ("public", "static", etc)
+	 * @return The integer representation of it.
+	 */
 	private static int modifierFromString(String s) {
 		int m = 0x0;
 		if ("public".equals(s))           m |= Modifier.PUBLIC;
@@ -252,6 +269,10 @@ public class Event
 		return m;
 	}
 	
+	/** Returns the enumeration constant with the same name as {@code name}
+	 * @param name The name to search for.
+	 * @return The {@link Event} Object of the {@link Event} with the same name.
+	 */
 	public static Event valueOf(String name)
 	{
 		for (Event e : values())
@@ -270,5 +291,12 @@ public class Event
 		return _name;
 	}
 	
+	public int ordinal()
+	{
+		return _ordinal;
+	}
+	
+	private final int _ordinal;
 	private final String _name;
+	private static int _ordinal_counter;
 }
