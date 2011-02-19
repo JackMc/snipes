@@ -67,14 +67,32 @@ class ModuleCollection
 
 	}
 
-	public void addModule(SnipesBot parent, String modules)
+	public ModuleManager addModule(SnipesBot parent, String modules)
 			throws ModuleLoadException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException
 	{
 		ModuleManager manager = new ModuleManager(parent, modules);
 		manager.initialise();
 		this._modules.add(manager);
+		return manager;
+	}
 
+	public boolean removeModule(SnipesBot parent, String module,
+			ModuleExitState state)
+	{
+		ModuleManager mRight = null;
+		for (ModuleManager m : this._modules)
+		{
+			mRight = m;
+		}
+
+		if (mRight == null)
+		{
+			// It doesn't exist.
+		}
+
+		mRight.destruct(state);
+		return this._modules.remove(mRight);
 	}
 
 	public void addModule(SnipesBot parent, Module module)
@@ -82,6 +100,18 @@ class ModuleCollection
 			IllegalAccessException, ClassNotFoundException
 	{
 		this.addModule(parent, module.getClass().getName());
+	}
+
+	public boolean isModuleLoaded(String name)
+	{
+		for (ModuleManager s : this._modules)
+		{
+			if (s.toString().equals(name))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	List<ModuleManager> _modules;

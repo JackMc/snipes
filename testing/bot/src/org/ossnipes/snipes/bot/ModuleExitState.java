@@ -1,6 +1,6 @@
 package org.ossnipes.snipes.bot;
 
-public enum PluginExitState
+public enum ModuleExitState
 {
 	EXIT_UNLOAD, EXIT_QUITTING, EXIT_UNKNOWN
 }

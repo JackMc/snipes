@@ -18,4 +18,7 @@ interface ArgumentConstants
 	public static final char VERBOSE_S_ARG_NAME = 'v';
 	public static final String VERSION_L_ARG_NAME = WORDY_ARG_PREFIX
 			+ "version";
+	public static final String ALT_CONFIG_L_ARG_NAME = WORDY_ARG_PREFIX
+			+ "config";
+	public static final char ALT_CONFIG_S_ARG_NAME = 'c';
 }

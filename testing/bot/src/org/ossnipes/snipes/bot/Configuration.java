@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.util.Properties;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -40,6 +41,11 @@ public class Configuration extends Properties
 			}
 			return;
 		}
+	}
+
+	public Configuration(Reader os) throws IOException
+	{
+		this.load(os);
 	}
 
 	// /** {@inheritDoc} Also, when using a {@link Configuration} Object, this

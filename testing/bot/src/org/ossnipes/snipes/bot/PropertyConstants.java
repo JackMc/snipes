@@ -28,4 +28,7 @@ public interface PropertyConstants extends BotConstants
 
 	static final String DEBUG_PROP_NAME = "debug";
 	static final boolean DEBUG_PROP_DEFAULT = false;
+
+	static final String ALT_CONF_PROP_NAME = "altconf";
+	static final String ALT_CONF_PROP_DEFAULT = SnipesConstants.CONFIGURATION_FILENAME;
 }

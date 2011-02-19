@@ -10,11 +10,14 @@ import org.ossnipes.snipes.lib.irc.Event;
 import org.ossnipes.snipes.lib.irc.EventArgs;
 import org.ossnipes.snipes.lib.irc.IRCBase;
 
-public class SnipesBot extends IRCBase implements PropertyConstants
+public class SnipesBot extends IRCBase implements PropertyConstants,
+		SnipesConstants
 {
 
 	public SnipesBot(String[] args) throws UnknownHostException, IOException
 	{
+		this.checkClassDeps();
+
 		this.parseCmdArgs(args);
 
 		this.initializeConfiguration();
@@ -28,6 +31,22 @@ public class SnipesBot extends IRCBase implements PropertyConstants
 		this.readChannelsAndJoin();
 
 		this.readLoadPlugins();
+	}
+
+	private void checkClassDeps()
+	{
+		try
+		{
+			Class.forName("java.util.HashMap");
+		} catch (ClassNotFoundException e)
+		{
+			System.err
+					.println("Checks have shown that you do not have the Java Collections API. This API is required to run Snipes."
+							+ " The Java Collections API has existed in Java since version 1.2, and you are running version "
+							+ System.getProperty("java.version")
+							+ ". Please upgrade Java and try again.");
+			System.exit(Exit.EXIT_JVM_VERSION_TOO_LOW.ordinal());
+		}
 	}
 
 	private void readLoadPlugins()
@@ -64,11 +83,11 @@ public class SnipesBot extends IRCBase implements PropertyConstants
 	{
 		try
 		{
-			this._c = new Configuration(SnipesConstants.CONFIGURATION_LOCATION);
+			this._c = new Configuration(SnipesConstants.CONFIGURATION_FILENAME);
 		} catch (IOException e)
 		{
 			System.err.println("Could not load configuration file "
-					+ SnipesConstants.CONFIGURATION_LOCATION);
+					+ SnipesConstants.CONFIGURATION_FILENAME);
 			System.exit(Exit.EXIT_CONFIGNOLOAD.ordinal());
 		}
 	}
@@ -150,6 +169,24 @@ public class SnipesBot extends IRCBase implements PropertyConstants
 	public Configuration getConfiguration()
 	{
 		return this._c;
+	}
+
+	ModuleManager loadModule(String moduleName) throws ModuleLoadException,
+			InstantiationException, IllegalAccessException,
+			ClassNotFoundException
+	{
+		return this._coll.addModule(this, moduleName);
+	}
+
+	boolean removeModule(String moduleName)
+	{
+		return this._coll.removeModule(this, moduleName,
+				ModuleExitState.EXIT_UNLOAD);
+	}
+
+	public boolean isModuleLoaded(String name)
+	{
+		return this._coll.isModuleLoaded(name);
 	}
 
 	Configuration _c;

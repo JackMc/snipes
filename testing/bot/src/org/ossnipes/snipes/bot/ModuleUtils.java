@@ -5,7 +5,7 @@ package org.ossnipes.snipes.bot;
  * @author Jack McCracken (Auv5)
  * @since Snipes 0.6 */
 /** @author Jack McCracken (Auv5) */
-final class ModuleUtils
+public final class ModuleUtils
 {
 	private ModuleUtils()
 	{

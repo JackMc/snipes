@@ -1,6 +1,6 @@
 package org.ossnipes.snipes.bot;
 
-public enum PluginReturn
+public enum ModuleReturn
 {
 	NORMAL, ERROR
 }

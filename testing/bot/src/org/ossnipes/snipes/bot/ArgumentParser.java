@@ -6,7 +6,8 @@ import org.ossnipes.snipes.lib.irc.BotConstants;
  * 
  * @author Jack McCracken (Auv5)
  * @since Snipes 0.6 */
-public class ArgumentParser implements ArgumentConstants, BotConstants
+public class ArgumentParser implements ArgumentConstants, PropertyConstants,
+		BotConstants
 {
 
 	/** Gets the ArgumentParser instance.
@@ -63,7 +64,6 @@ public class ArgumentParser implements ArgumentConstants, BotConstants
 			{
 				this.printVersion();
 			}
-
 			// Check for small flag args.
 			else
 			{
@@ -112,13 +112,18 @@ public class ArgumentParser implements ArgumentConstants, BotConstants
 		}
 	}
 
+	private void onAltConf(Configuration c, String arg, String arg2)
+	{
+		this.define(c, ALT_CONF_PROP_NAME, arg2);
+	}
+
 	/** Prints out the version of the bot and the Snipes IRC Framework. */
 	private void printVersion()
 	{
 		System.out
 				.println("Snipes IRC bot, part of the Open Source Snipes Project.");
-		System.out.println("This is version " + SnipesConstants.SNIPESBOT_VERSTR
-				+ " of the Snipes IRC Bot.");
+		System.out.println("This is version "
+				+ SnipesConstants.SNIPESBOT_VERSTR + " of the Snipes IRC Bot.");
 		System.out
 				.println("This IRC bot makes use of the Snipes IRC API. The API this bot is currently using is at version "
 						+ SNIRC_VERSION_STRING);
@@ -140,7 +145,7 @@ public class ArgumentParser implements ArgumentConstants, BotConstants
 	 * @param c The {@link Configuration} to act on. */
 	private void onVerbose(Configuration c)
 	{
-		this.define(c, "verbose", "TRUE");
+		this.define(c, VERBOSE_PROP_NAME, "TRUE");
 	}
 
 	/** Parses a define command.

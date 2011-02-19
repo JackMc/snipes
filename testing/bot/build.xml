@@ -1,0 +1,71 @@
+<project name="Snipes IRC framework" basedir="." default="debug">
+    
+    <property name="jar.name" value="libSnipesIRC"/>
+    <property name="jvm" value="java"/>
+    <property name="src.dir" value="src"/>
+    <property name="debug.dir" value="dbg"/>
+    <property name="release.dir" value="dist/classes"/>
+    <property name="jar.dir" value="dist"/>
+    <property name="main-class" value="org.ossnipes.snipes.lib.irc.ExampleBot"/>
+    
+    <target name="clean">
+        <echo>Cleaning Snipes build directories...</echo>
+        <delete dir="bin"/>
+	<delete dir="dist"/>
+    </target>
+    
+    <target name="debug">
+        <echo>Compiling DEBUG release!</echo>
+        <mkdir dir="${debug.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${debug.dir}" debug="on" includeAntRuntime="false" classpath="${path.se"/>
+        <echo>Finished compiling DEBUG release! Please don't distribute this unless you really mean to release it with 
+        debugging symbols</echo>
+        <echo/>
+        <echo>If you are looking for a release build (jar file) try the target "release". 
+If you are looking for normal compiled source files, without debugging symbols
+but not in a jar, try "release-compile". (To execute a different target, do "ant (target)")
+replacing "(target)" with the target to run.</echo>
+    </target>
+    
+    <target name="release-compile">
+        <echo>Compiling Snipes RELEASE build</echo>
+        <mkdir dir="${release.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${release.dir}" includeAntRuntime="false"/>
+        <echo>Finished compiling RELEASE build</echo>
+    </target>
+    
+    <target name="release-jar" depends="clean,release-compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${jar.name}.jar" basedir="${release.dir}">
+            <manifest>
+            <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+        <delete dir="${release.dir}"/>
+    </target>
+    
+    <target name="run-debug" depends="debug">
+        <java fork="true" classpath="${debug.dir}" jvm="${jvm}" classname="${main-class}"/>
+    </target>
+  
+    <target name="run-release" depends="release-compile">
+        <java fork="true" classpath="${release.dir}" jvm="${jvm}" classname="${main-class}"/>
+    </target> 
+    <target name="release" depends="release-jar"/> 
+    <target name="clean-debug" depends="clean,debug"/>
+    <target name="clean-release-compile" depends="clean,release-compile"/>
+    <target name="help">
+        <echo>Snipes Ant Build Script Help</echo>
+        <echo/>
+        <echo>Some targets you may find useful (do "ant (target)" 
+replacing (target) with your target):</echo>
+        <echo>release -- Compiles a release build of the framework, jared as ${jar.dir}/${jar.name}</echo>
+        <echo>clean -- Cleans all Snipes build directories, for a fresh start on next build (no reuse of non-outdated class files)</echo>
+        <echo>release-compile -- Compiles all the class files to ${release.dir} (without debugging symbols)</echo>
+        <echo>debug -- Compiles all the class files to ${debug.dir} (with debugging symbols for easier jdb)</echo>
+        <echo>help -- This help text</echo>
+        <echo>clean-debug -- Debugging symbol'd release with a clean start (no reuse of non-outdated class files)</echo>
+        <echo>clean-release-compile -- Same as above, but with no debugging symbols</echo>
+        <echo>run-debug -- Runs a debug build of the bot.</echo>
+    </target>
+</project>

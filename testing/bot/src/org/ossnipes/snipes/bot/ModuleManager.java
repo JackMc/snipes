@@ -31,9 +31,33 @@ class ModuleManager
 	/** initialises the {@link Module}. */
 	public void initialise()
 	{
-		this._managed.initiailise(this._parent, this);
+		synchronized (this._parent)
+		{
+			this._managed.initiailise(this._parent);
+		}
+	}
+
+	public boolean hasPermission(ModulePermission p)
+	{
+		return this._managed instanceof CoreModule;
 	}
 
 	private final Module _managed;
 	private final SnipesBot _parent;
+
+	public void destruct(ModuleExitState state)
+	{
+		this._managed.destruct(state);
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.getClass().getName();
+	}
+
+	// public void destruct(PluginExitState state)
+	// {
+	// this._managed.snipesFini(state);
+	// }
 }
