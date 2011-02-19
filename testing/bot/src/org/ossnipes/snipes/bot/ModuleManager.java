@@ -29,7 +29,7 @@ class ModuleManager
 	}
 
 	/** initialises the {@link Module}. */
-	public void initialise()
+	void initialise()
 	{
 		synchronized (this._parent)
 		{
@@ -37,27 +37,30 @@ class ModuleManager
 		}
 	}
 
+	/** Checks if a module has the specified permission.
+	 * 
+	 * @param p The permission to check for.
+	 * @return If the module has the specified permission. */
 	public boolean hasPermission(ModulePermission p)
 	{
 		return this._managed instanceof CoreModule;
 	}
 
-	private final Module _managed;
-	private final SnipesBot _parent;
-
-	public void destruct(ModuleExitState state)
+	/** Calls this module's snipesFini() method and performs any other cleanup.
+	 * 
+	 * @param state The state to signal to the module. */
+	void destruct(ModuleExitState state)
 	{
 		this._managed.destruct(state);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString()
 	{
 		return this.getClass().getName();
 	}
 
-	// public void destruct(PluginExitState state)
-	// {
-	// this._managed.snipesFini(state);
-	// }
+	private final Module _managed;
+	private final SnipesBot _parent;
 }

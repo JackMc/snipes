@@ -10,6 +10,9 @@ import org.ossnipes.snipes.lib.irc.Event;
 import org.ossnipes.snipes.lib.irc.EventArgs;
 import org.ossnipes.snipes.lib.irc.IRCBase;
 
+/** The main class for the SnipesBot project.
+ * 
+ * @author Jack McCracken */
 public class SnipesBot extends IRCBase implements PropertyConstants,
 		SnipesConstants
 {
@@ -30,7 +33,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 		this.readChannelsAndJoin();
 
-		this.readLoadPlugins();
+		this.readLoadModules();
 	}
 
 	private void checkClassDeps()
@@ -42,14 +45,15 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		{
 			System.err
 					.println("Checks have shown that you do not have the Java Collections API. This API is required to run Snipes."
-							+ " The Java Collections API has existed in Java since version 1.2, and you are running version "
+							+ " The Java Collections API has existed in the Java standrad library since Java version 1.2, and you are running version "
 							+ System.getProperty("java.version")
 							+ ". Please upgrade Java and try again.");
 			System.exit(Exit.EXIT_JVM_VERSION_TOO_LOW.ordinal());
 		}
 	}
 
-	private void readLoadPlugins()
+	/** Reads the modules from the configuration and loads them */
+	private void readLoadModules()
 	{
 		List<String> tempLst = new ArrayList<String>();
 		tempLst.addAll(Arrays.asList(SnipesConstants.CORE_MODULES));
@@ -59,6 +63,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		this._coll = new ModuleCollection(this, modulesArr);
 	}
 
+	/** Reads and sets the nick and realname of the bot. */
 	private void readSetNickRealname()
 	{
 		// We can't specify a default in the constants, because this is
@@ -68,6 +73,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 				REALNAME_PROP_DEFAULT));
 	}
 
+	/** Reads and sets debugging and verbosity preferences */
 	private void readSetDebugVerbose()
 	{
 		Boolean debugging = this._c.getPropertyAsBoolean(DEBUG_PROP_NAME,
@@ -79,6 +85,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		this.setVerbose(verbose != null ? verbose : false);
 	}
 
+	/** Initialises the bot's configuration Object. */
 	private void initializeConfiguration()
 	{
 		try
@@ -92,11 +99,15 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		}
 	}
 
+	/** Parses the command line arguments passed to the bot.
+	 * 
+	 * @param args The arguments to parse. */
 	private void parseCmdArgs(String[] args)
 	{
 		ArgumentParser.getParser().parseArgs(this._c, args);
 	}
 
+	/** Reads the property values for server and port and connects */
 	private void readServerPortConnect() throws IOException,
 			UnknownHostException
 	{
@@ -115,6 +126,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 				port != null ? port : IRC_DEFAULT_PORT);
 	}
 
+	/** Reads the property values for channels and joins them */
 	private void readChannelsAndJoin()
 	{
 		String[] channels = this._c.getPropertyAsStringArray(
@@ -160,13 +172,17 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
 		// TODO: Event sending code.
 	}
 
-	public Configuration getConfiguration()
+	/** Gets the current {@link Configuration} {@link Object} of this bot.
+	 * 
+	 * @return The current {@link Configuration} Object. */
+	Configuration getConfiguration()
 	{
 		return this._c;
 	}
@@ -180,15 +196,14 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 	boolean removeModule(String moduleName)
 	{
-		return this._coll.removeModule(this, moduleName,
-				ModuleExitState.EXIT_UNLOAD);
+		return this._coll.removeModule(moduleName, ModuleExitState.EXIT_UNLOAD);
 	}
 
-	public boolean isModuleLoaded(String name)
+	boolean isModuleLoaded(String name)
 	{
 		return this._coll.isModuleLoaded(name);
 	}
 
-	Configuration _c;
-	ModuleCollection _coll;
+	private Configuration _c;
+	private ModuleCollection _coll;
 }

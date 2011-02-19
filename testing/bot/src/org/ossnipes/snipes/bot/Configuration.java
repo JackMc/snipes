@@ -9,6 +9,12 @@ import java.util.Properties;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+/** A extension of the {@link Properties} class for the SnipesBot project.<BR/>
+ * New features include some new constructors and utility methods for getting of
+ * properties as certain types.
+ * 
+ * @author Jack McCracken
+ * @since Snipes 0.01 */
 public class Configuration extends Properties
 {
 	private static final long serialVersionUID = 708148256938967215L;
@@ -17,35 +23,44 @@ public class Configuration extends Properties
 	{
 	}
 
+	/** {@inheritDoc} */
 	public Configuration(Properties defaults)
 	{
 		this.defaults = defaults;
 	}
 
-	public Configuration(String string) throws IOException
+	/** Reads the Properties from a filename.
+	 * 
+	 * @param filename The filename to read from.
+	 * @throws IOException If the file is read-protected or could not be found. */
+	public Configuration(String filename) throws IOException
 	{
-		if (string != null)
+		if (filename != null)
 		{
 			try
 			{
-				this.load(new FileInputStream(string));
+				this.load(new FileInputStream(filename));
 			} catch (FileNotFoundException e)
 			{
 				throw new FileNotFoundException(
-						"Could not find file specified. File: " + string);
+						"Could not find file specified. File: " + filename);
 			} catch (IOException e)
 			{
 				throw new IOException(
 						"Could not read from the file specified. File: "
-								+ string);
+								+ filename);
 			}
 			return;
 		}
 	}
 
-	public Configuration(Reader os) throws IOException
+	/** Reads the properties from a {@link Reader} Object.
+	 * 
+	 * @param readFrom The reader to read from.
+	 * @throws IOException */
+	public Configuration(Reader readFrom) throws IOException
 	{
-		this.load(os);
+		this.load(readFrom);
 	}
 
 	// /** {@inheritDoc} Also, when using a {@link Configuration} Object, this
@@ -93,19 +108,26 @@ public class Configuration extends Properties
 	// }
 	// }
 	// }
-
+	/** {@inheritDoc} */
 	@Override
 	public String getProperty(String key)
 	{
 		return super.getProperty(key);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getProperty(String key, String defaultValue)
 	{
 		return super.getProperty(key, defaultValue);
 	}
 
+	/** Gets a property as a boolean value. Anything other than "TRUE" (case
+	 * insensitive) is considered false.
+	 * 
+	 * @param key The key to get and convert to a Boolean.
+	 * @return The value of the key, converted to a Boolean Object as specified
+	 *         above, or null if the property does not exist. */
 	public Boolean getPropertyAsBoolean(String key)
 	{
 		String prop = this.getProperty(key);
@@ -118,6 +140,13 @@ public class Configuration extends Properties
 		return prop.equalsIgnoreCase("TRUE") ? true : false;
 	}
 
+	/** Gets a property as a boolean value. Anything other than "TRUE" (case
+	 * insensitive) is considered false.
+	 * 
+	 * @param key The key to get and convert to a Boolean.
+	 * @param defaultValue The value to return if the value does not exist.
+	 * @return The value of the key, converted to a Boolean Object as specified
+	 *         above, or defaultvalue if the property does not exist. */
 	public Boolean getPropertyAsBoolean(String key, boolean defaultValue)
 	{
 		String prop = this.getProperty(key);
@@ -130,6 +159,12 @@ public class Configuration extends Properties
 		return prop.equalsIgnoreCase("TRUE") ? true : false;
 	}
 
+	/** Gets a property as a Integer value. Anything not a integer returns false.
+	 * 
+	 * @param key The key to get and convert to a Integer.
+	 * @return The value of the key, converted to a Integer Object as specified
+	 *         above, or null if the property does not exist or if a error
+	 *         occurs while converting the property. */
 	public Integer getPropertyAsInteger(String key)
 	{
 		try
@@ -148,6 +183,14 @@ public class Configuration extends Properties
 		}
 	}
 
+	/** Gets a property as a boolean value. Anything other than "TRUE" (case
+	 * insensitive) is considered false.
+	 * 
+	 * @param key The key to get and convert to a Boolean.
+	 * @param defaultValue The value to return if the value does not exist.
+	 * @return The value of the key, converted to a Boolean Object as specified
+	 *         above, null if a error occurred while converting the integer, or
+	 *         defaultValue if the property did not exist. */
 	public Integer getPropertyAsInteger(String key, int defaultValue)
 	{
 		try
@@ -166,6 +209,19 @@ public class Configuration extends Properties
 		}
 	}
 
+	/** Gets the property specified by the key argument and splits it with the
+	 * given regular expression. If the value does not exist in the Properties
+	 * list, the defaultValue is returned. Trimming can be turned on or off to
+	 * remove trailing spaces.
+	 * 
+	 * @param key The key who's value to split.
+	 * @param defaultValue The value to use if the key does not exist in the
+	 *            configuration file.
+	 * @param regexp The regular expression to split the value by.
+	 * @param trim If the result should be trimmed (remove leading and trailing
+	 *            spaces).
+	 * @return The value of the key split by the specified regexp if it exists,
+	 *         and defaultValue otherwise. */
 	public String[] getPropertyAsStringArray(String key, String[] defaultValue,
 			String regexp, boolean trim)
 	{
@@ -190,25 +246,56 @@ public class Configuration extends Properties
 		}
 	}
 
+	/** Gets the property specified by the key argument and splits it with the
+	 * given regular expression. If the value does not exist in the Properties
+	 * list, the defaultValue is returned. This method trims spaces by default.
+	 * If you don't want to trim spaces, see
+	 * {@link #getPropertyAsStringArray(String, String[], String, boolean)}.
+	 * 
+	 * @param key The key who's value to split.
+	 * @param defaultValue The value to use if the key does not exist in the
+	 *            configuration file.
+	 * @param regexp The regular expression to split the value by.
+	 * @return The value of the key split by the specified regexp if it exists,
+	 *         and defaultValue otherwise. */
 	public String[] getPropertyAsStringArray(String key, String[] defaultValue,
 			String regexp)
 	{
 		return this.getPropertyAsStringArray(key, defaultValue, regexp, true);
 	}
 
+	/** Gets the property specified by the key argument and splits it with the
+	 * regular expression "," (creating a comma-separated list). If the value
+	 * does not exist in the Properties list, the defaultValue is returned. This
+	 * method trims spaces by default. If you don't want to trim spaces, see
+	 * {@link #getPropertyAsStringArray(String, String[], String, boolean)}.
+	 * 
+	 * @param key The key who's value to split.
+	 * @param defaultValue The value to use if the key does not exist in the
+	 *            configuration file.
+	 * @return The value of the key split by the regular expression "," if it
+	 *         exists, and defaultValue otherwise. */
 	public String[] getPropertyAsStringArray(String key, String[] defaultValue)
 	{
 		return this.getPropertyAsStringArray(key, defaultValue, ",", true);
 	}
 
+	/** Gets the property specified by the key argument and splits it with the
+	 * regular expression "," (creating a comma-separated list). If the value
+	 * does not exist in the Properties list, null is returned. This method
+	 * trims spaces by default. If you don't want to trim spaces, see
+	 * {@link #getPropertyAsStringArray(String, String[], String, boolean)}.
+	 * 
+	 * @param key The key who's value to split.
+	 * @return The value of the key split by the regular expression "," if it
+	 *         exists, and null otherwise. */
 	public String[] getPropertyAsStringArray(String key)
 	{
 		return this.getPropertyAsStringArray(key, new String[]
 		{ "" }, ",", true);
 	}
 
-	/** {@inheritDoc} Also, when using a {@link Configuration} Object, this writes
-	 * comments. */
+	/** {@inheritDoc} */
 	@Override
 	public void store(OutputStream out, String extraComment) throws IOException
 	{

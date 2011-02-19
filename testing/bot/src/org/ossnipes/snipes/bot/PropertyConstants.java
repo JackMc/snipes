@@ -2,6 +2,10 @@ package org.ossnipes.snipes.bot;
 
 import org.ossnipes.snipes.lib.irc.BotConstants;
 
+/** Contains all of the names of the properties in the bot. It is preferable to
+ * use this class rather than String literals because property names may change.
+ * 
+ * @author Jack McCracken (Auv5) */
 public interface PropertyConstants extends BotConstants
 {
 	static final String SERVER_PROP_NAME = "server";

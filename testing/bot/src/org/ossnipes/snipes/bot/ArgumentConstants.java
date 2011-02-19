@@ -7,7 +7,9 @@ package org.ossnipes.snipes.bot;
  * @since Snipes 0.01 */
 interface ArgumentConstants
 {
+	/** The prefix for short arguments (-D, -v, etc.) */
 	public static final char ARG_PREFIX = '-';
+	/** The prefix for all 'wordy' arguments (--define, --verbose, etc) */
 	public static final String WORDY_ARG_PREFIX = ARG_PREFIX
 			+ String.valueOf(ARG_PREFIX);
 

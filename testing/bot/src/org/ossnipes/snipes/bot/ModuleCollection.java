@@ -77,8 +77,7 @@ class ModuleCollection
 		return manager;
 	}
 
-	public boolean removeModule(SnipesBot parent, String module,
-			ModuleExitState state)
+	public boolean removeModule(String module, ModuleExitState state)
 	{
 		ModuleManager mRight = null;
 		for (ModuleManager m : this._modules)
@@ -88,7 +87,8 @@ class ModuleCollection
 
 		if (mRight == null)
 		{
-			// It doesn't exist.
+			// It doesn't exist. Return false.
+			return false;
 		}
 
 		mRight.destruct(state);

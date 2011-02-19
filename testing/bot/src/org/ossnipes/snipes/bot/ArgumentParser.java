@@ -112,11 +112,6 @@ public class ArgumentParser implements ArgumentConstants, PropertyConstants,
 		}
 	}
 
-	private void onAltConf(Configuration c, String arg, String arg2)
-	{
-		this.define(c, ALT_CONF_PROP_NAME, arg2);
-	}
-
 	/** Prints out the version of the bot and the Snipes IRC Framework. */
 	private void printVersion()
 	{
