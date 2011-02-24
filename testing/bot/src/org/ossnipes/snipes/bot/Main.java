@@ -1,5 +1,7 @@
 package org.ossnipes.snipes.bot;
 
+import java.io.IOException;
+
 public class Main
 {
 	public static void main(String args[])
@@ -9,7 +11,7 @@ public class Main
 		{
 			checkDeps();
 			new SnipesBot(args);
-		} catch (Exception e)
+		} catch (IOException e)
 		{
 			System.exit(Exit.EXIT_COULDNOTCONNECT.ordinal());
 		}

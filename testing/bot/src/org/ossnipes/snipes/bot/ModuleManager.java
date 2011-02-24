@@ -45,6 +45,7 @@ class ModuleManager
 	 * @return If the module has the specified permission. */
 	public boolean hasPermission(ModulePermission p)
 	{
+		// p will be used later.
 		return this._managed instanceof CoreModule;
 	}
 
@@ -55,6 +56,11 @@ class ModuleManager
 	{
 		// Call the destructor.
 		this._managed.destruct(state);
+	}
+
+	String getModuleClassName()
+	{
+		return this._managed.getClass().getName();
 	}
 
 	/** {@inheritDoc} */

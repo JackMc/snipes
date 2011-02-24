@@ -10,6 +10,7 @@ public class ModuleLoadException extends ModuleException
 
 	public ModuleLoadException()
 	{
+		// Redundant
 	}
 
 	public ModuleLoadException(String message)

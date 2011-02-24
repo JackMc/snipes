@@ -9,6 +9,7 @@ public final class ModuleUtils
 {
 	private ModuleUtils()
 	{
+		// Just to stop instantiation.
 	}
 
 	/** Gets the {@link Class} Object from the CLASSPATH for the specified fully

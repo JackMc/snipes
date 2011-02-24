@@ -12,6 +12,7 @@ public abstract class ModuleException extends Exception
 
 	public ModuleException()
 	{
+		// Redundant
 	}
 
 	public ModuleException(String message)

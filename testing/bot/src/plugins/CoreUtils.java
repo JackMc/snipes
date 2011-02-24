@@ -28,7 +28,7 @@ public class CoreUtils extends CoreModule
 
 			if (msgSplit.length == 0)
 			{
-
+				return;
 			}
 
 			if (msgSplit[0].equalsIgnoreCase("!load"))
@@ -38,6 +38,10 @@ public class CoreUtils extends CoreModule
 			else if (msgSplit[0].equalsIgnoreCase("!unload"))
 			{
 				this.unloadModuleCommand(sendTo, msgSplit);
+			}
+			else if (msgSplit[0].equalsIgnoreCase("!isloaded"))
+			{
+				this.isMLoadedCommand(sendTo, msgSplit);
 			}
 		}
 	}
@@ -126,5 +130,16 @@ public class CoreUtils extends CoreModule
 								"Error: Bot could not load the specified module because it could not be found in the bot's CLASSPATH.");
 			}
 		}
+	}
+
+	private void isMLoadedCommand(String sendTo, String[] msgSplit)
+	{
+		if (msgSplit.length <= 1)
+		{
+			this.getParent().sendPrivMsg(sendTo,
+					"Incorrect syntax. Use like !isloaded mypackage.mymodule");
+		}
+		this.getParent().sendPrivMsg(sendTo,
+				"Module loaded status: " + this.isModuleLoaded(msgSplit[1]));
 	}
 }

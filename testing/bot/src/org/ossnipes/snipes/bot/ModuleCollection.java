@@ -135,7 +135,10 @@ class ModuleCollection
 		ModuleManager mRight = null;
 		for (ModuleManager m : this._modules)
 		{
-			mRight = m;
+			if (m.getClass().getName().equals(module))
+			{
+				mRight = m;
+			}
 		}
 
 		if (mRight == null)
@@ -175,7 +178,7 @@ class ModuleCollection
 	{
 		for (ModuleManager s : this._modules)
 		{
-			if (s.toString().equals(name))
+			if (s.getModuleClassName().equals(name))
 			{
 				return true;
 			}

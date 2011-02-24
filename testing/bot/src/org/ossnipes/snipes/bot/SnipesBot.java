@@ -190,6 +190,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
+		// No code.
 	}
 
 	/** Gets the current {@link Configuration} {@link Object} of this bot.

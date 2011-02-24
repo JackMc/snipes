@@ -21,6 +21,7 @@ public class Configuration extends Properties
 
 	public Configuration()
 	{
+		// Redundant
 	}
 
 	/** {@inheritDoc} */

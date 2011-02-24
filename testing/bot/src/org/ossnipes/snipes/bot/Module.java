@@ -18,7 +18,7 @@ public abstract class Module implements IRCEventListener
 		}
 	}
 
-	/** Performs startup operations for this plugin */
+	/** Performs startup operations for this module */
 	final void initiailise(SnipesBot parentBot)
 	{
 		if (parentBot == null)
@@ -57,6 +57,7 @@ public abstract class Module implements IRCEventListener
 		return this._parentBot.getConfiguration();
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public final Event[] getRegisteredEvents()
 	{
@@ -66,6 +67,7 @@ public abstract class Module implements IRCEventListener
 
 	final void destruct(ModuleExitState state)
 	{
+		// State will be used later
 		this._parentBot.removeEventListener(this);
 	}
 
