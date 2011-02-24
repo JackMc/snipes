@@ -92,6 +92,11 @@ public class EventArgs
 	 */
 	public String getParamAsString(String key)
 	{
-		return getParam(key).toString();
+		Object o = getParam(key);
+		if (o == null)
+		{
+			return null;
+		}
+		return o.toString();
 	}
 }

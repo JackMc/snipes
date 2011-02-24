@@ -35,6 +35,10 @@ class EventHandlerManager
 	 */
 	void addEvent(Event[] evs)
 	{
+		if (evs == null)
+		{
+			return;
+		}
 		for (Event ev : evs)
 		{
 			addEvent(ev);

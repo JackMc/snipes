@@ -163,6 +163,22 @@ implements BotConstants
 		}
 		return false;
 	}
+	
+	public static <T> int arrayIndex(T[] arr, T item)
+	{
+		if (arr == null)
+		{
+			return -1;
+		}
+		for (int i = 0; i < arr.length; i ++)
+		{
+			if (arr[i].equals(item))
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
 
 	/** Does the behaviour of {@link Integer#parseInt(String)}, but without throwing a 
 	 * Exception. It returns null on error. This method is converted from a method in the

@@ -81,6 +81,11 @@ IRCEventListener
 	{
 		return _options.isDebugging();
 	}
+	
+	public boolean isConnected()
+	{
+		return _manager.isConnected();
+	}
 
 	public void addEventListener(IRCEventListener h)
 	{
