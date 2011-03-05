@@ -85,8 +85,8 @@ class EventHandlerManager
 	public Event[] registerInitialEvents()
 	{
 		Event[] registered = _managed.getRegisteredEvents();
-		addEvent(registered);
-		return registered;
+		addEvent(registered == null ? new Event [] {} : registered);
+		return registered == null ? new Event [] {} : registered;
 	}
 	
 	public Event[] getRegisteredEvents() {
