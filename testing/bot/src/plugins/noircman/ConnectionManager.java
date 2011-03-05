@@ -2,15 +2,18 @@ package plugins.noircman;
 
 import java.io.IOException;
 
+import org.ossnipes.snipes.bot.Configuration;
 import org.ossnipes.snipes.lib.irc.BotUtils;
+import org.ossnipes.snipes.lib.irc.Event;
+import org.ossnipes.snipes.lib.irc.EventArgs;
+import org.ossnipes.snipes.lib.irc.IRCEventListener;
 
-public class ConnectionManager extends Thread
+public class ConnectionManager extends Thread implements IRCEventListener
 {
 	private boolean running = true;
 
 	public ConnectionManager(Connection c, NoIRCModule parent)
 	{
-		System.err.println("NoIRCMan ConnectionManager: starting up.");
 		if (c == null)
 		{
 			throw new IllegalArgumentException("c cannot be null.");
@@ -23,13 +26,29 @@ public class ConnectionManager extends Thread
 	@Override
 	public void run()
 	{
+		this._parent.addEventListener(this);
+
+		try
+		{
+			if (this.checkAuth())
+			{
+				this.startLoop();
+			}
+		} catch (Exception e)
+		{
+			// A I/O operation gave us a :(.
+		}
+	}
+
+	private boolean checkAuth()
+	{
 		this._c.sendln("HELLO");
 		try
 		{
 			String resp = this._c.recv();
 			if (resp == null)
 			{
-				return;
+				return false;
 			}
 			if (resp.equalsIgnoreCase("HELLO"))
 			{
@@ -38,7 +57,7 @@ public class ConnectionManager extends Thread
 				boolean correctPass = false;
 				if (user == null || pass == null)
 				{
-					return;
+					return false;
 				}
 				if (pass.equals("-") || pass.isEmpty())
 				{
@@ -52,27 +71,26 @@ public class ConnectionManager extends Thread
 				if (!correctPass)
 				{
 					this._c.sendln("GOODBYE");
-					this._c.close();
-					return;
+					this.cleanupConnection();
+					return false;
 				}
 				else
 				{
 					this._c.sendln("WELCOME");
 				}
 			}
-
 		} catch (IOException e)
 		{
-			this._c.close();
-			return;
+			this.cleanupConnection();
+			return false;
 		}
-		try
-		{
-			this.startLoop();
-		} catch (Exception e)
-		{
-			// A I/O operation gave us a :(.
-		}
+
+		return true;
+	}
+
+	private void cleanupConnection()
+	{
+		this._c.close();
 	}
 
 	private String startLoop()
@@ -90,17 +108,28 @@ public class ConnectionManager extends Thread
 			{
 				continue;
 			}
-			System.err.println(cmd);
 			if (cmd == null)
 			{
 				result = cmdPrev;
 				break;
 			}
-			if (cmd.equals("SAYHELLO"))
+
+			String[] cmdTok = cmd.split(" ");
+
+			if (cmd.equalsIgnoreCase("SAYHELLO"))
 			{
 				this._c.sendln("PRNT");
 				this._c.sendln("hello world :)");
 			}
+			else if (cmdTok[0].equalsIgnoreCase("FLAG"))
+			{
+				if (cmdTok.length != 3)
+				{
+					this._c.sendln("INVALIDARGS");
+				}
+				this.flags.put(cmdTok[1], cmdTok[2]);
+			}
+
 			result = cmd;
 			cmd = null;
 		}
@@ -135,9 +164,24 @@ public class ConnectionManager extends Thread
 	public void requestStop()
 	{
 		this.running = false;
-		this._c.close();
+		this.cleanupConnection();
+	}
+
+	@Override
+	public Event[] getRegisteredEvents()
+	{
+		Boolean flagVal = this.flags.getPropertyAsBoolean("IRCR");
+		return flagVal == null ? null : (flagVal ? Event.values() : null);
+	}
+
+	@Override
+	public void handleEvent(Event ev, EventArgs args)
+	{
+		this._c.sendln((new StringBuilder("IRCLN")).append(" ")
+				.append(args.getParam("line")).toString());
 	}
 
 	private final Connection _c;
 	private final NoIRCModule _parent;
+	private final Configuration flags = new Configuration();
 }

@@ -10,8 +10,8 @@ import org.ossnipes.snipes.lib.irc.Event;
 import org.ossnipes.snipes.lib.irc.EventArgs;
 import org.ossnipes.snipes.lib.irc.IRCEventListener;
 
-public class NoIRCListener extends Thread implements IRCEventListener,
-		NoIRCConstants
+public class NoIRCListener extends Thread implements NoIRCConstants,
+		IRCEventListener
 {
 	public NoIRCListener(NoIRCModule noIRCModule)
 	{
@@ -20,14 +20,9 @@ public class NoIRCListener extends Thread implements IRCEventListener,
 	}
 
 	@Override
-	public Event[] getRegisteredEvents()
-	{
-		return null;
-	}
-
-	@Override
 	public void run()
 	{
+		this._parent.addEventListener(this);
 		Thread.currentThread().setName("NoIRC-Listener");
 		Integer port = this._parent.getConfiguration().getPropertyAsInteger(
 				"noircport", DEFAULT_PORT);
@@ -45,6 +40,7 @@ public class NoIRCListener extends Thread implements IRCEventListener,
 		{
 			System.err.println("Could not bind to port " + port + ". Error: "
 					+ e.getMessage() + ".");
+			return;
 		}
 
 		while (this._parent.isConnected())
@@ -65,7 +61,10 @@ public class NoIRCListener extends Thread implements IRCEventListener,
 
 		for (ConnectionManager cm : this._mans)
 		{
-			cm.requestStop();
+			if (cm.isAlive())
+			{
+				cm.requestStop();
+			}
 		}
 	}
 
@@ -75,9 +74,43 @@ public class NoIRCListener extends Thread implements IRCEventListener,
 	}
 
 	@Override
+	public Event[] getRegisteredEvents()
+	{
+		return new Event[]
+		{ Event.IRC_PRIVMSG };
+	}
+
+	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
-		// No need as of yet.
+		if (this._parent.getParent().isDebugging())
+		{
+			if (ev == Event.IRC_PRIVMSG)
+			{
+				String msg = args.getParamAsString("message");
+				if (msg.equalsIgnoreCase("!numcms"))
+				{
+					int countAlive = 0;
+					for (ConnectionManager cm : this._mans)
+					{
+						if (cm.isAlive())
+						{
+							countAlive++;
+						}
+					}
+
+					this._parent
+							.getParent()
+							.sendPrivMsg(
+									args.getParamAsString("sendto"),
+									"There are "
+											+ this._mans.size()
+											+ " connection managers registered (the number that have ran at any point). On the other hand, there are "
+											+ countAlive
+											+ " connection managers activly managing connections.");
+				}
+			}
+		}
 	}
 
 	private ServerSocket _ss;

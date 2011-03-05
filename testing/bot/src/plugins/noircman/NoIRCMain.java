@@ -11,10 +11,8 @@ public class NoIRCMain
 
 		this._m = m;
 
-		NoIRCListener noircl = new NoIRCListener(this._m);
-
-		this._m.addEventListener(noircl);
+		new NoIRCListener(this._m);
 	}
 
-	NoIRCModule _m;
+	private final NoIRCModule _m;
 }

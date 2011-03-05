@@ -92,12 +92,16 @@ public class CoreUtils extends CoreModule
 					"Incorrect syntax. Use like !load mypackage.mymodule");
 			return;
 		}
-		else if (msgSplit[1].equalsIgnoreCase(this.getClass().getName()))
+		else if (msgSplit[1].equals(this.getClass().getName()))
 		{
 			this.getParent().sendPrivMsg(sendTo,
 					"This plugin cannot load itself.");
 		}
-
+		else if (this.isModuleLoaded(msgSplit[1]))
+		{
+			this.getParent().sendPrivMsg(sendTo,
+					"That module is already loaded.");
+		}
 		else
 		{
 			try
