@@ -189,7 +189,7 @@ public class Console
 							{
 								String s;
 								while ((s = _cm.getConsoleLine("Are you sure you want to receive " + num + " lines? This will block the program until " + num + 
-										"lines are received [Y/N]: ")).equalsIgnoreCase("Y") || !s.equalsIgnoreCase("N"));
+										" lines are received [Y/N]: ")).equalsIgnoreCase("Y") || !s.equalsIgnoreCase("N"));
 								if (s.equalsIgnoreCase("N"))
 								{
 									return;
