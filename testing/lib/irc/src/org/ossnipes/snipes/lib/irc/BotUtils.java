@@ -135,13 +135,7 @@ implements BotConstants
 	
 	public static <T> List<T> copyList(
 			List<T> list) {
-		List<T> copy = new ArrayList<T>();
-		for (T t : list)
-		{
-			copy.add(t);
-		}
-		
-		return copy;
+		return new ArrayList<T>(list);
 	}
 
 	/** Determines if a array of any type contains the given item. Comparison is done with

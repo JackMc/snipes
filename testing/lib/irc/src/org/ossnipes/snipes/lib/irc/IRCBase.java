@@ -114,7 +114,7 @@ IRCEventListener
 	 * @throws UnknownHostException
 	 *             If the host specified by "server" doesn't exist.
 	 */
-	public IRCBase connect(String server, int port, SocketFactory factory)
+	public IRCBase connect(String server, int port, String passwd, SocketFactory factory)
 	throws IOException, UnknownHostException
 	{
 		Thread.currentThread().setName("Snipes-IRC-Framework-Main");
@@ -156,14 +156,27 @@ IRCEventListener
 		t.start();
 
 		// We can start!
-		sendInit();
+		sendInit(passwd);
 		// We're connected!
 		return this;
 	}
 
-	/** Sends a few lines we need to the server before we start */
-	private void sendInit()
+	
+	public IRCBase connect(String server, int port, SocketFactory factory)
+	throws IOException, UnknownHostException
 	{
+		return connect(server, port, null, factory);
+	}
+	
+	/** Sends a few lines we need to the server before we start */
+	private void sendInit(String passwd)
+	{
+		// PASS needs to be sent before the USER/NICK combination.
+		if (passwd != null)
+		{
+			_manager.sendRaw("PASS :" + passwd);
+		}
+		
 		_manager.sendRaw("USER " + _user + " 0 Snipes :" + _realname);
 		_manager.sendRaw("NICK " + _nick);
 	}
@@ -365,10 +378,27 @@ IRCEventListener
 		sendRaw("NICK " + _nick);
 		return this;
 	}
+	
+	/** Sets the bot's username (before the &#064; and after !). This should be called before connecting to a server, as there is
+	 * no way in the protocol to change the username after the original USER command.
+	 * @param name The username to set to.
+	 * @return This instance, for chaining.
+	 */
+	public IRCBase setUser(String newUser)
+	{
+		if (newUser == null)
+		{
+			throw new IllegalArgumentException("Name cannot be null.");
+		}
+		
+		this._user = newUser;
+		return this;
+	}
+	
 	/** Sets the bot's realname. This should be called before connecting to a server, as there is
 	 * no way in the protocol to change the realname after the original USER command.
-	 * @param name
-	 * @return
+	 * @param name The realname to set to.
+	 * @return This instance, for chaining.
 	 */
 	public IRCBase setRealname(String name)
 	{
@@ -388,7 +418,6 @@ IRCEventListener
 	public IRCBase join(String channel)
 	{
 		_manager.sendRaw("JOIN " + channel);
-//		who(channel);
 		return this;
 	}
 	/** Used to handle a event sent by {@link #sendEvent(Event, EventArgs)}.

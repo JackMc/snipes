@@ -37,7 +37,7 @@ import static org.ossnipes.snipes.lib.irc.BotUtils.*;
  * @since Snipes 0.6
  */
 
-class IRCInputHandler implements BotConstants, IRCConstants
+class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 {
 	// Solution to the problem of the VERSION message being a PRIVMSG :\.
 	private boolean finishedConnection = false;
@@ -53,7 +53,8 @@ class IRCInputHandler implements BotConstants, IRCConstants
 	 * @param line
 	 *            The line that we are to handle. Cannot be null.
 	 */
-	void handle(String line)
+	@Override
+	public void handle(String line)
 	{
 		boolean isResponseCode = false;
 		// Is the bot verbose?

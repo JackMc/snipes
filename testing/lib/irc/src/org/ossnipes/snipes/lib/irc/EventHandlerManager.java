@@ -60,7 +60,15 @@ class EventHandlerManager
 
 	boolean isSubscribed(Event ev)
 	{
+		populateSubscribedEvents();
 		return _subscribedEvents.contains((Object)ev);
+	}
+
+	private Event[] populateSubscribedEvents() {
+		_subscribedEvents.clear();
+		Event[] registered = _managed.getRegisteredEvents();
+		addEvent(registered == null ? new Event [] {} : registered);
+		return registered;
 	}
 
 	void handleEvent(Event ev, EventArgs args)
@@ -84,8 +92,7 @@ class EventHandlerManager
 	
 	public Event[] registerInitialEvents()
 	{
-		Event[] registered = _managed.getRegisteredEvents();
-		addEvent(registered == null ? new Event [] {} : registered);
+		Event[] registered = populateSubscribedEvents();
 		return registered == null ? new Event [] {} : registered;
 	}
 	

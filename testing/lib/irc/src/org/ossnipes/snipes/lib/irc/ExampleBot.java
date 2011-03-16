@@ -33,6 +33,7 @@ public class ExampleBot extends IRCBase
 	{
 		new ExampleBot().run();
 	}
+	
 	public void run()
 	{
 		try

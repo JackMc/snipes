@@ -34,20 +34,23 @@ import java.io.IOException;
 
 class IRCReceiver implements Runnable
 {
+	// Lock for usage of the handler.
+	private Object lock = new Object();
+	
 	/**
 	 * Instantiates a object of the class.
 	 * 
 	 * @param manager
 	 *            The socket manager that this thread should be watching for
 	 *            messages
-	 * @param parent
+	 * @param initialHandler
 	 *            The "parent" IRCBase of this object. In other words: The
 	 *            object it will notify if it gets a message.
 	 */
-	IRCReceiver(IRCSocketManager manager, IRCInputHandler parent)
+	IRCReceiver(IRCSocketManager manager, InputHandler initialHandler)
 	{
 		_manager = manager;
-		_handler = parent;
+		_handler = initialHandler;
 	}
 
 	public void run()
@@ -60,7 +63,10 @@ class IRCReceiver implements Runnable
 				String s = _manager.recvRaw();
 				if (s != null)
 				{
-					_handler.handle(s);
+					synchronized (s) 
+					{
+						_handler.handle(s);
+					}
 				}
 				else
 				{
@@ -74,6 +80,14 @@ class IRCReceiver implements Runnable
 		 */
 		}
 	}
+	
+	public void setHandler(InputHandler newIn)
+	{
+		synchronized (lock) 
+		{
+			_handler = newIn;
+		}
+	}
 
 	public boolean isConnected()
 	{
@@ -81,6 +95,6 @@ class IRCReceiver implements Runnable
 	}
 
 	private IRCSocketManager _manager;
-	private IRCInputHandler _handler;
+	private InputHandler _handler;
 
 }
