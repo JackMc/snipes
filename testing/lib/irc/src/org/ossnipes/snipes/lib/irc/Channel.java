@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 public class Channel implements IRCEventListener, IRCConstants
 {
 	//TODO: Nick change support (shouldn't be that hard to do.) There may be complications to do with shared BotUser Objects. Maybe they could hold their previous nicks, and we could check that too.
+	//TODO: We also need to track as users part/join.
 	Channel(String name)
 	{
 		if (name == null)
