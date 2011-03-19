@@ -22,7 +22,7 @@ public class Channel implements IRCEventListener, IRCConstants
 	@Override
 	public Event[] getRegisteredEvents() 
 	{
-		return new Event [] {Event.IRC_RESPONSE_CODE, Event.IRC_JOIN_TOPIC, Event.IRC_TOPIC};
+		return new Event [] {Event.IRC_RESPONSE_CODE, Event.IRC_JOIN_TOPIC, Event.IRC_TOPIC, Event.IRC_JOIN, Event.IRC_PART};
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class Channel implements IRCEventListener, IRCConstants
 			
 			if (code == RPL_NAMREPLY)
 			{
-				if (!split[1].equalsIgnoreCase(_name))
+				if (!split[1].equalsIgnoreCase(getName()))
 				{
 					return;
 				}
@@ -72,7 +72,7 @@ public class Channel implements IRCEventListener, IRCConstants
 			}
 			else if (code == RPL_ENDOFNAMES)
 			{
-				if (!split[0].equalsIgnoreCase(_name))
+				if (!split[0].equalsIgnoreCase(getName()))
 				{
 					return;
 				}
@@ -86,6 +86,46 @@ public class Channel implements IRCEventListener, IRCConstants
 			{
 				_topic = args.getParamAsString("topic");
 			}
+		}
+		else if (ev == Event.IRC_JOIN)
+		{
+			String nick = args.getParamAsString("nick");
+			if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
+			{
+				addUser(nick);
+			}
+		}
+		else if (ev == Event.IRC_PART)
+		{
+			String nick = args.getParamAsString("nick");
+			if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
+			{
+				BotUser user = null;
+				for (BotUser u : _currentUsers)
+				{
+					if (u.getNick().equalsIgnoreCase(nick))
+					{
+						user = u;
+						break;
+					}
+				}
+				if (user == null)
+				{
+					throw new SnipesException(nick + " was not found in the list of users, yet they parted channel " + getName() + ".");
+				}
+				else
+				{
+					_currentUsers.remove(user);
+				}
+			}
+		}
+		else if (ev == Event.IRC_RESPONSE_CODE)
+		{
+			return;
+		}
+		else
+		{
+			System.err.println("Snipes IRC API Channel Tracking: Unknown event was sent to us: " + ev + ".");
 		}
 	}
 
