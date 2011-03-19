@@ -5,13 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.Properties;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /** A extension of the {@link Properties} class for the SnipesBot project.<BR/>
  * New features include some new constructors and utility methods for getting of
- * properties as certain types.
+ * properties as certain types. This class also overrides the store method,
+ * making it unusable to stop users from writing to the configuration file
+ * (destroys comments and messes up the order of properties.)
  * 
  * @author Jack McCracken
  * @since Snipes 0.01 */
@@ -252,10 +253,19 @@ public class Configuration extends Properties
 		{ "" }, ",", true);
 	}
 
-	/** {@inheritDoc} */
+	/** This class does not implement this method for the safety of user's
+	 * comments and order of elements. */
 	@Override
 	public void store(OutputStream out, String extraComment) throws IOException
 	{
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException(
+				"The Configuration class does not implement this method for the safety of user's "
+						+ "comments and order of properties.");
+	}
+
+	@Override
+	public void store(Writer writer, String comments) throws IOException
+	{
+		this.store((OutputStream) null, null);
 	}
 }

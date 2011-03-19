@@ -3,6 +3,7 @@ package plugins.noircman;
 import org.ossnipes.snipes.bot.Configuration;
 import org.ossnipes.snipes.bot.Module;
 import org.ossnipes.snipes.bot.ModuleReturn;
+import org.ossnipes.snipes.bot.SnipesBot;
 import org.ossnipes.snipes.lib.irc.Event;
 import org.ossnipes.snipes.lib.irc.EventArgs;
 import org.ossnipes.snipes.lib.irc.IRCEventListener;
@@ -13,9 +14,9 @@ public class NoIRCModule extends Module
 	@Override
 	protected ModuleReturn snipesInit()
 	{
-		// TODO: Needs A LOT of work.
 		new NoIRCMain(this);
-
+		// No use wasting time on us when we don't handle any events.
+		this.getParent().removeEventListener(this);
 		return null;
 	}
 
@@ -28,6 +29,11 @@ public class NoIRCModule extends Module
 	public Configuration getConf()
 	{
 		return this.getConfiguration();
+	}
+
+	public SnipesBot getBot()
+	{
+		return this.getParent();
 	}
 
 	public boolean isConnected()

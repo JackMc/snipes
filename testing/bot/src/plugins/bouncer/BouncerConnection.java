@@ -1,0 +1,178 @@
+package plugins.bouncer;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.ossnipes.snipes.bot.SnipesBot;
+
+public class BouncerConnection extends Thread
+{
+	public BouncerConnection(SnipesBot bot, Socket s)
+	{
+		this._bot = bot;
+		this._isAuthed = false;
+		this._sock = s;
+
+		this.start();
+	}
+
+	@Override
+	public void run()
+	{
+		// Doesn't really need to be done after starting up, but speeds things
+		// up getting back to the caller.
+		this.populatePseudoClientList();
+
+		try
+		{
+			this._in = new BufferedReader(new InputStreamReader(
+					this._sock.getInputStream()));
+			this._out = new PrintStream(this._sock.getOutputStream());
+		} catch (IOException e)
+		{
+			System.err
+					.println("Snipes bouncer: Could not get socket I/O streams.");
+			return;
+		}
+
+		// TODO: Some I/O to connect to the client (accept user (throw away),
+		// nick (throw away) and send the startup packets (look at GS's
+		// connection using ExampleBot (fix that too)
+
+		try
+		{
+			this.loop();
+		} catch (IOException e)
+		{
+			System.err
+					.println("Snipes bouncer: unable to read line from server.");
+		}
+	}
+
+	/** @param out
+	 * @param in
+	 * @throws IOException */
+	private void loop() throws IOException
+	{
+		String line;
+		while ((line = this._in.readLine()) != null)
+		{
+			System.err.println(line);
+			this._out.println(":Auv5 NICK Snipes");
+			for (PseudoClient pc : this._clients)
+			{
+				if (pc.isLineTo(line, this))
+				{
+					pc.performCommand(line, this);
+					// Lines can only go to one client.
+					break;
+				}
+			}
+		}
+	}
+
+	private void populatePseudoClientList()
+	{
+		OUTER: for (EnumPseudoClient epc : EnumPseudoClient.values())
+		{
+			Class<? extends PseudoClient> clazz = epc.getClientClass();
+
+			Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+
+			// Impossible case.
+			if (constructors.length == 0)
+			{
+				// I saw ArrayList do this for an impossible case, so I'm going
+				// to assume it's correct.
+				throw new InternalError();
+			}
+
+			Constructor<?> constructor = null;
+
+			INNER: for (Constructor<?> c : constructors)
+			{
+				Class<?>[] paramTypes = c.getParameterTypes();
+
+				if (paramTypes.length != 1)
+				{
+					continue INNER;
+				}
+
+				if (paramTypes[0] == SnipesBot.class)
+				{
+					constructor = c;
+					break INNER;
+				}
+			}
+
+			if (constructor == null)
+			{
+				// *This is not the class you are looking for* :)
+				System.err
+						.println("Snipes bouncer: Could not reflectively instantiate pseudo-client "
+								+ clazz.getName()
+								+ ". It does not have a constructor taking a SnipesBot as it's only argument.");
+				continue OUTER;
+			}
+			else
+			{
+				// Initialise the Object and stick it in the list.
+				try
+				{
+					// No need to check cast, it came from a ? extends
+					// PsuedoClient Class object.
+					this._clients.add((PseudoClient) constructor
+							.newInstance(this._bot));
+				} catch (IllegalArgumentException e)
+				{
+					// We already checked the arguments.
+					System.err
+							.println("Snipes bouncer: Imposible case. Please check what universe you are in.");
+					throw new InternalError();
+				} catch (InstantiationException e)
+				{
+					System.err
+							.println("Invalid class. It is either an array class, an abstract class or something that cannot be initialised by us mere mortals (bow down to the almighty JVM!)");
+				} catch (IllegalAccessException e)
+				{
+					System.err
+							.println("Snipes bouncer: Constructor is private, protected or package-private. Cannot call constructor.");
+				} catch (InvocationTargetException e)
+				{
+					System.err
+							.println("Snipes bouncer: Constructor throws a exception. Cannot load PseudoClient "
+									+ clazz.getName() + ".");
+				}
+			}
+		}
+	}
+
+	public boolean isAuthed()
+	{
+		return this._isAuthed;
+	}
+
+	public void sendRawLineToClient(String line)
+	{
+		this._out.println(line);
+	}
+
+	public void sendRawLineToServer(String line)
+	{
+		this._bot.sendRaw(line);
+	}
+
+	private final boolean _isAuthed;
+	private final SnipesBot _bot;
+	private final List<PseudoClient> _clients = new ArrayList<PseudoClient>();
+	private final Socket _sock;
+	private PrintStream _out;
+	private BufferedReader _in;
+}

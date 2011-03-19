@@ -13,7 +13,7 @@ class ModuleCollection
 	 * 
 	 * @param parent The parent of the modules to be initialised with this
 	 *            collection.
-	 * @param onLoadModules A list of modules to be loaded automaticly. */
+	 * @param onLoadModules A list of modules to be loaded automatically. */
 	public ModuleCollection(SnipesBot parent, String[] onLoadModules)
 	{
 		// Initialise an empty collection
@@ -46,6 +46,18 @@ class ModuleCollection
 			{
 				System.err.println("Could not load module \"" + module
 						+ "\" because it cannot be found on the CLASSPATH.");
+			} catch (ModuleInitException e)
+			{
+				// System.err.println("Module " + module
+				// + "could not be initialised: "
+				// + e.getModule().getLastError() != null ? e.getModule()
+				// .getLastError() : "No error message specified.");
+				Module m = e.getModule();
+				System.err.println("Error while initialising module "
+						+ module
+						+ ". It gave the error \""
+						+ (m.getLastError() == null ? "No error specified." : m
+								.getLastError()) + "\"");
 			}
 		}
 	}
@@ -68,10 +80,11 @@ class ModuleCollection
 	 *             is an array class, or an abstract class.
 	 * @throws IllegalAccessException If we cannot call the constructor of the
 	 *             Module for whatever reason.
-	 * @throws ClassNotFoundException If the bot could not find the Module. */
+	 * @throws ClassNotFoundException If the bot could not find the Module.
+	 * @throws ModuleInitException If Module#snies */
 	public void addModules(SnipesBot parent, String[] modules)
 			throws ModuleLoadException, InstantiationException,
-			IllegalAccessException, ClassNotFoundException
+			IllegalAccessException, ClassNotFoundException, ModuleInitException
 	{
 		for (String module : modules)
 		{
@@ -90,10 +103,12 @@ class ModuleCollection
 	 *             is an array class, or an abstract class.
 	 * @throws IllegalAccessException If we cannot call the constructor of the
 	 *             Module for whatever reason.
-	 * @throws ClassNotFoundException If the bot could not find the Module. */
+	 * @throws ClassNotFoundException If the bot could not find the Module.
+	 * @throws ModuleInitException If {@link Module#snipesInit()} returns
+	 *             {@link ModuleReturn#ERROR} */
 	public void addModules(SnipesBot parent, Module[] modules)
 			throws ModuleLoadException, InstantiationException,
-			IllegalAccessException, ClassNotFoundException
+			IllegalAccessException, ClassNotFoundException, ModuleInitException
 	{
 		for (Module m : modules)
 		{
@@ -114,14 +129,28 @@ class ModuleCollection
 	 *             is an array class, or an abstract class.
 	 * @throws IllegalAccessException If we cannot call the constructor of the
 	 *             Module for whatever reason.
-	 * @throws ClassNotFoundException If the bot could not find the Module. */
+	 * @throws ClassNotFoundException If the bot could not find the Module.
+	 * @throws ModuleInitException If {@link Module#snipesInit()} returns
+	 *             {@link ModuleReturn#ERROR} */
 	public ModuleManager addModule(SnipesBot parent, String module)
 			throws ModuleLoadException, InstantiationException,
-			IllegalAccessException, ClassNotFoundException
+			IllegalAccessException, ClassNotFoundException, ModuleInitException
 	{
 		ModuleManager manager = new ModuleManager(parent, module);
-		manager.initialise();
-		this._modules.add(manager);
+
+		if (manager.initialise() != ModuleReturn.ERROR)
+		{
+			this._modules.add(manager);
+		}
+		else
+		{
+			// TODO: Call snipesFini here later if it's needed (we've called
+			// their init, so we should call fini).
+			throw new ModuleInitException(
+					"Module snipesInit() returned ModuleReturn.ERROR.",
+					manager.getModule());
+		}
+
 		return manager;
 	}
 
@@ -135,7 +164,7 @@ class ModuleCollection
 		ModuleManager mRight = null;
 		for (ModuleManager m : this._modules)
 		{
-			if (m.getClass().getName().equals(module))
+			if (m.getModuleClassName().equals(module))
 			{
 				mRight = m;
 			}
@@ -162,10 +191,12 @@ class ModuleCollection
 	 *             is an array class, or an abstract class.
 	 * @throws IllegalAccessException If we cannot call the constructor of the
 	 *             Module for whatever reason.
-	 * @throws ClassNotFoundException If the bot could not find the Module. */
+	 * @throws ClassNotFoundException If the bot could not find the Module.
+	 * @throws ModuleInitException If {@link Module#snipesInit()} returns
+	 *             {@link ModuleReturn#ERROR} */
 	void addModule(SnipesBot parent, Module module) throws ModuleLoadException,
 			InstantiationException, IllegalAccessException,
-			ClassNotFoundException
+			ClassNotFoundException, ModuleInitException
 	{
 		this.addModule(parent, module.getClass().getName());
 	}
@@ -176,15 +207,20 @@ class ModuleCollection
 	 * @return True if the module is loaded. */
 	boolean isModuleLoaded(String name)
 	{
+		return this.getModuleByName(name) == null ? false : true;
+	}
+
+	public Module getModuleByName(String name)
+	{
 		for (ModuleManager s : this._modules)
 		{
 			if (s.getModuleClassName().equals(name))
 			{
-				return true;
+				return s.getModule();
 			}
 		}
-		return false;
+		return null;
 	}
 
-	List<ModuleManager> _modules;
+	private final List<ModuleManager> _modules;
 }

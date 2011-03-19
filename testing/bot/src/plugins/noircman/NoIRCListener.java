@@ -24,8 +24,8 @@ public class NoIRCListener extends Thread implements NoIRCConstants,
 	{
 		this._parent.addEventListener(this);
 		Thread.currentThread().setName("NoIRC-Listener");
-		Integer port = this._parent.getConfiguration().getPropertyAsInteger(
-				"noircport", DEFAULT_PORT);
+		Integer port = this._parent.getConf().getPropertyAsInteger("noircport",
+				DEFAULT_PORT);
 		if (port == null)
 		{
 			System.err
@@ -83,7 +83,7 @@ public class NoIRCListener extends Thread implements NoIRCConstants,
 	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
-		if (this._parent.getParent().isDebugging())
+		if (this._parent.getBot().isDebugging())
 		{
 			if (ev == Event.IRC_PRIVMSG)
 			{
@@ -100,7 +100,7 @@ public class NoIRCListener extends Thread implements NoIRCConstants,
 					}
 
 					this._parent
-							.getParent()
+							.getBot()
 							.sendPrivMsg(
 									args.getParamAsString("sendto"),
 									"There are "

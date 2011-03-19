@@ -31,11 +31,11 @@ class ModuleManager
 	}
 
 	/** initialises the {@link Module}. */
-	void initialise()
+	ModuleReturn initialise()
 	{
 		synchronized (this._parent)
 		{
-			this._managed.initiailise(this._parent);
+			return this._managed.initiailise(this._parent);
 		}
 	}
 
@@ -61,6 +61,11 @@ class ModuleManager
 	String getModuleClassName()
 	{
 		return this._managed.getClass().getName();
+	}
+
+	Module getModule()
+	{
+		return this._managed;
 	}
 
 	/** {@inheritDoc} */

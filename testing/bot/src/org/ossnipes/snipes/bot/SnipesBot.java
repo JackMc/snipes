@@ -193,30 +193,67 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		// No code.
 	}
 
+	// Configuration methods
 	/** Gets the current {@link Configuration} {@link Object} of this bot.
 	 * 
 	 * @return The current {@link Configuration} Object. */
-	Configuration getConfiguration()
+	public Configuration getConfiguration()
 	{
 		return this._c;
 	}
 
+	// End configuration methods
+
+	// Module collection methods.
+	/** Loads a module.
+	 * 
+	 * @param module The module to load.
+	 * @return The {@link ModuleManager} Object of the loaded {@link Module}
+	 * @throws ModuleLoadException If the Module is not a instance of Module or
+	 *             it's subclasses.
+	 * @throws InstantiationException If the bot cannot instantiate a Object of
+	 *             the specified Module. This generally happens when the class
+	 *             is an array class, or an abstract class.
+	 * @throws IllegalAccessException If we cannot call the constructor of the
+	 *             Module for whatever reason.
+	 * @throws ClassNotFoundException If the bot could not find the Module.
+	 * @throws ModuleInitException If the module returned
+	 *             {@link ModuleReturn#ERROR} from {@link Module#snipesInit()} */
 	ModuleManager loadModule(String moduleName) throws ModuleLoadException,
 			InstantiationException, IllegalAccessException,
-			ClassNotFoundException
+			ClassNotFoundException, ModuleInitException
 	{
 		return this._coll.addModule(this, moduleName);
 	}
 
+	/** Removes a module from the list of modules, and stops it from receiving
+	 * further events. This will call snipesFini when it is uncommented.
+	 * 
+	 * @param moduleName The name of the module.
+	 * @return True if we were able to remove the module. */
 	boolean removeModule(String moduleName)
 	{
 		return this._coll.removeModule(moduleName, ModuleExitState.EXIT_UNLOAD);
 	}
 
+	/** Returns true if the specified module is loaded by this bot, and false
+	 * otherwise.
+	 * 
+	 * @param name The name of the module to check the loaded status of.
+	 * @return See above. */
 	boolean isModuleLoaded(String name)
 	{
 		return this._coll.isModuleLoaded(name);
 	}
+
+	Module getModuleByName(String name)
+	{
+		return this._coll.getModuleByName(name);
+	}
+
+	// End module collection methods.
+
+	// Authentication methods
 
 	private Configuration _c;
 	private ModuleCollection _coll;

@@ -1,6 +1,6 @@
 package org.ossnipes.snipes.bot;
 
-/** Signals that there was a error when loading a Snipes plugin.
+/** Signals that there was a error when loading a Snipes module.
  * 
  * @author Jack McCracken (Auv5)
  * @since Snipes 0.01 */

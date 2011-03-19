@@ -139,10 +139,10 @@ public class ConnectionManager extends Thread implements IRCEventListener
 
 	private boolean tryID(String user, String pass)
 	{
-		String[] users = this._parent.getConfiguration()
-				.getPropertyAsStringArray("noircusers", new String[] {});
-		String[] passes = this._parent.getConfiguration()
-				.getPropertyAsStringArray("noircpasses", new String[] {});
+		String[] users = this._parent.getConf().getPropertyAsStringArray(
+				"noircusers", new String[] {});
+		String[] passes = this._parent.getConf().getPropertyAsStringArray(
+				"noircpasses", new String[] {});
 		String p2 = pass == null ? "" : pass;
 
 		int inU = BotUtils.arrayIndex(users, user);

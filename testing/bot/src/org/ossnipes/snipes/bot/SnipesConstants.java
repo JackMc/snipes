@@ -10,6 +10,6 @@ public interface SnipesConstants
 			.toString(SNIPESBOT_VERSION);
 	public static final String CONFIGURATION_FILENAME = "snipes.properties";
 	public static final String[] CORE_MODULES =
-	{ "plugins.CoreUtils", "plugins.noircman.NoIRCModule" };
+	{ "plugins.CoreUtils" };
 	public static final String DEV_EMAIL = "jack.mccracken@ymail.com";
 }

@@ -1,6 +1,7 @@
 package plugins;
 
 import org.ossnipes.snipes.bot.CoreModule;
+import org.ossnipes.snipes.bot.ModuleInitException;
 import org.ossnipes.snipes.bot.ModuleLoadException;
 import org.ossnipes.snipes.bot.ModuleReturn;
 import org.ossnipes.snipes.bot.SnipesConstants;
@@ -13,7 +14,6 @@ public class CoreUtils extends CoreModule
 	@Override
 	protected ModuleReturn snipesInit()
 	{
-		System.err.println("Hello :)");
 		return null;
 	}
 
@@ -132,6 +132,12 @@ public class CoreUtils extends CoreModule
 						.sendPrivMsg(
 								sendTo,
 								"Error: Bot could not load the specified module because it could not be found in the bot's CLASSPATH.");
+			} catch (ModuleInitException e)
+			{
+				this.getParent().sendPrivMsg(
+						sendTo,
+						"Error: Bot could not start up the specified module: "
+								+ e.getModule().getLastError());
 			}
 		}
 	}
