@@ -78,6 +78,7 @@ class IRCReceiver implements Runnable
 		{/*
 		 * :( we've Disconnected, or we've been disconnected. Just return.
 		 */
+			System.err.println("Disconnected unexpectedly: " + e.getMessage());
 		}
 	}
 	

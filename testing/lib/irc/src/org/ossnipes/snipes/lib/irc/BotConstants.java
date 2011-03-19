@@ -58,5 +58,5 @@ public interface BotConstants
 	/** The set of events that need handling by the bot framework itself, along with possibly 
 	 * the user.
 	 */
-	static final Event[] INTERNAL_EVENTS = { Event.IRC_PING, Event.IRC_TOPIC, Event.IRC_JOIN_TOPIC, Event.IRC_NICKINUSE };
+	static final Event[] INTERNAL_EVENTS = { Event.IRC_PING, Event.IRC_JOIN, Event.IRC_NICKINUSE };
 }

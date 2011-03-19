@@ -103,7 +103,7 @@ class IRCSocketManager
 			return _reader.readLine();
 		} catch (IOException e)
 		{
-			throw new IOException("We have been killed!");
+			throw new IOException("We have been killed: " + e.getMessage(), e);
 		}
 	}
 

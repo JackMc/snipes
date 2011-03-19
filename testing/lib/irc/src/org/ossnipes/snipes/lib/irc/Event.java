@@ -20,6 +20,8 @@ public class Event
 	 * text: The text of the response.
 	 * <BR/>
 	 * server: The server sending the code.
+	 * <BR/>
+	 * code: The numeric from IRCConstants, type {@link Integer}.
 	 */
 	public static Event IRC_RESPONSE_CODE = new Event("IRC_RESPONSE_CODE");
 	/** This event is triggered when someone quits in a channel we are in. The bot cannot provide channel information

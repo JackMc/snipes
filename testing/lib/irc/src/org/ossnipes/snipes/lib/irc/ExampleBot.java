@@ -38,6 +38,7 @@ public class ExampleBot extends IRCBase
 	{
 		try
 		{
+			setRealname("Snipes IRC Framework example bot.");
 			setVerbose(true);
 			setNick("Snipes-TestBot");
 			connect("irc.geekshed.net");

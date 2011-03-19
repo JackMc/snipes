@@ -2,9 +2,8 @@ package org.ossnipes.snipes.lib.irc;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,16 +48,14 @@ import javax.net.SocketFactory;
  * 
  */
 public abstract class IRCBase implements IRCConstants, BotConstants, 
-IRCEventListener
+IRCEventListener, InternalConstants
 {
-
-	//TODO: Add more methods for doing things
 	// Default constructor
 	public IRCBase()
 	{
-		// Init topics and event manager lists and hashmaps.
-		_topics = new HashMap<String,String>();
 		_eventcoll = new EventHandlerCollection();
+		if (CHANNEL_TRACKING)
+			_channels = new ArrayList<Channel>();
 		_options = BotOptions.getInst();
 		_eventcoll.addEventListener(this);
 	}
@@ -437,11 +434,35 @@ IRCEventListener
 		{
 			sendPong(args.getParamAsString("server"));
 		}
-		// When we first receive the topic from the server upon joining a channel or
-		// it is changed.
-		else if (ev == Event.IRC_JOIN_TOPIC || ev == Event.IRC_TOPIC)
+		else if (ev == Event.IRC_JOIN)
 		{
-			_topics.put((String)args.getParam("channel"), (String)args.getParam("topic"));
+			if (CHANNEL_TRACKING)
+			{
+				// We're only interested if the nick is us.
+				if (args.getParamAsString("nick").equalsIgnoreCase(getNick()))
+				{
+					Channel c = new Channel(args.getParamAsString("channel"));
+					addEventListener(c);
+					_channels.add(c);
+				}
+			}
+		}
+		else if (ev == Event.IRC_PART)
+		{
+			if (CHANNEL_TRACKING)
+			{
+				if (args.getParamAsString("nick").equalsIgnoreCase(getNick()))
+				{
+					String chanName = args.getParamAsString("channel");
+					
+					// Returns false if the Object did not exist in the first place.
+					if (!_channels.remove(getChannelForName(chanName)))
+					{
+						// We didn't have it in our lists? But we were parting it!
+						throw new SnipesException("Channel was not in the lists, yet we parted it.");
+					}
+				}
+			}
 		}
 		else if (ev == Event.IRC_NICKINUSE)
 		{
@@ -521,6 +542,31 @@ IRCEventListener
 	{
 		return _eventcoll;
 	}
+	
+	public Channel[] getJoinedChannels()
+	{
+		if (!CHANNEL_TRACKING)
+		{
+			throw new UnsupportedOperationException("The API was compiled with CHANNEL_TRACKING set to false. Channel tracking features are disabled.");
+		}
+		return _channels.toArray(new Channel[_channels.size()]);
+	}
+	
+	private Channel getChannelForName(String name)
+	{
+		Channel result = null;
+		
+		for (Channel c : _channels)
+		{
+			// IRC's channel naming is case-insensitive.
+			if (c.getName().equalsIgnoreCase(name))
+			{
+				return c;
+			}
+		}
+		
+		return result;
+	}
 
 	/** The current nick of the bot */
 	private String _nick = DEFAULT_NICK;
@@ -548,9 +594,8 @@ IRCEventListener
 	private IRCReceiver _receiver;
 	/** The IRCInputHandler that will pass all received messages to us. */
 	private IRCInputHandler _handler;
-
-	/** Holds all the topics of the channels we're in. */
-	private Map<String,String> _topics;
+	
+	private List<Channel> _channels;
 
 	private static final Logger _logger = Logger.getLogger(IRCBase.class.getCanonicalName());
 	
