@@ -93,7 +93,7 @@ implements BotConstants
 	public static void sendEvent(Event ev, EventArgs args, EventHandlerCollection coll)
 	{
 		// Is it a internal event?
-		boolean isInternal = BotUtils.arrayContains(INTERNAL_EVENTS, ev);
+		boolean isInternal = arrayContains(INTERNAL_EVENTS, ev);
 		List<EventHandlerManager> mans;
 		
 		if (InternalConstants.USE_EVLIST_COPY)

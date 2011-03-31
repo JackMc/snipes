@@ -88,14 +88,14 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		// PING command: we need this or the server'll disconnect us!
 		if (exSplit[0].equals("PING"))
 		{
-			handlePing(exSplit);
+			handlePing(line, exSplit);
 		}
 
 		// PRIVMSG command: If the user sends a PRIVMSG to us or to a channel
 		// Example: ":Auv5!~auv5@projectinfinity.net PRIVMSG #Snipes :A IRC PRIVMSG!"
 		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("PRIVMSG"))
 		{
-			handlePrivMsg(exSplit);
+			handlePrivMsg(line, exSplit);
 		}
 
 		// When the topic is sent to us at join.
@@ -104,7 +104,7 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		else if (exSplit.length >= 4 && isInteger(exSplit[1]) &&
 				convertToInt(exSplit[1]) == RPL_TOPIC)
 		{
-			handleOnJoinTopic(exSplit);
+			handleOnJoinTopic(line, exSplit);
 		}
 		// When the topic is changed by (typically) an operator
 		// This is *different* than when the topic send to us at join.
@@ -113,13 +113,13 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		// Example: ":Unix!~auv5@projectinfinity.net TOPIC #Snipes :Read this! It's a good document for all who want to use Snipes' plugin API :). http://ossnipes.org/docs/snipes/snipes-article.html | ?? PROFIT"
 		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("TOPIC") && exSplit[2].startsWith("#"))
 		{
-			handleTopicChange(exSplit);
+			handleTopicChange(line, exSplit);
 		}
 		// When a user joins a channel we are in.
 		// Example: ":Unix!rubicon@projectinfinity.net JOIN :#Snipes"
 		else if (exSplit.length == 3 && exSplit[1].equalsIgnoreCase("JOIN"))
 		{
-			handleUserJoined(exSplit);
+			handleUserJoined(line, exSplit);
 		}
 
 		// When a user or a network service/server sets a mode on a channel we are in.
@@ -128,7 +128,7 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("MODE") && (exSplit[3].substring((exSplit[3].startsWith(":") ? 1 : 0)).startsWith("+")
 				|| exSplit[3].substring((exSplit[3].startsWith(":") ? 1 : 0)).startsWith("-")))
 		{
-			handleModeSet(exSplit);
+			handleModeSet(line, exSplit);
 		}
 
 		// When a user parts a channel we are in.
@@ -137,7 +137,7 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		// This command is similar to the JOIN command :\.
 		else if (exSplit.length >= 3 && exSplit[1].equalsIgnoreCase("PART"))
 		{
-			handleUserParted(exSplit);
+			handleUserParted(line, exSplit);
 		}
 
 
@@ -145,7 +145,7 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		// Example: ":Unix!rubicon@projectinfinity.net NICK Auv5"
 		else if (exSplit.length == 3 && exSplit[1].equalsIgnoreCase("NICK"))
 		{
-			handleUserNickChange(exSplit);
+			handleUserNickChange(line, exSplit);
 		}
 
 
@@ -153,14 +153,14 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		// Example: ":Unix!rubicon@projectinfinity.net KICK #Snipes Auv5[Away] :Event tests ftw :)"
 		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("KICK"))
 		{
-			handleUserKicked(exSplit);
+			handleUserKicked(line, exSplit);
 		}
 
 		// When a user sends a NOTICE command to us or a channel we are in.
 		// Example: ":Unix!rubicon@projectinfinity.net NOTICE Snipes-RunSetNick :Hello world!"
 		else if (exSplit.length >= 4 && exSplit[1].equalsIgnoreCase("NOTICE"))
 		{
-			handleUserNoticed(exSplit);
+			handleUserNoticed(line, exSplit);
 		}
 
 		// When a user leaves the network in a channel we are in.
@@ -170,7 +170,7 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		// Example: ":Auv5[Away]!~auv5@projectinfinity.net QUIT :Goodbye world!"
 		else if (exSplit.length >= 2 && exSplit[1].equalsIgnoreCase("QUIT"))
 		{
-			handleUserQuit(exSplit);
+			handleUserQuit(line, exSplit);
 		}
 
 		// If we've tried our best, and we have no idea what it is from all our checks,
@@ -184,10 +184,10 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 
 	private void handleUnknownEvent(String line) {
 		// Send a unknown event, with the line as the only param.
-		sendEvent(Event.IRC_UNKNOWN, new EventArgs(new String [] {"line"},new String [] {line}), _parent);
+		sendEvent(Event.IRC_UNKNOWN, new EventArgs(line), _parent);
 	}
 
-	private void handleUserQuit(String[] exSplit) {
+	private void handleUserQuit(String line, String[] exSplit) {
 		// Holds the arguments
 		Map<String,Object> params = new HashMap<String,Object>();
 		// nick -- The nick of the user joining the channel
@@ -217,11 +217,11 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 
 		// Fire off the event.
 		sendEvent(Event.IRC_QUIT,
-				new EventArgs(params),
+				new EventArgs(line, params),
 				_parent);
 	}
 
-	private void handleUserNoticed(String[] exSplit) {
+	private void handleUserNoticed(String line, String[] exSplit) {
 		// Hold the args.
 		Map<String, Object> params = new HashMap<String, Object>();
 		// Add the sender
@@ -271,10 +271,10 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		params.put("message", msg);
 
 		// Fire off the event.
-		sendEvent(Event.IRC_NOTICE, new EventArgs(params), _parent);
+		sendEvent(Event.IRC_NOTICE, new EventArgs(line, params), _parent);
 	}
 
-	private void handleUserKicked(String[] exSplit) {
+	private void handleUserKicked(String line, String[] exSplit) {
 		Map<String,Object> params = new HashMap<String,Object>();
 		// kicker -- The person who sent the /KICK command.
 		params.put("kicker", exSplit[0].split("!")[0].substring(exSplit[0].startsWith(":") ? 1 : 0));
@@ -302,19 +302,19 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		// END getting mode-param
 
 		// Fire off the event.
-		sendEvent(Event.IRC_KICK, new EventArgs(params), _parent);
+		sendEvent(Event.IRC_KICK, new EventArgs(line, params), _parent);
 	}
 
-	private void handleUserNickChange(String[] exSplit) {
+	private void handleUserNickChange(String line, String[] exSplit) {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("nick-old", exSplit[0].split("!")[0].substring((exSplit[0].startsWith(":") ? 1 : 0)));
 		params.put("nick-new", exSplit[2].substring(exSplit[2].startsWith(":") ? 1 : 0));
 		params.put("host", exSplit[0].split("@")[1]);
 
-		sendEvent(Event.IRC_NICK_CHANGE, new EventArgs(params), _parent);
+		sendEvent(Event.IRC_NICK_CHANGE, new EventArgs(line, params), _parent);
 	}
 
-	private void handleUserParted(String[] exSplit) {
+	private void handleUserParted(String line, String[] exSplit) {
 		// Holds the arguments
 		Map<String,Object> params = new HashMap<String,Object>();
 		// nick -- The nick of the user parting the channel
@@ -346,11 +346,11 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 
 		// Fire off the event.
 		sendEvent(Event.IRC_PART,
-				new EventArgs(params),
+				new EventArgs(line, params),
 				_parent);
 	}
 
-	private void handleModeSet(String[] exSplit) {
+	private void handleModeSet(String line, String[] exSplit) {
 		Map<String,Object> params = new HashMap<String,Object>();
 		// channel -- The channel the mode is being set on
 		params.put("channel", exSplit[2]);
@@ -403,10 +403,10 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		// END getting mode-params
 
 		// Fire off the event.
-		sendEvent(Event.IRC_MODE, new EventArgs(params), _parent);
+		sendEvent(Event.IRC_MODE, new EventArgs(line, params), _parent);
 	}
 
-	private void handleUserJoined(String[] exSplit) {
+	private void handleUserJoined(String line, String[] exSplit) {
 		// More support for protocol defiance
 		String channel = exSplit[2].substring((exSplit[2].startsWith(":") ? 1 : 0));
 		// Holds the arguments
@@ -420,11 +420,11 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		params.put("channel", channel);
 		// Fire off the event.
 		sendEvent(Event.IRC_JOIN,
-				new EventArgs(params),
+				new EventArgs(line, params),
 				_parent);
 	}
 
-	private void handleTopicChange(String[] exSplit) {
+	private void handleTopicChange(String line, String[] exSplit) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		// Stick the setter's nick in there.
 		params.put("setter", exSplit[0].split("!")[0]);
@@ -461,11 +461,11 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 
 		// Fire off the event! :)
 		sendEvent(Event.IRC_TOPIC,
-				new EventArgs(params),
+				new EventArgs(line, params),
 				_parent);
 	}
 
-	private void handleOnJoinTopic(String[] exSplit) {
+	private void handleOnJoinTopic(String line, String[] exSplit) {
 		// Holds the parameters
 		Map<String, Object> params = new HashMap<String, Object>();
 		// Server: The server sending the notice to us.
@@ -505,10 +505,10 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		params.put("topic", msg);
 
 		// Fire off the event.
-		sendEvent(Event.IRC_JOIN_TOPIC, new EventArgs(params), _parent);
+		sendEvent(Event.IRC_JOIN_TOPIC, new EventArgs(line, params), _parent);
 	}
 
-	private void handlePrivMsg(String[] exSplit) {
+	private void handlePrivMsg(String line, String[] exSplit) {
 		// Hold the args.
 		Map<String, Object> params = new HashMap<String, Object>();
 		// Add the sender
@@ -576,12 +576,12 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		params.put("message", msg);
 
 		// Fire off the event.
-		sendEvent(Event.IRC_PRIVMSG, new EventArgs(params), _parent);
+		sendEvent(Event.IRC_PRIVMSG, new EventArgs(line, params), _parent);
 	}
 
-	private void handlePing(String[] exSplit) {
+	private void handlePing(String line, String[] exSplit) {
 		// Key: server = The server we're connected to
-		sendEvent(Event.IRC_PING, new EventArgs(new String[]{"server"},
+		sendEvent(Event.IRC_PING, new EventArgs(line, new String[]{"server"},
 				// Substringed because we need to take off the :.
 				new String[]{exSplit[1].substring(1)}), _parent);
 	}
@@ -622,11 +622,11 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		//BEGIN EXTRA CHECKS FOR ERR_NICKNAMEINUSE
 		if (code == ERR_NICKNAMEINUSE)
 		{
-			sendEvent(Event.IRC_NICKINUSE, new EventArgs(new String [] {"line"}, new String[] {line}), _parent);
+			sendEvent(Event.IRC_NICKINUSE, new EventArgs(line), _parent);
 		}
 		//END EXTRA CHECKS FOR ERR_NICKNAMEINUSE
 		// Fire off the IRC_RESPONSE_CODE
-		sendEvent(Event.IRC_RESPONSE_CODE, new EventArgs(params), _parent);
+		sendEvent(Event.IRC_RESPONSE_CODE, new EventArgs(line, params), _parent);
 		return isResponseCode;
 	}
 

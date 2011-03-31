@@ -27,7 +27,7 @@ public class TestEventHandlerManager extends TestCase
 	@Test
 	public void testEvents()
 	{
-		BotUtils.sendEvent(Event.IRC_JOIN, new EventArgs(), _ehc);
+		BotUtils.sendEvent(Event.IRC_JOIN, new EventArgs("JOIN #Snipes"), _ehc);
 		// Wait 5 seconds for the event to propagate (a nice and big value)
 		if (!waitForEvent(5000))
 		{
