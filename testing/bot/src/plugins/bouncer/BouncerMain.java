@@ -56,7 +56,12 @@ public class BouncerMain extends Thread
 			try
 			{
 				Socket sockAccd = sock.accept();
-				this._conns.add(new BouncerConnection(this._bot, sockAccd));
+				BouncerConnection bc = new BouncerConnection(this._bot,
+						sockAccd);
+				// Add it as a event listener
+				this._bot.addEventListener(bc);
+				// Add it to the list of connections.
+				this._conns.add(bc);
 			} catch (IOException e)
 			{
 				System.err.println("Snipes bouncer: unable to accept socket.");

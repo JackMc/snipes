@@ -41,8 +41,9 @@ public class BotClient implements PseudoClient
 		String msg = command.substring(command.indexOf(':') + 1);
 		if (msg.equalsIgnoreCase("helloworld"))
 		{
-			bc.sendRawLineToClient(":*bot PRIVMSG "
-					+ /* TODO:Insert nick here */"Snipes" + " :Hello world!");
+			bc.sendRawLineToClient(":"
+					+ ClientUtils.getHostname(this, this._sb.getConfiguration())
+					+ " PRIVMSG " + this._sb.getNick() + " :Hello world!");
 		}
 		// TODO: Identify command, etc.
 	}
@@ -52,7 +53,7 @@ public class BotClient implements PseudoClient
 	{
 		if (!bc.isAuthed())
 		{
-			return true;
+			return false;
 		}
 		else
 		{

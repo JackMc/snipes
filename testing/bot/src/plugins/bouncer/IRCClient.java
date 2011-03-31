@@ -13,7 +13,6 @@ public class IRCClient implements PseudoClient
 	@Override
 	public String getNick()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

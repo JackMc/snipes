@@ -11,8 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ossnipes.snipes.bot.SnipesBot;
+import org.ossnipes.snipes.lib.irc.Channel;
+import org.ossnipes.snipes.lib.irc.Event;
+import org.ossnipes.snipes.lib.irc.EventArgs;
+import org.ossnipes.snipes.lib.irc.IRCEventListener;
 
-public class BouncerConnection extends Thread
+public class BouncerConnection extends Thread implements IRCEventListener
 {
 	public BouncerConnection(SnipesBot bot, Socket s)
 	{
@@ -56,16 +60,20 @@ public class BouncerConnection extends Thread
 		}
 	}
 
-	/** @param out
-	 * @param in
-	 * @throws IOException */
 	private void loop() throws IOException
 	{
+		String nick = this._in.readLine().split(" ")[1];
 		String line;
+		this._out.println(":" + nick + " NICK " + this._bot.getNick());
+		for (Channel chan : this._bot.getJoinedChannels())
+		{
+			this.sendRawLineToClient(":" + this._bot.getNick() + " JOIN "
+					+ chan.getName());
+
+		}
 		while ((line = this._in.readLine()) != null)
 		{
 			System.err.println(line);
-			this._out.println(":Auv5 NICK Snipes");
 			for (PseudoClient pc : this._clients)
 			{
 				if (pc.isLineTo(line, this))
@@ -159,8 +167,14 @@ public class BouncerConnection extends Thread
 		return this._isAuthed;
 	}
 
+	public void setAuthed(boolean val)
+	{
+		this._isAuthed = val;
+	}
+
 	public void sendRawLineToClient(String line)
 	{
+		System.err.println("Sending " + line + " to client.");
 		this._out.println(line);
 	}
 
@@ -169,7 +183,30 @@ public class BouncerConnection extends Thread
 		this._bot.sendRaw(line);
 	}
 
-	private final boolean _isAuthed;
+	@Override
+	public Event[] getRegisteredEvents()
+	{
+		return Event.values();
+	}
+
+	@Override
+	public void handleEvent(Event ev, EventArgs args)
+	{
+		if (ev == Event.IRC_RESPONSE_CODE)
+		{
+			// System.err.println("Response code!! "
+			// + args.getParamAsString("line"));
+		}
+		System.err.println("Line!: " + args.getParamAsString("line"));
+		// We don't want to double-pong.
+		if (ev != Event.IRC_PING)
+		{
+			// System.err.println("? " + ev);
+			this.sendRawLineToClient(args.getParamAsString("line"));
+		}
+	}
+
+	private boolean _isAuthed;
 	private final SnipesBot _bot;
 	private final List<PseudoClient> _clients = new ArrayList<PseudoClient>();
 	private final Socket _sock;

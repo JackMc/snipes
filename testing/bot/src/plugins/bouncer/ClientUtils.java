@@ -1,5 +1,7 @@
 package plugins.bouncer;
 
+import org.ossnipes.snipes.bot.Configuration;
+
 public class ClientUtils
 {
 	public static boolean isMessageToMe(PseudoClient client, String line)
@@ -33,5 +35,15 @@ public class ClientUtils
 
 		return msgSplit.length >= (fromClient ? 3 : 4)
 				&& msgSplit[(fromClient ? 0 : 1)].equalsIgnoreCase("PRIVMSG");
+	}
+
+	public static String getHostname(PseudoClient pc, Configuration c)
+	{
+		if (c == null)
+		{
+			throw new IllegalArgumentException();
+		}
+		return pc.getNick() + "!" + c.getProperty("buser", "bot") + "@"
+				+ c.getProperty("bhost", "ossnipes.org");
 	}
 }
