@@ -40,7 +40,8 @@ public interface BotConstants
 	static final int IRC_DEFAULT_PORT = 6667;
 	/** The IRC server timeout in milliseconds */
 	static final int IRC_TIMEOUT = 120 * 1000;
-	static final char[] IRC_CHANPREFIXES = {'#', '&', '+'};
+	static final Character[] IRC_CHANPREFIXES = {'#', '&', '+'};
+	static final Character[] IRC_NICKPREFIXES = {'~', '&', '@', '%'};
 	/**
 	 * The default username (before the @ and after the ! in the hostname) if it
 	 * has not been set.
