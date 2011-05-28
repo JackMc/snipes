@@ -117,7 +117,7 @@ public class Console
 				}
 				else if (response.equalsIgnoreCase("WELCOME"))
 				{
-					System.out.println("Username and password were correct. You may now being typing commands.");
+					System.out.println("Username and password were correct. You may now begin typing commands.");
 				}
 				else
 				{
@@ -149,6 +149,10 @@ public class Console
 				{
 					_sm.sendln("SAYHELLO");
 					processCommand(_sm.recv());
+				}
+				else if (line.equalsIgnoreCase("exit"))
+				{
+				    System.exit(0);
 				}
 				else if (lineSplit[0].equalsIgnoreCase("PROTORAW"))
 				{
