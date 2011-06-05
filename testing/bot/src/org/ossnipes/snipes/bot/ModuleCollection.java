@@ -148,8 +148,11 @@ class ModuleCollection
 		{
 			// TODO: Call snipesFini here later if it's needed (we've called
 			// their init, so we should call fini).
-			throw new ModuleInitException(
-					"Module snipesInit() returned ModuleReturn.ERROR.",
+			String moduleClassName = manager.getModuleClassName();
+			// Grammar Nazi ^_^
+			throw new ModuleInitException("Module " + moduleClassName
+					+ (moduleClassName.endsWith("s") ? '\'' : "'s")
+					+ "snipesInit() returned ModuleReturn.ERROR.",
 					manager.getModule());
 		}
 
