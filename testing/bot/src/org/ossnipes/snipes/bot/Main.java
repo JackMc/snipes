@@ -13,6 +13,9 @@ public class Main
 			new SnipesBot(args);
 		} catch (IOException e)
 		{
+			System.err.println("SnipesBot: Connection error ("
+					+ e.getClass().getCanonicalName() + ") thrown: "
+					+ e.getMessage());
 			System.exit(Exit.EXIT_COULDNOTCONNECT.ordinal());
 		}
 	}
@@ -22,11 +25,13 @@ public class Main
 	 * nice error without the tons of {@link ClassNotFoundException}s. */
 	private static void checkDeps()
 	{
+		// TODO HACK: Is there a way to see if a class exists without loading
+		// it?
 		try
 		{
 			// To test if they have the collections API (A feature added in Java
 			// 1.2).
-			Class.forName("java.util.HashMap");
+			Class.forName("java.util.Collection");
 		} catch (ClassNotFoundException e)
 		{
 			System.err

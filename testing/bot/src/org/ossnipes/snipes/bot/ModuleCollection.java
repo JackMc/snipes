@@ -24,6 +24,7 @@ class ModuleCollection
 			try
 			{
 				this.addModule(parent, module);
+				// TODO: These error messages need to go in the SnipesBot class.
 			} catch (ModuleLoadException e)
 			{
 				System.err.println("Could not load module \"" + module
@@ -136,6 +137,7 @@ class ModuleCollection
 			throws ModuleLoadException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, ModuleInitException
 	{
+		// TODO: Duplicate testing.
 		ModuleManager manager = new ModuleManager(parent, module);
 
 		if (manager.initialise() != ModuleReturn.ERROR)

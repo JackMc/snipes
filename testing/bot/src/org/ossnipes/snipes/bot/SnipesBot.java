@@ -24,12 +24,11 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	 *             server. */
 	public SnipesBot(String[] args) throws IOException
 	{
-
 		// Parse our passed in args.
 		this.parseCmdArgs(args);
 
 		// Initialise the configuration Object.
-		this.initializeConfiguration();
+		this.initialiseConfiguration();
 
 		// Get the nick, etc.
 		this.readSetNickRealname();
@@ -95,7 +94,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	}
 
 	/** Initialises the bot's configuration Object. */
-	private void initializeConfiguration()
+	private void initialiseConfiguration()
 	{
 		try
 		{
@@ -154,7 +153,8 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 								+ channel
 								+ ". Channel name too short (must be the prefix and at least one other character.). Not joining...");
 			}
-
+			// TODO: Add into framework. This is IRC stuff not pertaining to
+			// plugins.
 			// See if it has a valid prefix.
 			boolean validPrefix = false;
 			// Get the first char of the channel
