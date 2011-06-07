@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,12 +109,12 @@ public class BouncerConnection extends Thread implements IRCEventListener
 			{
 				Class<?>[] paramTypes = c.getParameterTypes();
 
-				if (paramTypes.length != 1)
+				if (paramTypes.length != 1 || paramTypes.length != 0)
 				{
 					continue INNER;
 				}
 
-				if (paramTypes[0] == SnipesBot.class)
+				if (paramTypes.length == 0 || paramTypes[0] == SnipesBot.class)
 				{
 					constructor = c;
 					break INNER;
@@ -126,7 +127,7 @@ public class BouncerConnection extends Thread implements IRCEventListener
 				System.err
 						.println("Snipes bouncer: Could not reflectively instantiate pseudo-client "
 								+ clazz.getName()
-								+ ". It does not have a constructor taking a SnipesBot as it's only argument.");
+								+ ". It does not have a constructor taking a SnipesBot as it's only argument or no argument.");
 				continue OUTER;
 			}
 			else
@@ -134,10 +135,27 @@ public class BouncerConnection extends Thread implements IRCEventListener
 				// Initialise the Object and stick it in the list.
 				try
 				{
+					int modifiers = constructor.getModifiers();
+					if ((modifiers & Modifier.PUBLIC) == 0
+							|| !(clazz
+									.getPackage()
+									.getName()
+									.equals(BouncerConnection.class
+											.getPackage().getName()) && (modifiers & (Modifier.PUBLIC
+									| Modifier.PRIVATE | Modifier.PROTECTED)) == 0))
+					{
+						System.err
+								.println("Snipes bouncer: WARNING: The bouncer client we are loading's ("
+										+ clazz.getName()
+										+ ") eligible constructor is inaccessible. Setting accessible flag for now.");
+						constructor.setAccessible(true);
+					}
 					// No need to check cast, it came from a ? extends
 					// PsuedoClient Class object.
-					this._clients.add((PseudoClient) constructor
-							.newInstance(this._bot));
+					this._clients
+							.add(constructor.getParameterTypes().length == 0 ? (PseudoClient) constructor
+									.newInstance() : (PseudoClient) constructor
+									.newInstance());
 				} catch (IllegalArgumentException e)
 				{
 					// We already checked the arguments.

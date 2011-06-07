@@ -11,6 +11,7 @@ public class BouncerModule extends Module
 	@Override
 	protected ModuleReturn snipesInit()
 	{
+		// Optimise by removing ourselves as a candidate for event sending.
 		this.getParent().removeEventListener(this);
 		new BouncerMain(this.getParent());
 		return null;
