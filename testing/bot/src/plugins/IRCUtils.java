@@ -76,7 +76,28 @@ public class IRCUtils extends Module
 				}
 				this.getParent().sendPrivMsg(sendTo, sb.toString());
 			}
+			else if (msgSplit[0].equalsIgnoreCase("!isuserinchan"))
+			{
+				if (msgSplit.length <= 2)
+				{
+					this.getParent().sendPrivMsg(sendTo,
+							"!isuserinchan requires two arguments.");
+					return;
+				}
+
+				Channel channel = this.getParent().getChannelForName(
+						msgSplit[2]);
+
+				if (channel == null)
+				{
+					this.getParent().sendPrivMsg(sendTo,
+							"We are not in that channel.");
+					return;
+				}
+
+				this.getParent().sendPrivMsg(sendTo,
+						"Status: " + channel.isUserInChannel(msgSplit[1]));
+			}
 		}
 	}
-
 }
