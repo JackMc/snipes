@@ -63,7 +63,7 @@ class IRCReceiver implements Runnable
 				String s = _manager.recvRaw();
 				if (s != null)
 				{
-					synchronized (s) 
+					synchronized (lock) 
 					{
 						_handler.handle(s);
 					}

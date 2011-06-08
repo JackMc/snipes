@@ -164,6 +164,35 @@ public class Channel implements IRCEventListener, IRCConstants
 		return _name;
 	}
 	
+	public boolean isUserInChannel(BotUser bu)
+	{
+		return isUserInChannel(bu.getNick());
+	}
+	
+	public boolean isUserInChannel(String nick)
+	{
+		for (BotUser bu : _currentUsers)
+		{
+			if (bu.getNick().equals(nick))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public BotUser getUserForName(String name)
+	{
+		for (BotUser bu : _currentUsers)
+		{
+			if (bu.getNick().equalsIgnoreCase(name))
+			{
+				return bu;
+			}
+		}
+		return null;
+	}
+	
 	public String getTopic()
 	{
 		return _topic;

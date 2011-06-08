@@ -28,6 +28,13 @@ public class BotUser implements BotConstants
 		return nick;
 	}
 	
+	
+	// Cannot have a String version of this method. This class does not get the IRCBase instance which manages the channels.
+	public boolean isInChannel(Channel channel)
+	{
+		return channel.isUserInChannel(this);
+	}
+	
 	public String getNick()
 	{
 		return getNick(false);

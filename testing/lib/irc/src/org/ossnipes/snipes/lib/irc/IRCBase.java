@@ -84,9 +84,9 @@ IRCEventListener, InternalConstants
 		return _manager.isConnected();
 	}
 
-	public void addEventListener(IRCEventListener h)
+	public IRCEventListener addEventListener(IRCEventListener h)
 	{
-		_eventcoll.addEventListener(h);
+		return _eventcoll.addEventListener(h);
 	}
 	public void removeEventListener(IRCEventListener h)
 	{
@@ -149,8 +149,7 @@ IRCEventListener, InternalConstants
 		_receiver = new IRCReceiver(_manager, _handler);
 
 		// Create/Start the recv Thread
-		Thread t = new Thread(_receiver, "Snipes-IRC-Framework-Receiver");
-		t.start();
+		new Thread(_receiver, "Snipes-IRC-Framework-Receiver").start();
 
 		// We can start!
 		sendInit(passwd);
@@ -441,9 +440,7 @@ IRCEventListener, InternalConstants
 				// We're only interested if the nick is us.
 				if (args.getParamAsString("nick").equalsIgnoreCase(getNick()))
 				{
-					Channel c = new Channel(args.getParamAsString("channel"));
-					addEventListener(c);
-					_channels.add(c);
+					_channels.add((Channel)addEventListener(new Channel(args.getParamAsString("channel"))));
 				}
 			}
 		}
@@ -552,7 +549,7 @@ IRCEventListener, InternalConstants
 		return _channels.toArray(new Channel[_channels.size()]);
 	}
 	
-	private Channel getChannelForName(String name)
+	public Channel getChannelForName(String name)
 	{
 		Channel result = null;
 		
