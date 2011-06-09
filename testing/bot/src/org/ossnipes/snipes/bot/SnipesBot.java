@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.ossnipes.snipes.lib.irc.BotUtils;
 import org.ossnipes.snipes.lib.irc.Event;
 import org.ossnipes.snipes.lib.irc.EventArgs;
 import org.ossnipes.snipes.lib.irc.IRCBase;
@@ -32,6 +35,8 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 		// Get the nick, etc.
 		this.readSetNickRealname();
+
+		this.addCommand(new TestCommand(this));
 
 		// See if we're in debugging/verbose mode.
 		this.readSetDebugVerbose();
@@ -190,7 +195,51 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
-		// No code.
+		String message, sendTo;
+		String[] split;
+		boolean totalMatchFound = false;
+		boolean invalidArgsMatchFound = false;
+
+		if (this._commands.size() != 0
+				&& (message = args.getParamAsString("message")) != null
+				&& (sendTo = args.getParamAsString("sendto")) != null
+				&& (split = message.split(" ")).length != 0)
+		{
+			for (Command c : BotUtils.copySet(this._commands))
+			{
+				int argsCount = c.getNumberOfArgs();
+				String command = c.getCommand();
+				if (command != null && command.equalsIgnoreCase(split[0]))
+				{
+					if (argsCount != split.length - 1)
+					{
+						this.debug("Commands API: Found a command for "
+								+ command
+								+ " but it doesn't have "
+								+ "the correct amount of arguments as provided ("
+								+ argsCount + " != " + split.length + ".)");
+						invalidArgsMatchFound = true;
+						continue;
+					}
+					else
+					{
+						this.debug("Commands API: Found a match for command "
+								+ command + " with " + argsCount + " args.");
+						c.handleCommand(message, sendTo, split);
+						totalMatchFound = true;
+						return;
+					}
+				}
+			}
+
+			if (invalidArgsMatchFound && !totalMatchFound)
+			{
+				this.sendPrivMsg(sendTo,
+						"Incorrect amount of arguments for command " + split[0]
+								+ ".");
+			}
+
+		}
 	}
 
 	// Configuration methods
@@ -251,10 +300,38 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		return this._coll.getModuleByName(name);
 	}
 
-	// End module collection methods.
+	// End module collection methods
 
-	// Authentication methods
+	public Command addCommand(Command c)
+	{
+		if (this._commands == null)
+		{
+			this._commands = new HashSet<Command>();
+		}
+
+		for (Command cLooped : this._commands)
+		{
+			if (!cLooped.getCommand().equals(c.getCommand())
+					&& cLooped.getNumberOfArgs() == c.getNumberOfArgs())
+			{
+				System.err
+						.println("COMMAND CONFLICT! Different commands with the name "
+								+ cLooped.getCommand()
+								+ " and "
+								+ cLooped.getNumberOfArgs()
+								+ " argument"
+								+ (cLooped.getNumberOfArgs() == 1 ? "" : "s")
+								+ ". Snipes will continue using "
+								+ "the first one added.");
+				return c;
+			}
+		}
+
+		this._commands.add(c);
+		return c;
+	}
 
 	private Configuration _c;
 	private ModuleCollection _coll;
+	private Set<Command> _commands;
 }
