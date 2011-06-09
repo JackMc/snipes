@@ -25,8 +25,10 @@ package org.ossnipes.snipes.lib.irc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /** Utility methods used a lot in the bot and not really tied to a certain class.
@@ -133,8 +135,13 @@ implements BotConstants
 		}
 	}
 	
-	public static <T> List<T> copyList(
-			List<T> list) {
+	public static <T> Set<T> copySet(
+			Set<T> set) {
+		return new HashSet<T>(set);
+	}
+	
+	public static <T> List<T> copyList(List<T> list)
+	{
 		return new ArrayList<T>(list);
 	}
 
