@@ -109,7 +109,9 @@ public class BouncerConnection extends Thread implements IRCEventListener
 			{
 				Class<?>[] paramTypes = c.getParameterTypes();
 
-				if (paramTypes.length != 1 || paramTypes.length != 0)
+				if (paramTypes.length > 1 ||
+				// Nice impossible case you have there.
+						paramTypes.length < 0)
 				{
 					continue INNER;
 				}
@@ -136,26 +138,33 @@ public class BouncerConnection extends Thread implements IRCEventListener
 				try
 				{
 					int modifiers = constructor.getModifiers();
-					if ((modifiers & Modifier.PUBLIC) == 0
-							|| !(clazz
-									.getPackage()
-									.getName()
-									.equals(BouncerConnection.class
-											.getPackage().getName()) && (modifiers & (Modifier.PUBLIC
-									| Modifier.PRIVATE | Modifier.PROTECTED)) == 0))
+					if (Modifier.isPublic(modifiers)
+							|| (this.getClass().getPackage()
+									.equals(this.getClass().getPackage()) && !Modifier
+									.isPrivate(modifiers)))
+					{
+						// No need to check cast, it came from a ? extends
+						// PsuedoClient Class object.
+						this._clients
+								.add(constructor.getParameterTypes().length == 0 ? (PseudoClient) constructor
+										.newInstance()
+										: (PseudoClient) constructor
+												.newInstance(new Object[]
+												{ this._bot }));
+					}
+					else
 					{
 						System.err
-								.println("Snipes bouncer: WARNING: The bouncer client we are loading's ("
+								.println("Snipes Bouncer: Bouncer client class "
 										+ clazz.getName()
-										+ ") eligible constructor is inaccessible. Setting accessible flag for now.");
+										+ "'"
+										+ (clazz.getName().endsWith("s") ? ""
+												: "s")
+										+ " has a constructor that is inaccessable via normal access. Fortunately, we can bypass this using reflection. Please make the constructor accessible to this class ("
+										+ this.getClass().getName()
+										+ ") to stop this message from appearing.");
 						constructor.setAccessible(true);
 					}
-					// No need to check cast, it came from a ? extends
-					// PsuedoClient Class object.
-					this._clients
-							.add(constructor.getParameterTypes().length == 0 ? (PseudoClient) constructor
-									.newInstance() : (PseudoClient) constructor
-									.newInstance());
 				} catch (IllegalArgumentException e)
 				{
 					// We already checked the arguments.
