@@ -19,13 +19,7 @@ public class BotUser implements BotConstants
 		{
 			throw new SnipesException("User's nick is empty.");
 		}
-		
-		else if (!withPrefix && BotUtils.arrayContains(IRC_NICKPREFIXES, nick.charAt(0)))
-		{
-			nick = nick.substring(1);
-			System.err.println(nick);
-		}
-		return nick;
+    return _nick.substring((!withPrefix && BotUtils.arrayContains(IRC_NICKPREFIXES, nick.charAt(0)) ? 1 : 0));
 	}
 	
 	
