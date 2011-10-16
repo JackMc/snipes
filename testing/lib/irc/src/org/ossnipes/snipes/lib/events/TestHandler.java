@@ -1,4 +1,4 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.lib.events;
 
 /** Just a simple class to test the IRCEventListener interface. */
 class TestHandler implements IRCEventListener

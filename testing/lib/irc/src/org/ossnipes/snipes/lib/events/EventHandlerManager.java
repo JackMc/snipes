@@ -1,4 +1,4 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.lib.events;
 
 import java.util.ArrayList;
 import java.util.List;

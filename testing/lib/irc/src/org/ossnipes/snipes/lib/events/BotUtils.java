@@ -1,4 +1,4 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.lib.events;
 
 /* 
  * 
@@ -29,6 +29,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.ossnipes.snipes.irc.BotConstants;
+
 
 
 /** Utility methods used a lot in the bot and not really tied to a certain class.

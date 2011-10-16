@@ -1,9 +1,15 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.lib.events;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import org.ossnipes.snipes.irc.IRCConstants;
+import org.ossnipes.snipes.irc.SnipesException;
+import org.ossnipes.snipes.lib.events.Event;
+import org.ossnipes.snipes.lib.events.EventArgs;
+import org.ossnipes.snipes.lib.events.IRCEventListener;
 
 public class Channel implements IRCEventListener, IRCConstants
 {

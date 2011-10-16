@@ -5,11 +5,11 @@ import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.ossnipes.snipes.lib.irc.BotUtils;
-import org.ossnipes.snipes.lib.irc.Event;
-import org.ossnipes.snipes.lib.irc.EventArgs;
-import org.ossnipes.snipes.lib.irc.EventHandlerCollection;
-import org.ossnipes.snipes.lib.irc.IRCEventListener;
+import org.ossnipes.snipes.lib.events.BotUtils;
+import org.ossnipes.snipes.lib.events.Event;
+import org.ossnipes.snipes.lib.events.EventArgs;
+import org.ossnipes.snipes.lib.events.EventHandlerCollection;
+import org.ossnipes.snipes.lib.events.IRCEventListener;
 
 
 public class TestEventHandlerManager extends TestCase

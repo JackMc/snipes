@@ -1,17 +1,17 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.irc;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.net.SocketFactory;
 
 /* 
- * 
- * Copyright 2010 Jack McCracken
  * This file is part of The Snipes IRC Framework.
  * 
  * The Snipes IRC Framework is free software: you can redistribute it and/or modify it under the 
@@ -33,64 +33,139 @@ import javax.net.SocketFactory;
  */
 
 /**
- * Main class for the Snipes IRC framework. The Snipes IRC framework is a
- * framework that is meant to replace the current implementation of IRC
- * communication in The Open Source Snipes Project (PircBot) so that the project
- * can "stand on it's own two feet" and be able to change from license to
- * license as the author sees fit. There was also a need for SSL support, so
- * that is built into the framework with the {@link SnipesSSLSocketFactory}
- * class.
- * 
- * @author Jack McCracken (<a
- *         href="http://ossnipes.org/">http://ossnipes.org</a>)
+ * Manages the Socket to a IRC server. This class is meant to make sending and
+ * receiving to/from a IRC server easier. It also allows the implementation to
+ * be changed much easier.
  * 
  * @since Snipes 0.6
- * 
+ * @author Jack McCracken
  */
-public abstract class IRCBase implements IRCConstants, BotConstants, 
-IRCEventListener, InternalConstants
+
+public class IRCSocketManager implements InternalConstants, BotConstants
 {
-	// Default constructor
-	public IRCBase()
+
+	/**
+	 * Creates a IRC Socket Manager object.
+	 * 
+	 * @param rawSocket
+	 *            The Socket Object to manage. This Socket must be open or a
+	 *            {@link IllegalArgumentException} will be thrown.
+	 * @throws IOException
+	 *             If there was a error (besides the stream being closed) while
+	 *             opening the streams.
+	 */
+	public IRCSocketManager()
 	{
-		_eventcoll = new EventHandlerCollection();
-		if (CHANNEL_TRACKING)
-			_channels = new ArrayList<Channel>();
 		_options = BotOptions.getInst();
-		_eventcoll.addEventListener(this);
 	}
 
 	/**
-	 * Registers this class for listening of events.
-	 * This does not apply to us, as we are a IRCBase,
-	 * given extra power by the event sending mechanism
-	 * to "enforce the rules" of who gets what events sent
-	 * to them.
+	 * Sends a raw line to the IRC server.
 	 * 
-	 * This method is never called, and is thus empty.
+	 * @param line
+	 *            The line to send to the server.
 	 */
-	public final Event[] getRegisteredEvents()
+	public void sendRaw(String line)
 	{
-		return new Event[] {};
+		if (!isConnected())
+		{
+			throw new NotConnectedException("You can't send something if you're not connected! Try a call to" +
+			" IRCSocketManager.connect first!");
+		}
+		if (isVerbose())
+		{
+			System.out.println("US: " + line);
+		}
+		_writer.println(line);
+	}
+
+	/**
+	 * Reads a line of text from the server.
+	 * 
+	 * @return The String from the server, null if a Exception occurs.
+	 * @throws IOException
+	 *             If we've been disconnected, or something else happens.
+	 */
+	public String recvRaw() throws IOException
+	{
+		try
+		{
+			return _reader.readLine();
+		} catch (IOException e)
+		{
+			throw new IOException("We have been killed: " + e.getMessage(), e);
+		}
+	}
+
+	public boolean isConnected()
+	{
+		if (_rawSocket == null)
+		{
+			return false;
+		}
+		else
+		{
+			return _rawSocket.isConnected();
+		}
+	}
+	
+	public void close()
+	{
+		try
+		{
+			_rawSocket.close();
+		} catch (Exception e)
+		{
+			// We don't care.
+		}
+	}
+	
+	/** Sets the verbose value of the bot.
+	 * @param on What the value should be set to.
+	 */
+	protected void setVerbose(boolean on)
+	{
+		_options.setVerbose(on);
+	}
+
+	/** Gets if the bot is verbose.
+	 * @return If the verbose property is true.
+	 */
+	public boolean isVerbose()
+	{
+		return _options.isVerbose();
+	}
+
+	protected void debug(String line)
+	{
+		debug(line, Level.INFO);
+	}
+
+	protected void debug(String line, Level level)
+	{
+		if (_options.isDebugging())
+			_logger.log(level, line);
+	}
+	
+	/** Gets the bot's current nick.
+	 * @return The current nick.
+	 */
+	public String getNick()
+	{
+		return _nick;
+	}
+
+	/** Controls the printing of debug statements to the default Snipes logger.
+	 * @param on If it should be turned on or off.
+	 */
+	public void setDebugging(boolean on)
+	{
+		_options.setDebugging(on);
 	}
 	
 	public boolean isDebugging()
 	{
 		return _options.isDebugging();
-	}
-	
-	public boolean isConnected()
-	{
-		return _manager.isConnected();
-	}
-
-	public IRCEventListener addEventListener(IRCEventListener h)
-	{
-		return _eventcoll.addEventListener(h);
-	}
-	public void removeEventListener(IRCEventListener h)
-	{
-		_eventcoll.removeEventListener(h);
 	}
 	
 	/**
@@ -111,7 +186,7 @@ IRCEventListener, InternalConstants
 	 * @throws UnknownHostException
 	 *             If the host specified by "server" doesn't exist.
 	 */
-	public IRCBase connect(String server, int port, String passwd, SocketFactory factory)
+	public IRCSocketManager connect(InputHandler ih, String server, int port, String passwd, SocketFactory factory)
 	throws IOException, UnknownHostException
 	{
 		Thread.currentThread().setName("Snipes-IRC-Framework-Main");
@@ -138,16 +213,14 @@ IRCEventListener, InternalConstants
 		_factory = (factory != null ? factory : SnipesSocketFactory
 				.getDefault());
 
-		// Create the socket, pass it to the new manager.
-		_manager = new IRCSocketManager(this, _factory.createSocket(server, port));
-
-		// Initialise the IRCInputHandler
-		_handler = new IRCInputHandler(this);
-
 		// Quick, init the IRCReceiver before the server kills us for not
 		// registering our USER, NICK and PING commands :P!
-		_receiver = new IRCReceiver(_manager, _handler);
-
+		_receiver = new IRCReceiver(this, ih);
+		
+		_rawSocket = _factory.createSocket(server, port);
+		_reader = new BufferedReader(new InputStreamReader(_rawSocket.getInputStream()));
+		_writer = new PrintStream(_rawSocket.getOutputStream());
+		
 		// Create/Start the recv Thread
 		new Thread(_receiver, "Snipes-IRC-Framework-Receiver").start();
 
@@ -158,10 +231,10 @@ IRCEventListener, InternalConstants
 	}
 
 	
-	public IRCBase connect(String server, int port, SocketFactory factory)
+	public IRCSocketManager connect(InputHandler ih, String server, int port, SocketFactory factory)
 	throws IOException, UnknownHostException
 	{
-		return connect(server, port, null, factory);
+		return connect(ih, server, port, null, factory);
 	}
 	
 	/** Sends a few lines we need to the server before we start */
@@ -170,11 +243,11 @@ IRCEventListener, InternalConstants
 		// PASS needs to be sent before the USER/NICK combination.
 		if (passwd != null)
 		{
-			_manager.sendRaw("PASS :" + passwd);
+			sendRaw("PASS :" + passwd);
 		}
 		
-		_manager.sendRaw("USER " + _user + " 0 Snipes :" + _realname);
-		_manager.sendRaw("NICK " + _nick);
+		sendRaw("USER " + _user + " 0 Snipes :" + _realname);
+		sendRaw("NICK " + _nick);
 	}
 
 	/**
@@ -193,11 +266,11 @@ IRCEventListener, InternalConstants
 	 *             If the host specified by "server" doesn't exist.
 	 * @see #connect(String, int, SocketFactory)
 	 */
-	public IRCBase connect(String server, int port) throws IOException,
+	public IRCSocketManager connect(InputHandler ih, String server, int port) throws IOException,
 	UnknownHostException
 	{
 		// Defaults to a SnipesSocketFactory if third parameter is null.
-		return connect(server, port, null);
+		return connect(ih, server, port, null);
 	}
 
 	/**
@@ -216,11 +289,11 @@ IRCEventListener, InternalConstants
 	 * @see BotConstants#IRC_DEFAULT_PORT for the port used by default by
 	 *      Snipes. I won't specify it here, as it may change.
 	 */
-	public IRCBase connect(String server) throws IOException, UnknownHostException
+	public IRCSocketManager connect(InputHandler ih, String server) throws IOException, UnknownHostException
 	{
 		// Connect to the server with the default IRC port and 
 		// SocketFactory.
-		return connect(server, IRC_DEFAULT_PORT, null);
+		return connect(ih, server, IRC_DEFAULT_PORT, null);
 	}
 
 	/** Sends a IRC PRIVMSG to the server.
@@ -344,19 +417,12 @@ IRCEventListener, InternalConstants
 		// classes other than IRCInputHandler.
 		sendRaw("NICKSERV IDENTIFY " + pass);
 	}
-	/** Sends a raw line to the server.
-	 * @param line The line to send.
-	 */
-	public void sendRaw(String line)
-	{
-		_manager.sendRaw(line);
-	}
 
 	/** Sets the bot's nick. If we are connected to a server, the server will be notified of
 	 * the nick change.
 	 * @param nick The nick to change to.
 	 */
-	public IRCBase setNick(String nick)
+	public IRCSocketManager setNick(String nick)
 	{
 		if (nick == null)
 		{
@@ -365,7 +431,7 @@ IRCEventListener, InternalConstants
 		this._nick = nick;
 		// Before attempting a send operation, we have to make sure we're actually
 		// connected to a server, and that the bot's connect() method has been called.
-		if (_manager == null || !_manager.isConnected())
+		if (!isConnected())
 		{
 			// Return back to the caller, we shouldn't try and set the nick on the server if
 			// we're not connected to one.
@@ -380,7 +446,7 @@ IRCEventListener, InternalConstants
 	 * @param name The username to set to.
 	 * @return This instance, for chaining.
 	 */
-	public IRCBase setUser(String newUser)
+	public IRCSocketManager setUser(String newUser)
 	{
 		if (newUser == null)
 		{
@@ -391,12 +457,22 @@ IRCEventListener, InternalConstants
 		return this;
 	}
 	
+	/** Joins a channel on the current IRC server.
+	 * @param channel The channel to join.
+	 * @return The current IRCBase, for convenience.
+	 */
+	public IRCSocketManager join(String channel)
+	{
+		sendRaw("JOIN " + channel);
+		return this;
+	}
+	
 	/** Sets the bot's realname. This should be called before connecting to a server, as there is
 	 * no way in the protocol to change the realname after the original USER command.
 	 * @param name The realname to set to.
 	 * @return This instance, for chaining.
 	 */
-	public IRCBase setRealname(String name)
+	public IRCSocketManager setRealname(String name)
 	{
 		if (name == null)
 		{
@@ -406,165 +482,8 @@ IRCEventListener, InternalConstants
 		this._realname = name;
 		return this;
 	}
-	
-	/** Joins a channel on the current IRC server.
-	 * @param channel The channel to join.
-	 * @return The current IRCBase, for convenience.
-	 */
-	public IRCBase join(String channel)
-	{
-		_manager.sendRaw("JOIN " + channel);
-		return this;
-	}
-	/** Used to handle a event sent by {@link #sendEvent(Event, EventArgs)}.
-	 * @param ev The event that was sent.
-	 * @param args The arguments for the event.
-	 */
-	public abstract void handleEvent(Event ev, EventArgs args);
 
-	/** This method is called when a event in the {@link BotConstants#INTERNAL_EVENTS} array
-	 * is triggered.
-	 * @param ev The event that was sent.
-	 * @param args The arguments for the event.
-	 */
-	public final void handleInternalEvent(Event ev, EventArgs args)
-	{
-		if (ev == Event.IRC_PING)
-		{
-			sendPong(args.getParamAsString("server"));
-		}
-		else if (ev == Event.IRC_JOIN)
-		{
-			if (CHANNEL_TRACKING)
-			{
-				// We're only interested if the nick is us.
-				if (args.getParamAsString("nick").equalsIgnoreCase(getNick()))
-				{
-					_channels.add((Channel)addEventListener(new Channel(args.getParamAsString("channel"))));
-				}
-			}
-		}
-		else if (ev == Event.IRC_PART)
-		{
-			if (CHANNEL_TRACKING)
-			{
-				if (args.getParamAsString("nick").equalsIgnoreCase(getNick()))
-				{
-					String chanName = args.getParamAsString("channel");
-					
-					// Returns false if the Object did not exist in the first place.
-					if (!_channels.remove(getChannelForName(chanName)))
-					{
-						// We didn't have it in our lists? But we were parting it!
-						throw new SnipesException("Channel was not in the lists, yet we parted it.");
-					}
-				}
-			}
-		}
-		else if (ev == Event.IRC_NICKINUSE)
-		{
-			System.err.println("Error. Nickname already in use. Please make sure no other instances are running and restart this application.");
-			System.exit(3);
-		}
-		else
-		{
-			System.err.println("Internal event handler: Unknown internal event " + ev + ".");
-		}
-	}
-	/** Gets the bot's current nick.
-	 * @return The current nick.
-	 */
-	public String getNick()
-	{
-		return _nick;
-	}
-
-	/** Controls the printing of debug statements to the default Snipes logger.
-	 * @param on If it should be turned on or off.
-	 */
-	public void setDebugging(boolean on)
-	{
-		_options.setDebugging(on);
-	}
-	
-	/** Sends a event to the bot, checking if it is a internal one,
-	 * and if it is, it calls the appropriate method. Really just 
-	 * a alias for {@link BotUtils#sendEvent(Event, EventArgs, IRCBase)}
-	 * with <code>this</code> as the third argument :).
-	 * @param ev The event to send.
-	 * @param args The arguments to use.
-	 */
-	public void sendEvent(Event ev, EventArgs args)
-	{
-		BotUtils.sendEvent(ev, args, this);
-	}
-
-	/** Sets the verbose value of the bot.
-	 * @param on What the value should be set to.
-	 */
-	protected void setVerbose(boolean on)
-	{
-		_options.setVerbose(on);
-	}
-
-	/** Gets if the bot is verbose.
-	 * @return If the verbose property is true.
-	 */
-	protected boolean isVerbose()
-	{
-		return _options.isVerbose();
-	}
-
-	protected void debug(String line)
-	{
-		debug(line, Level.INFO);
-	}
-
-	protected void debug(String line, Level level)
-	{
-		if (_options.isDebugging())
-			_logger.log(level, line);
-	}
-
-	/** Gets the list of {@link EventHandlerManager}s that are assigned {@link IRCEventListener}s
-	 * that have subscribed to receive events from the bot.
-	 * @return The list of {@link EventHandlerManager}s.
-	 */
-	List<EventHandlerManager> getListeners()
-	{
-		return _eventcoll.getListeners();
-	}
-	
-	EventHandlerCollection getEventHandlerColl()
-	{
-		return _eventcoll;
-	}
-	
-	public Channel[] getJoinedChannels()
-	{
-		if (!CHANNEL_TRACKING)
-		{
-			throw new UnsupportedOperationException("The API was compiled with CHANNEL_TRACKING set to false. Channel tracking features are disabled.");
-		}
-		return _channels.toArray(new Channel[_channels.size()]);
-	}
-	
-	public Channel getChannelForName(String name)
-	{
-		Channel result = null;
-		
-		for (Channel c : _channels)
-		{
-			// IRC's channel naming is case-insensitive.
-			if (c.getName().equalsIgnoreCase(name))
-			{
-				return c;
-			}
-		}
-		
-		return result;
-	}
-
+	// Class-scope variables
 	/** The current nick of the bot */
 	private String _nick = DEFAULT_NICK;
 	
@@ -580,21 +499,16 @@ IRCEventListener, InternalConstants
 	/** The SocketFactory which all connections to a server will be created with */
 	private SocketFactory _factory;
 	/**
-	 * The IRCSocketManager that will be used to manage the current server
-	 * connection
-	 */
-	private IRCSocketManager _manager;
-	/**
 	 * The IRCReciever that will be in a separate thread, passing messages to
 	 * the handler
 	 */
 	private IRCReceiver _receiver;
-	/** The IRCInputHandler that will pass all received messages to us. */
-	private IRCInputHandler _handler;
 	
-	private List<Channel> _channels;
-
-	private static final Logger _logger = Logger.getLogger(IRCBase.class.getCanonicalName());
+	private static final Logger _logger = Logger.getLogger(IRCSocketManager.class.getCanonicalName());
 	
-	private EventHandlerCollection _eventcoll;
+	private Socket _rawSocket;
+	
+	private BufferedReader _reader;
+	
+	private PrintStream _writer;
 }

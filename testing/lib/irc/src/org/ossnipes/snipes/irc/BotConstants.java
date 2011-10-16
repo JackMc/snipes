@@ -1,4 +1,6 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.irc;
+
+import org.ossnipes.snipes.lib.events.Event;
 
 /* 
  * 

@@ -1,4 +1,4 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.lib.events;
 
 
 /** The interface for receiving IRC events. Implementing this interface allows the Object to call {@link IRCBase#addEventListener(IRCEventListener)}

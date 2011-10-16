@@ -1,10 +1,14 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.lib.events;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.ossnipes.snipes.irc.BotConstants;
+import org.ossnipes.snipes.irc.IRCConstants;
+import org.ossnipes.snipes.irc.InputHandler;
+
 // So we don't have to type BotUtils.<insert method> all the time.
-import static org.ossnipes.snipes.lib.irc.BotUtils.*;
+import static org.ossnipes.snipes.lib.events.BotUtils.*;
 
 /* 
  * 
@@ -622,7 +626,9 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		//BEGIN EXTRA CHECKS FOR ERR_NICKNAMEINUSE
 		if (code == ERR_NICKNAMEINUSE)
 		{
-			sendEvent(Event.IRC_NICKINUSE, new EventArgs(line), _parent);
+			Map<String, Object> args = new HashMap<String, Object>();
+			args.put("fatal", !finishedConnection);
+			sendEvent(Event.IRC_NICKINUSE, new EventArgs(line, args), _parent);
 		}
 		//END EXTRA CHECKS FOR ERR_NICKNAMEINUSE
 		// Fire off the IRC_RESPONSE_CODE

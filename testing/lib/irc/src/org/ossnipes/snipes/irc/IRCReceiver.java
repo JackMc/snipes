@@ -1,4 +1,4 @@
-package org.ossnipes.snipes.lib.irc;
+package org.ossnipes.snipes.irc;
 
 import java.io.IOException;
 
@@ -63,9 +63,8 @@ class IRCReceiver implements Runnable
 				String s = _manager.recvRaw();
 				if (s != null)
 				{
-					synchronized (lock) 
-					{
-						_handler.handle(s);
+					synchronized (lock) {
+						_handler.handle(s);	
 					}
 				}
 				else
