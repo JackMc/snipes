@@ -1,6 +1,6 @@
 package org.ossnipes.snipes.bot;
 
-import org.ossnipes.snipes.lib.irc.Event;
+import org.ossnipes.snipes.lib.events.Event;
 
 /** Will represent a event that has to do with the loading of modules.
  * 

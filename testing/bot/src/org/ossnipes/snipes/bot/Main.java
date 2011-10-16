@@ -20,9 +20,11 @@ public class Main
 		}
 	}
 
-	/** Checks the needed dependencies. This is in {@link Main} because it allows
+	/**
+	 * Checks the needed dependencies. This is in {@link Main} because it allows
 	 * the bot to detect a missing Snipes IRC Framework and quit cleanly with a
-	 * nice error without the tons of {@link ClassNotFoundException}s. */
+	 * nice error without the tons of {@link ClassNotFoundException}s.
+	 */
 	private static void checkDeps()
 	{
 		// TODO HACK: Is there a way to see if a class exists without loading
@@ -45,7 +47,7 @@ public class Main
 		{
 			// To test if they have the collections API (A feature added in Java
 			// 1.2).
-			Class.forName("org.ossnipes.snipes.lib.irc.IRCBase");
+			Class.forName("org.ossnipes.snipes.lib.events.IRCBase");
 		} catch (ClassNotFoundException e)
 		{
 			System.err

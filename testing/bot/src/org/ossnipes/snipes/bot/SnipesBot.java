@@ -8,23 +8,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.ossnipes.snipes.lib.irc.BotUtils;
-import org.ossnipes.snipes.lib.irc.Event;
-import org.ossnipes.snipes.lib.irc.EventArgs;
-import org.ossnipes.snipes.lib.irc.IRCBase;
+import org.ossnipes.snipes.lib.events.BotUtils;
+import org.ossnipes.snipes.lib.events.Event;
+import org.ossnipes.snipes.lib.events.EventArgs;
+import org.ossnipes.snipes.lib.events.IRCBase;
 
-/** The main class for the SnipesBot project.
+/**
+ * The main class for the SnipesBot project.
  * 
- * @author Jack McCracken */
+ * @author Jack McCracken
+ */
 public class SnipesBot extends IRCBase implements PropertyConstants,
 		SnipesConstants
 {
 
-	/** Creates a new SnipesBot Object.
+	/**
+	 * Creates a new SnipesBot Object.
 	 * 
 	 * @param args The arguments passed into the program.
 	 * @throws IOException If there is a error connecting to the specified
-	 *             server. */
+	 *             server.
+	 */
 	public SnipesBot(String[] args) throws IOException
 	{
 		// Parse our passed in args.
@@ -74,8 +78,8 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		tempLst.addAll(Arrays.asList(this._c.getPropertyAsStringArray(
 				MODULES_PROP_NAME, MODULES_PROP_DEFAULTS)));
 		// Stick it in a module collection.
-		this._coll = new ModuleCollection(this,
-				tempLst.toArray(new String[tempLst.size()]));
+		this._coll = new ModuleCollection(this, tempLst
+				.toArray(new String[tempLst.size()]));
 	}
 
 	/** Reads and sets the nick and realname of the bot. */
@@ -112,9 +116,11 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		}
 	}
 
-	/** Parses the command line arguments passed to the bot.
+	/**
+	 * Parses the command line arguments passed to the bot.
 	 * 
-	 * @param args The arguments to parse. */
+	 * @param args The arguments to parse.
+	 */
 	private void parseCmdArgs(String[] args)
 	{
 		// Call up the ArgumentParser to do it for us.
@@ -164,19 +170,9 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 			boolean validPrefix = false;
 			// Get the first char of the channel
 			char c = channel.charAt(0);
-			// Loop through the valid prefixes.
-			for (char prefix : IRC_CHANPREFIXES)
-			{
-				// If they have this prefix
-				if (prefix == c)
-				{
-					validPrefix = true;
-					// No sense in continuing checks.
-					break;
-				}
-			}
+
 			// Check if they gave us a valid channel prefix
-			if (!validPrefix)
+			if (!BotUtils.arrayContains(IRC_CHANPREFIXES, c))
 			{
 				System.err
 						.println("Channel joining: Could not join channel "
@@ -213,11 +209,13 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 				{
 					if (argsCount != split.length - 1)
 					{
-						this.debug("Commands API: Found a command for "
-								+ command
-								+ " but it doesn't have "
-								+ "the correct amount of arguments as provided ("
-								+ argsCount + " != " + split.length + ".)");
+						this
+								.debug("Commands API: Found a command for "
+										+ command
+										+ " but it doesn't have "
+										+ "the correct amount of arguments as provided ("
+										+ argsCount + " != " + split.length
+										+ ".)");
 						invalidArgsMatchFound = true;
 						continue;
 					}
@@ -243,9 +241,11 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	}
 
 	// Configuration methods
-	/** Gets the current {@link Configuration} {@link Object} of this bot.
+	/**
+	 * Gets the current {@link Configuration} {@link Object} of this bot.
 	 * 
-	 * @return The current {@link Configuration} Object. */
+	 * @return The current {@link Configuration} Object.
+	 */
 	public Configuration getConfiguration()
 	{
 		return this._c;
@@ -254,7 +254,8 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	// End configuration methods
 
 	// Module collection methods.
-	/** Loads a module.
+	/**
+	 * Loads a module.
 	 * 
 	 * @param module The module to load.
 	 * @return The {@link ModuleManager} Object of the loaded {@link Module}
@@ -267,7 +268,8 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	 *             Module for whatever reason.
 	 * @throws ClassNotFoundException If the bot could not find the Module.
 	 * @throws ModuleInitException If the module returned
-	 *             {@link ModuleReturn#ERROR} from {@link Module#snipesInit()} */
+	 *             {@link ModuleReturn#ERROR} from {@link Module#snipesInit()}
+	 */
 	ModuleManager loadModule(String moduleName) throws ModuleLoadException,
 			InstantiationException, IllegalAccessException,
 			ClassNotFoundException, ModuleInitException
@@ -275,21 +277,25 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		return this._coll.addModule(this, moduleName);
 	}
 
-	/** Removes a module from the list of modules, and stops it from receiving
+	/**
+	 * Removes a module from the list of modules, and stops it from receiving
 	 * further events. This will call snipesFini when it is uncommented.
 	 * 
 	 * @param moduleName The name of the module.
-	 * @return True if we were able to remove the module. */
+	 * @return True if we were able to remove the module.
+	 */
 	boolean removeModule(String moduleName)
 	{
 		return this._coll.removeModule(moduleName, ModuleExitState.EXIT_UNLOAD);
 	}
 
-	/** Returns true if the specified module is loaded by this bot, and false
+	/**
+	 * Returns true if the specified module is loaded by this bot, and false
 	 * otherwise.
 	 * 
 	 * @param name The name of the module to check the loaded status of.
-	 * @return See above. */
+	 * @return See above.
+	 */
 	boolean isModuleLoaded(String name)
 	{
 		return this._coll.isModuleLoaded(name);

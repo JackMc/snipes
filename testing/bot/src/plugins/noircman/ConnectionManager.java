@@ -3,10 +3,10 @@ package plugins.noircman;
 import java.io.IOException;
 
 import org.ossnipes.snipes.bot.Configuration;
-import org.ossnipes.snipes.lib.irc.BotUtils;
-import org.ossnipes.snipes.lib.irc.Event;
-import org.ossnipes.snipes.lib.irc.EventArgs;
-import org.ossnipes.snipes.lib.irc.IRCEventListener;
+import org.ossnipes.snipes.lib.events.BotUtils;
+import org.ossnipes.snipes.lib.events.Event;
+import org.ossnipes.snipes.lib.events.EventArgs;
+import org.ossnipes.snipes.lib.events.IRCEventListener;
 
 public class ConnectionManager extends Thread implements IRCEventListener
 {

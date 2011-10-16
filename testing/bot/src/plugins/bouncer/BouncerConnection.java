@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ossnipes.snipes.bot.SnipesBot;
-import org.ossnipes.snipes.lib.irc.Channel;
-import org.ossnipes.snipes.lib.irc.Event;
-import org.ossnipes.snipes.lib.irc.EventArgs;
-import org.ossnipes.snipes.lib.irc.IRCEventListener;
+import org.ossnipes.snipes.lib.events.Channel;
+import org.ossnipes.snipes.lib.events.Event;
+import org.ossnipes.snipes.lib.events.EventArgs;
+import org.ossnipes.snipes.lib.events.IRCEventListener;
 
 public class BouncerConnection extends Thread implements IRCEventListener
 {
@@ -37,8 +37,8 @@ public class BouncerConnection extends Thread implements IRCEventListener
 
 		try
 		{
-			this._in = new BufferedReader(new InputStreamReader(
-					this._sock.getInputStream()));
+			this._in = new BufferedReader(new InputStreamReader(this._sock
+					.getInputStream()));
 			this._out = new PrintStream(this._sock.getOutputStream());
 		} catch (IOException e)
 		{
@@ -139,8 +139,8 @@ public class BouncerConnection extends Thread implements IRCEventListener
 				{
 					int modifiers = constructor.getModifiers();
 					if (Modifier.isPublic(modifiers)
-							|| (this.getClass().getPackage()
-									.equals(this.getClass().getPackage()) && !Modifier
+							|| (this.getClass().getPackage().equals(
+									this.getClass().getPackage()) && !Modifier
 									.isPrivate(modifiers)))
 					{
 						// No need to check cast, it came from a ? extends
@@ -201,7 +201,6 @@ public class BouncerConnection extends Thread implements IRCEventListener
 
 	public void sendRawLineToClient(String line)
 	{
-		System.err.println("Sending " + line + " to client.");
 		this._out.println(line);
 	}
 

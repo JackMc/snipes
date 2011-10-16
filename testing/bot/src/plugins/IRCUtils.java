@@ -2,9 +2,9 @@ package plugins;
 
 import org.ossnipes.snipes.bot.Module;
 import org.ossnipes.snipes.bot.ModuleReturn;
-import org.ossnipes.snipes.lib.irc.Channel;
-import org.ossnipes.snipes.lib.irc.Event;
-import org.ossnipes.snipes.lib.irc.EventArgs;
+import org.ossnipes.snipes.lib.events.Channel;
+import org.ossnipes.snipes.lib.events.Event;
+import org.ossnipes.snipes.lib.events.EventArgs;
 
 public class IRCUtils extends Module
 {

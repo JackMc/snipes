@@ -5,9 +5,9 @@ import org.ossnipes.snipes.bot.ModuleInitException;
 import org.ossnipes.snipes.bot.ModuleLoadException;
 import org.ossnipes.snipes.bot.ModuleReturn;
 import org.ossnipes.snipes.bot.SnipesConstants;
-import org.ossnipes.snipes.lib.irc.BotUtils;
-import org.ossnipes.snipes.lib.irc.Event;
-import org.ossnipes.snipes.lib.irc.EventArgs;
+import org.ossnipes.snipes.lib.events.BotUtils;
+import org.ossnipes.snipes.lib.events.Event;
+import org.ossnipes.snipes.lib.events.EventArgs;
 
 public class CoreUtils extends CoreModule
 {

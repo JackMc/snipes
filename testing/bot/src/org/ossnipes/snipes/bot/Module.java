@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ossnipes.snipes.lib.irc.Event;
-import org.ossnipes.snipes.lib.irc.EventArgs;
-import org.ossnipes.snipes.lib.irc.IRCEventListener;
+import org.ossnipes.snipes.lib.events.Event;
+import org.ossnipes.snipes.lib.events.EventArgs;
+import org.ossnipes.snipes.lib.events.IRCEventListener;
 
 public abstract class Module implements IRCEventListener
 {
@@ -20,9 +20,11 @@ public abstract class Module implements IRCEventListener
 		}
 	}
 
-	/** Performs startup operations for this module
+	/**
+	 * Performs startup operations for this module
 	 * 
-	 * @return */
+	 * @return
+	 */
 	final ModuleReturn initiailise(SnipesBot parentBot)
 	{
 		// TODO: Implement dependencies.
@@ -91,13 +93,10 @@ public abstract class Module implements IRCEventListener
 		return this._parentBot.getConfiguration();
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
-	public final Event[] getRegisteredEvents()
+	public Event[] getRegisteredEvents()
 	{
-		// TODO: No effect.
-		return this instanceof CoreModule ? ModuleEvent.values() : Event
-				.values();
+		return Event.values();
 	}
 
 	final void destruct(ModuleExitState state)
@@ -135,7 +134,8 @@ public abstract class Module implements IRCEventListener
 		this._permissions.put(permission, value);
 	}
 
-	/** Loads a module into the module system so it will start receiving events
+	/**
+	 * Loads a module into the module system so it will start receiving events
 	 * at the next turn of the message loop.
 	 * 
 	 * @param name The name of the module to load.
@@ -149,7 +149,8 @@ public abstract class Module implements IRCEventListener
 	 *             Module for whatever reason.
 	 * @throws ClassNotFoundException If the bot could not find the Module.
 	 * @throws ModuleInitException If {@link Module#snipesInit()} returns
-	 *             {@link ModuleReturn#ERROR} */
+	 *             {@link ModuleReturn#ERROR}
+	 */
 	protected final ModuleManager loadModule(String name)
 			throws ModuleLoadException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, ModuleInitException
@@ -157,20 +158,24 @@ public abstract class Module implements IRCEventListener
 		return this.getParent().loadModule(name);
 	}
 
-	/** Removes a module from the list of loaded modules.
+	/**
+	 * Removes a module from the list of loaded modules.
 	 * 
 	 * @param name The name of the module to unload.
 	 * @return If removing the module was successful. If false, this generally
-	 *         means that the module is not loaded. */
+	 *         means that the module is not loaded.
+	 */
 	protected final boolean removeModule(String name)
 	{
 		return this.getParent().removeModule(name);
 	}
 
-	/** Returns true if a module is loaded by the bot.
+	/**
+	 * Returns true if a module is loaded by the bot.
 	 * 
 	 * @param name The module to check for.
-	 * @return True if the module specified by name is loaded. False otherwise. */
+	 * @return True if the module specified by name is loaded. False otherwise.
+	 */
 	protected final boolean isModuleLoaded(String name)
 	{
 		return this.getParent().isModuleLoaded(name);
