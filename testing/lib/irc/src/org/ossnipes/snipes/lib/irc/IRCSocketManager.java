@@ -1,4 +1,4 @@
-package org.ossnipes.snipes.irc;
+package org.ossnipes.snipes.lib.irc;
 
 import java.io.BufferedReader;
 import java.io.IOException;

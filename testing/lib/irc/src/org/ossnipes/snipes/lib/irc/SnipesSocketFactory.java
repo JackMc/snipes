@@ -1,4 +1,11 @@
-package org.ossnipes.snipes.irc;
+package org.ossnipes.snipes.lib.irc;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import javax.net.SocketFactory;
 
 /* 
  * 
@@ -23,25 +30,9 @@ package org.ossnipes.snipes.irc;
  * If not, see http://www.gnu.org/licenses/.
  */
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocketFactory;
-
-import org.ossnipes.snipes.lib.events.IRCBase;
-
 /**
- * The default socket factory for all secure IRC operations within the bot.
- * 
- * The most common use for this class would probably be as a argument to
- * {@link IRCBase#connect(String, int, SocketFactory)}with the third argument
- * being SnipesSSLSocketFactory.getDefault(). The port would generally be 6697
- * (the default IRC SSL port).
- * 
- * The reasoning for using a factory and not a straight new Socket(host,port) is
+ * The default socket factory for all IRC operations within the bot. The
+ * reasoning for using a factory and not a straight new Socket(host,port) is
  * because with this approach, we can have certain options set on by default
  * with the #createSocket method (also to move more towards the "singleton"
  * method).
@@ -54,32 +45,21 @@ import org.ossnipes.snipes.lib.events.IRCBase;
  * @see SnipesSSLSocketFactory
  */
 
-public class SnipesSSLSocketFactory extends SocketFactory implements
-BotConstants
+public class SnipesSocketFactory extends SocketFactory implements BotConstants
 {
-	// This class might be considered a hack for SSL compatibility, as there's
-	// no documentation on
-	// how to actually *use* SSLSockets.
-	// So, we use a SSLSocketFactory to create our sockets, and just set the
-	// timeout on that.
 
-	private static final SocketFactory parent = SSLSocketFactory.getDefault();
+	private static final SocketFactory def = new SnipesSocketFactory();
 
-	// The default, returned by getDefault()
-	private static final SnipesSSLSocketFactory def = new SnipesSSLSocketFactory();
-
-
-
-	private SnipesSSLSocketFactory()
+	// We are the only people able to instantiate this factory
+	protected SnipesSocketFactory()
 	{
-
 	}
 
 	@Override
 	public Socket createSocket(String host, int port) throws IOException,
 	UnknownHostException
 	{
-		Socket s = parent.createSocket(host, port);
+		Socket s = new Socket(host, port);
 		s.setSoTimeout(IRC_TIMEOUT);
 		return s;
 	}
@@ -87,7 +67,7 @@ BotConstants
 	@Override
 	public Socket createSocket(InetAddress host, int port) throws IOException
 	{
-		Socket s = parent.createSocket(host, port);
+		Socket s = new Socket(host.getHostName(), port);
 		s.setSoTimeout(IRC_TIMEOUT);
 		return s;
 	}
@@ -96,7 +76,7 @@ BotConstants
 	public Socket createSocket(String host, int port, InetAddress localHost,
 			int localPort) throws IOException, UnknownHostException
 			{
-		Socket s = parent.createSocket(host, port, localHost, localPort);
+		Socket s = new Socket(host, port, localHost, localPort);
 		s.setSoTimeout(IRC_TIMEOUT);
 		return s;
 			}
@@ -105,7 +85,8 @@ BotConstants
 	public Socket createSocket(InetAddress address, int port,
 			InetAddress localAddress, int localPort) throws IOException
 			{
-		Socket s = parent.createSocket(address, port, localAddress, localPort);
+		Socket s = new Socket(address.getHostName(), port, localAddress,
+				localPort);
 		s.setSoTimeout(IRC_TIMEOUT);
 		return s;
 			}
@@ -114,5 +95,4 @@ BotConstants
 	{
 		return def;
 	}
-
 }

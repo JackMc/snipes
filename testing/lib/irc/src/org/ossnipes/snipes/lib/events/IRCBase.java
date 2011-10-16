@@ -7,10 +7,10 @@ import java.util.List;
 
 import javax.net.SocketFactory;
 
-import org.ossnipes.snipes.irc.BotConstants;
-import org.ossnipes.snipes.irc.IRCSocketManager;
-import org.ossnipes.snipes.irc.SnipesException;
-import org.ossnipes.snipes.irc.SnipesSSLSocketFactory;
+import org.ossnipes.snipes.lib.irc.BotConstants;
+import org.ossnipes.snipes.lib.irc.IRCSocketManager;
+import org.ossnipes.snipes.lib.irc.SnipesException;
+import org.ossnipes.snipes.lib.irc.SnipesSSLSocketFactory;
 
 /* 
  * 

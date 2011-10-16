@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ossnipes.snipes.irc.IRCConstants;
+import org.ossnipes.snipes.lib.irc.IRCConstants;
 
 public class Event 
 {

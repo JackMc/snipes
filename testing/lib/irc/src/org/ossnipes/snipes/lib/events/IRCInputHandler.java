@@ -3,9 +3,9 @@ package org.ossnipes.snipes.lib.events;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ossnipes.snipes.irc.BotConstants;
-import org.ossnipes.snipes.irc.IRCConstants;
-import org.ossnipes.snipes.irc.InputHandler;
+import org.ossnipes.snipes.lib.irc.BotConstants;
+import org.ossnipes.snipes.lib.irc.IRCConstants;
+import org.ossnipes.snipes.lib.irc.InputHandler;
 
 // So we don't have to type BotUtils.<insert method> all the time.
 import static org.ossnipes.snipes.lib.events.BotUtils.*;
