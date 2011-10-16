@@ -53,6 +53,12 @@ public class EventArgs
 		_params = BotUtils.stringObjectArraysToStringObjectMap(keys, values);
 		_params.put("line", line);
 	}
+	
+	public boolean containsKey(String key)
+	{
+		return _params.containsKey(key);
+	}
+	
 	/** Creates a EventArgs object with the specified arguments as it's parameters.
 	 * @param args The String Object map of the arguments.
 	 */
