@@ -25,7 +25,7 @@ public class Event
 	 * <BR/>
 	 * code: The numeric from IRCConstants, type {@link Integer}.
 	 */
-	public static Event IRC_RESPONSE_CODE = new Event("IRC_RESPONSE_CODE");
+	public static Event IRC_RESPONSE_CODE = new Event("IRC_RESPONSE_CODE", EventType.OUTSIDE);
 	/** This event is triggered when someone quits in a channel we are in. The bot cannot provide channel information
 	 * on this event because it is only sent to us once, no matter how many channels we have in common with the user.
 	 * This event is not handled in the {@link IRCBase#handleInternalEvent(Event, EventArgs)} method. This may change
@@ -41,7 +41,7 @@ public class Event
 	 * was closed unexpectedly (the client did not send a QUIT message) then it must fill in the quit message with
 	 * something appropriately describing the circumstances.
 	 */
-	public static final Event IRC_QUIT = new Event("IRC_QUIT");
+	public static final Event IRC_QUIT = new Event("IRC_QUIT", EventType.OUTSIDE);
 	/** This event is triggered when someone sends a notice to us or a channel we are in. This event functions almost
 	 * exactly as the {@link #public static final EvNew IRC_PRIVMSG} event, but I will explain it's params here. This is not handled in the
 	 * {@link IRCBase#handleInternalEvent(Event, EventArgs)} method.
@@ -54,7 +54,7 @@ public class Event
 	 * if the message is directed to us only.<BR/>
 	 * message -- The body of the message being sent to us.
 	 */
-	public static final Event IRC_NOTICE = new Event("IRC_NOTICE");
+	public static final Event IRC_NOTICE = new Event("IRC_NOTICE", EventType.OUTSIDE);
 	/** This event is triggered when the server sends us a PING command, or someone else does.
 	 * This is handled in the {@link IRCBase#handleInternalEvent(Event, EventArgs)} method,
 	 * but it can also be handled in the {@link IRCBase#handleEvent(Event, EventArgs)} method
@@ -64,7 +64,7 @@ public class Event
 	 * server -- The server we're recieving a ping from (may also be a nickname, not sure though.)
 	 * 
 	 */
-	public static final Event IRC_PING = new Event("IRC_PING");
+	public static final Event IRC_PING = new Event("IRC_PING", EventType.OUTSIDE);
 	
 	/** This event is triggered when a user sends a PRIVMSG to us or a channel we are in.
 	 * <BR/>
@@ -83,7 +83,7 @@ public class Event
 	 * channel -- The channel that the PRIVMSG was sent to, or null if this PRIVMSG was sent to us.<BR/>
 	 * sendto -- A convenience parameter. Will contain the nick/channel the message should go to if replying.
 	 */
-	public static final Event IRC_PRIVMSG = new Event("IRC_PRIVMSG");
+	public static final Event IRC_PRIVMSG = new Event("IRC_PRIVMSG", EventType.OUTSIDE);
 	
 	/** This event is triggered when we join and are notified of the topic.
 	 * This is handled in the {@link IRCBase#handleInternalEvent(Event, EventArgs)} 
@@ -95,7 +95,7 @@ public class Event
 	 * channel -- The channel we were told about.<BR/>
 	 * topic -- The actual topic.<BR/>
 	 */
-	public static final Event IRC_JOIN_TOPIC = new Event("IRC_JOIN_TOPIC");
+	public static final Event IRC_JOIN_TOPIC = new Event("IRC_JOIN_TOPIC", EventType.OUTSIDE);
 	
 	/** This event is triggered when we get notified that the topic has changed.
 	 * This is handled in the {@link IRCBase#handleInternalEvent(Event, EventArgs)} 
@@ -108,7 +108,7 @@ public class Event
 	 * channel -- The channel the topic was set on.<BR/>
 	 * topic -- The text of the topic.<BR/>
 	 */
-	public static final Event IRC_TOPIC = new Event("IRC_TOPIC");
+	public static final Event IRC_TOPIC = new Event("IRC_TOPIC", EventType.OUTSIDE);
 	
 	/** This event is triggered when a user joins a channel we are in.
 	 * This is not handled in {@link IRCBase#handleInternalEvent(Event, EventArgs)}.
@@ -119,7 +119,7 @@ public class Event
 	 * host -- The hostname of the user joining the channel.<BR/>
 	 * channel -- The channel the user is joining.
 	 */
-	public static final Event IRC_JOIN = new Event("IRC_JOIN");
+	public static final Event IRC_JOIN = new Event("IRC_JOIN", EventType.OUTSIDE);
 	
 	/** This event is triggered when a user leaves a channel we are in.
 	 * This is not handled in {@link IRCBase#handleInternalEvent(Event, EventArgs)}.
@@ -133,7 +133,7 @@ public class Event
 	 * it is not provided, but it is possible that it may send a PART without a message. In that case, the message
 	 * parameter will be null.
 	 */
-	public static final Event IRC_PART = new Event("IRC_PART");
+	public static final Event IRC_PART = new Event("IRC_PART", EventType.OUTSIDE);
 	
 	/** This event is triggered when a user (possibly us) is kicked from a channel we are in.
 	 * This is not handled in {@link IRCBase#handleInternalEvent(Event, EventArgs)}.
@@ -154,7 +154,7 @@ public class Event
 	 * the use of a VERSION command on the server. You really only need the first line of this response.
 	 * It should look something like "Unreal3.2.8-gs.9. Rubicon.GeekShed.net :FhiXeOoEmM3 [*=2309").
 	 */
-	public static final Event IRC_KICK = new Event("IRC_KICK");
+	public static final Event IRC_KICK = new Event("IRC_KICK", EventType.OUTSIDE);
 	
 	/** This event is triggered when a user changes their nick on a channel we are in. The bot cannot provide
 	 * channel information for this event, as it is only triggered once, no matter how many channels we
@@ -168,7 +168,7 @@ public class Event
 	 * nick-new -- The new nick of the user, after this event.<BR/>
 	 * host -- The hostname of the user changing their nick.
 	 */
-	public static final Event IRC_NICK_CHANGE = new Event("IRC_NICK_CHANGE");
+	public static final Event IRC_NICK_CHANGE = new Event("IRC_NICK_CHANGE", EventType.OUTSIDE);
 	
 	/** This event is triggered when a user or a server sets a mode on us or a channel we are in. I was going to
 	 * implement the ability for events describing certain modes (a set moderated event, etc.) but that would add
@@ -185,7 +185,7 @@ public class Event
 	 * mode -- The actual String of + and - modes.<BR/>
 	 * mode-params -- The list of parameters to the mode. This may be null if no parameters are specified in the command.
 	 */
-	public static final Event IRC_MODE = new Event("IRC_MODE");
+	public static final Event IRC_MODE = new Event("IRC_MODE", EventType.OUTSIDE);
 	
 	/** This event is triggered when a line that the bot does not understand is sent to it. For example a non-standard
 	 * statement or a part of the protocol I (embarrassingly) forgot to implement. This event is (obviously?) not handled
@@ -195,7 +195,7 @@ public class Event
 	 * <BR/>
 	 * line -- The raw line received from the server.
 	 */
-	public static final Event IRC_UNKNOWN = new Event("IRC_UNKNOWN");
+	public static final Event IRC_UNKNOWN = new Event("IRC_UNKNOWN", EventType.OUTSIDE);
 	
 	/** This event is used in the bot as a method to get passed the limitation of not being able to retrieve Strings
 	 * from the {@link java.net.Socket}'s buffer except for in the {@link IRCReceiver} class. Currently, this event is
@@ -206,11 +206,12 @@ public class Event
 	 * Params (gotten with {@link EventArgs#getParam(String)}):<BR/>
 	 * line -- The raw line received from the server. Currently not used.
 	 */
-	public static final Event IRC_NICKINUSE = new Event("IRC_NICKINUSE");
+	public static final Event IRC_NICKINUSE = new Event("IRC_NICKINUSE", EventType.OUTSIDE);
 	
-	protected Event(String name)
+	protected Event(String name, EventType evt)
 	{
 		_name = name;
+		_evt = evt;
 		_ordinal = _ordinal_counter ++;
 	}
 	
@@ -288,6 +289,11 @@ public class Event
 		}
 		return null;
 	}
+	
+	public EventType getType()
+	{
+		return _evt;
+	}
 
 	
 	public String toString()
@@ -300,7 +306,15 @@ public class Event
 		return _ordinal;
 	}
 	
+	public enum EventType
+	{
+		US,
+		OUTSIDE
+	}
+	
 	private final int _ordinal;
 	private final String _name;
+	private final EventType _evt;
+	
 	private static int _ordinal_counter;
 }

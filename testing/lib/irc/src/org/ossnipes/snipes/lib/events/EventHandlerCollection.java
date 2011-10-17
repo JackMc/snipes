@@ -3,9 +3,13 @@ package org.ossnipes.snipes.lib.events;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class EventHandlerCollection {
 	public EventHandlerCollection() {
 		_evmngrs = new ArrayList<EventHandlerManager>();
+		_pool = Executors.newCachedThreadPool();
 	}
 	
 	/** Adds a listener for events from the bot.
@@ -57,10 +61,22 @@ public class EventHandlerCollection {
 		}
 	}
 	
+	ThreadLocal<Event> getCurrentEventTl()
+	{
+		return _currentEvent;
+	}
+	
+	ExecutorService getThreadPool()
+	{
+		return _pool;
+	}
+	
 	List<EventHandlerManager> getListeners() 
 	{
 		return _evmngrs;
 	}
 	
 	private List<EventHandlerManager> _evmngrs;
+	private ThreadLocal<Event> _currentEvent = new ThreadLocal<Event>();
+	private ExecutorService _pool = null;
 }

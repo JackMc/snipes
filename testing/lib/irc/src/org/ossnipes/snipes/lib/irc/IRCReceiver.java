@@ -63,6 +63,13 @@ class IRCReceiver implements Runnable
 				String s = _manager.recvRaw();
 				if (s != null)
 				{
+					String[] split = s.split(" ");
+					
+					if (split[0].equalsIgnoreCase("PING"))
+					{
+						_manager.sendRaw("PONG " + split[1]);
+					}
+					
 					synchronized (lock) {
 						_handler.handle(s);	
 					}

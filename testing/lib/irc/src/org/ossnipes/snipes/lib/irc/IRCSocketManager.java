@@ -246,8 +246,8 @@ public class IRCSocketManager implements InternalConstants, BotConstants
 			sendRaw("PASS :" + passwd);
 		}
 		
-		sendRaw("USER " + _user + " 0 Snipes :" + _realname);
-		sendRaw("NICK " + _nick);
+		sendRaw("USER " + (_user != null ? _user : DEFAULT_USER) + " 0 Snipes :" + (_realname != null ? _realname : DEFAULT_REALNAME));
+		sendRaw("NICK " + (_nick != null ? _nick : DEFAULT_NICK));
 	}
 
 	/**
@@ -459,7 +459,7 @@ public class IRCSocketManager implements InternalConstants, BotConstants
 	
 	/** Joins a channel on the current IRC server.
 	 * @param channel The channel to join.
-	 * @return The current IRCBase, for convenience.
+	 * @return The current IRCSocketManager, for convenience.
 	 */
 	public IRCSocketManager join(String channel)
 	{

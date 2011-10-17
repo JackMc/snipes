@@ -42,9 +42,9 @@ import org.ossnipes.snipes.lib.irc.BotConstants;
  * @since Snipes 0.6
  */
 public class BotUtils
-implements BotConstants
+implements BotConstants, EventConstants
 {
-	// We can't be created by anyone but us. We don't even create us :P.
+	// We can't be created by anyone but us. We don't even create us! :P
 	private BotUtils() {}
 
 	/** Takes a String array and a Object array and outputs a Map of Strings (keys) and Objects.<BR/>
@@ -95,47 +95,57 @@ implements BotConstants
 	 * @param args The arguments object to be passed to the functions.
 	 * @param coll The collection containing the event listeners registered.
 	 */
-	public static void sendEvent(Event ev, EventArgs args, EventHandlerCollection coll)
+	public static void sendEvent(final Event ev, final EventArgs args, final EventHandlerCollection coll)
 	{
-		// Is it a internal event?
-		boolean isInternal = arrayContains(INTERNAL_EVENTS, ev);
-		List<EventHandlerManager> mans;
-		
-		if (InternalConstants.USE_EVLIST_COPY)
-		{
-			mans = copyList(coll.getListeners());
-		}
-		else
-		{
-			mans = coll.getListeners();
-		}
-		
-		int i = 0;
-		
-		// Loop through the listeners
-		while (i < mans.size())
-		{
-			EventHandlerManager ehm = mans.get(i);
-			
-			boolean isBase = ehm.isIRCBase();
-			if (!isBase)
+		// All parameters are final so they can be referenced inside of the thread.
+		coll.getThreadPool().execute(new Runnable() {
+			public void run()
 			{
-				if (ehm.isSubscribed(ev))
+				// Stick it in a new event thread.
+				coll.getCurrentEventTl().set(ev);
+				// Is it a internal event?
+				boolean isInternal = arrayContains(INTERNAL_EVENTS, ev);
+				List<EventHandlerManager> mans;
+				
+				if (InternalConstants.USE_EVLIST_COPY)
 				{
-					ehm.sendEvent(ev, args);
+					mans = copyList(coll.getListeners());
 				}
-			}
-			else
-			{
-				if (isInternal)
+				else
 				{
-					((IRCBase)ehm.getManaged()).handleInternalEvent(ev,args);
+					mans = coll.getListeners();
 				}
-				ehm.sendEvent(ev,args);
+				
+				int i = 0;
+				
+				// Loop through the listeners
+				while (i < mans.size())
+				{
+					EventHandlerManager ehm = mans.get(i);
+					
+					boolean isBase = ehm.isIRCBase();
+					if (!isBase)
+					{
+						if (ehm.isSubscribed(ev))
+						{
+							ehm.sendEvent(ev, args);
+						}
+					}
+					else
+					{
+						if (isInternal)
+						{
+							((IRCBase)ehm.getManaged()).handleInternalEvent(ev,args);
+						}
+						ehm.sendEvent(ev,args);
+					}
+					
+					i++;
+				}
+				coll.getCurrentEventTl().set(null);
 			}
-			
-			i++;
-		}
+		});
+		
 	}
 	
 	public static <T> Set<T> copySet(

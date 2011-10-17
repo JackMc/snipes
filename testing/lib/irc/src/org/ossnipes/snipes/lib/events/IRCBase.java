@@ -185,6 +185,30 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 		return result;
 	}
 	
+	// Everyone ends up calling this, so we can implement generic functionality in here.
+	/**
+	 * {@inheritDoc}
+	 * In IRCBase, this function is overwritten so that event handlers handling US events cannot send things to the IRC.
+	 */
+	public void sendRaw(String line)
+	{
+		Event current = getCurrentEvent();
+		if (current == null || current.getType() != Event.EventType.US)
+		{
+			super.sendRaw(line);
+		}
+		else
+		{
+			// We REALLY don't know how to deal with this...
+			throw new IllegalStateException("Unable to send command to server from event handler because it was an US handler.");
+		}
+	}
+	
+	public Event getCurrentEvent()
+	{
+		return _eventcoll.getCurrentEventTl().get();
+	}
+	
 	/** Used to handle a event sent by {@link #sendEvent(Event, EventArgs)}.
 	 * @param ev The event that was sent.
 	 * @param args The arguments for the event.
@@ -198,11 +222,7 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 	 */
 	public final void handleInternalEvent(Event ev, EventArgs args)
 	{
-		if (ev == Event.IRC_PING)
-		{
-			sendPong(args.getParamAsString("server"));
-		}
-		else if (ev == Event.IRC_JOIN)
+		if (ev == Event.IRC_JOIN)
 		{
 			if (CHANNEL_TRACKING)
 			{

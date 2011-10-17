@@ -1,6 +1,7 @@
 package org.ossnipes.snipes.lib.events;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class EventHandlerManager
@@ -14,7 +15,8 @@ class EventHandlerManager
 		else
 		{
 			_managed = managed;
-			_subscribedEvents = new ArrayList<Event>();
+			_subscribedEvents = Collections.synchronizedList(new ArrayList<Event>());
+			registerInitialEvents();
 		}
 	}
 
@@ -60,7 +62,6 @@ class EventHandlerManager
 
 	boolean isSubscribed(Event ev)
 	{
-		populateSubscribedEvents();
 		return _subscribedEvents.contains((Object)ev);
 	}
 
