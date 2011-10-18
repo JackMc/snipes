@@ -1,9 +1,7 @@
 package plugins.irchook;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +17,22 @@ public class IRCHook extends Module implements Runnable
 	{
 		if (args.containsKey("line"))
 		{
-			for (PrintStream ps : this._channels)
+			for (Hook ps : this._hooks)
 			{
-				ps.println(args.getParamAsString("line"));
+				synchronized (this._hooks)
+				{
+					ps.line(args.getParamAsString("line"));
+				}
 			}
+		}
+	}
+
+	public void addHook(Hook h)
+	{
+		h.init();
+		synchronized (this._hooks)
+		{
+			this._hooks.add(h);
 		}
 	}
 
@@ -31,12 +41,11 @@ public class IRCHook extends Module implements Runnable
 	{
 		try
 		{
-			this._server = new ServerSocket(this.getParent().getConfiguration()
-					.getPropertyAsInteger("hookprt", 4000));
+			int i = this.getParent().getConfiguration().getPropertyAsInteger(
+					"hookprt", 4031);
+			this._server = new ServerSocket(i);
 		} catch (IOException e)
 		{
-			System.err
-					.println("IRCHook: Cannot initialise, server initialisation failure.");
 			this.setError("IOException while initialising server: "
 					+ e.getMessage());
 			return ModuleReturn.ERROR;
@@ -45,6 +54,12 @@ public class IRCHook extends Module implements Runnable
 		Thread t = new Thread(this, "IRCHook main thread");
 		t.setDaemon(true);
 		t.start();
+		// See if we should log.
+		if (this.getParent().getConfiguration().getPropertyAsBoolean("log",
+				false))
+		{
+			this.addHook(new LogHook());
+		}
 		return null;
 	}
 
@@ -56,8 +71,7 @@ public class IRCHook extends Module implements Runnable
 		{
 			try
 			{
-				Socket sc = this._server.accept();
-				this._channels.add(new PrintStream(sc.getOutputStream()));
+				this.addHook(new SocketHook(this._server.accept()));
 			} catch (IOException e)
 			{
 				if (!this._server.isClosed())
@@ -75,6 +89,22 @@ public class IRCHook extends Module implements Runnable
 		}
 	}
 
+	@Override
+	public void snipesFini()
+	{
+		for (Hook h : this._hooks)
+		{
+			h.fini();
+		}
+		try
+		{
+			this._server.close();
+		} catch (IOException e)
+		{
+			// We don't care.
+		}
+	}
+
 	ServerSocket _server;
-	List<PrintStream> _channels = new ArrayList<PrintStream>();
+	List<Hook> _hooks = new ArrayList<Hook>();
 }

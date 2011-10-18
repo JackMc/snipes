@@ -47,6 +47,11 @@ public abstract class Module implements IRCEventListener
 		return mr != null ? mr : ModuleConstants.DEFAULT_RETURN;
 	}
 
+	public void fini()
+	{
+		this.snipesFini();
+	}
+
 	private final void addToEvListeners()
 	{
 		this._parentBot.addEventListener(this);
@@ -55,7 +60,12 @@ public abstract class Module implements IRCEventListener
 	// Begin abstract method definitions
 	protected abstract ModuleReturn snipesInit();
 
-	// protected abstract void snipesFini(PluginExitState status);
+	protected void snipesFini()
+	{
+		// Users can implement this if they want.
+	}
+
+	// End abstract method definitions.
 
 	// This one's here for clarity.
 	@Override
@@ -101,6 +111,7 @@ public abstract class Module implements IRCEventListener
 
 	final void destruct(ModuleExitState state)
 	{
+		this.fini();
 		// State will be used later
 		this._parentBot.removeEventListener(this);
 	}

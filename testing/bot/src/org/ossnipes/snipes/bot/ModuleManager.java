@@ -1,14 +1,16 @@
 package org.ossnipes.snipes.bot;
 
-/** This class is a interface to a Snipes module. It contains methods that should
+/**
+ * This class is a interface to a Snipes module. It contains methods that should
  * not be used by modules, but the bot should be able to use them.
  * 
  * @author Jack McCracken (Auv5)
- * @since Snipes 0.01 */
+ * @since Snipes 0.01
+ */
 class ModuleManager
 {
-
-	/** Initialises a {@link ModuleManager} Object, creates the underlying
+	/**
+	 * Initialises a {@link ModuleManager} Object, creates the underlying
 	 * {@link Module} Object, and creates .
 	 * 
 	 * @param parent The {@link SnipesBot} Object this module is tied to.
@@ -19,7 +21,8 @@ class ModuleManager
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException If constructor is otherwise unavailable.
 	 * @throws ModuleLoadException If the module is not a instance of
-	 *             {@link Module}. */
+	 *             {@link Module}.
+	 */
 	ModuleManager(SnipesBot parent, String moduleClsName)
 			throws ModuleLoadException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException
@@ -39,23 +42,35 @@ class ModuleManager
 		}
 	}
 
-	/** Checks if a module has the specified permission.
+	/**
+	 * Checks if a module has the specified permission.
 	 * 
 	 * @param p The permission to check for.
-	 * @return If the module has the specified permission. */
+	 * @return If the module has the specified permission.
+	 */
 	public boolean hasPermission(ModulePermission p)
 	{
 		// p will be used later.
 		return this._managed instanceof CoreModule;
 	}
 
-	/** Calls this module's snipesFini() method and performs any other cleanup.
+	/**
+	 * Calls this module's snipesFini() method and performs any other cleanup.
 	 * 
-	 * @param state The state to signal to the module. */
+	 * @param state The state to signal to the module.
+	 */
 	void destruct(ModuleExitState state)
 	{
 		// Call the destructor.
 		this._managed.destruct(state);
+	}
+
+	/**
+	 * Disaster cleanup.
+	 */
+	void fini()
+	{
+		this._parent.removeEventListener(this._managed);
 	}
 
 	String getModuleClassName()

@@ -2,10 +2,8 @@ package org.ossnipes.snipes.bot;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.ossnipes.snipes.lib.events.BotUtils;
@@ -21,7 +19,6 @@ import org.ossnipes.snipes.lib.events.IRCBase;
 public class SnipesBot extends IRCBase implements PropertyConstants,
 		SnipesConstants
 {
-
 	/**
 	 * Creates a new SnipesBot Object.
 	 * 
@@ -39,8 +36,6 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 		// Get the nick, etc.
 		this.readSetNickRealname();
-
-		this.addCommand(new TestCommand(this));
 
 		// See if we're in debugging/verbose mode.
 		this.readSetDebugVerbose();
@@ -72,14 +67,15 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	/** Reads the modules from the configuration and loads them */
 	private void readLoadModules()
 	{
+		// Use a set so that duplicates are eliminated.
 		// Concatenate the specified modules and the core ones.
-		List<String> tempLst = new ArrayList<String>();
-		tempLst.addAll(Arrays.asList(SnipesConstants.CORE_MODULES));
-		tempLst.addAll(Arrays.asList(this._c.getPropertyAsStringArray(
+		Set<String> temp = new HashSet<String>();
+		temp.addAll(Arrays.asList(SnipesConstants.CORE_MODULES));
+		temp.addAll(Arrays.asList(this._c.getPropertyAsStringArray(
 				MODULES_PROP_NAME, MODULES_PROP_DEFAULTS)));
 		// Stick it in a module collection.
-		this._coll = new ModuleCollection(this, tempLst
-				.toArray(new String[tempLst.size()]));
+		this._coll = new ModuleCollection(this, temp.toArray(new String[temp
+				.size()]));
 	}
 
 	/** Reads and sets the nick and realname of the bot. */
@@ -164,10 +160,9 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 								+ channel
 								+ ". Channel name too short (must be the prefix and at least one other character.). Not joining...");
 			}
+
 			// TODO: Add into framework. This is IRC stuff not pertaining to
 			// plugins.
-			// See if it has a valid prefix.
-			boolean validPrefix = false;
 			// Get the first char of the channel
 			char c = channel.charAt(0);
 
@@ -191,53 +186,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
-		String message, sendTo;
-		String[] split;
-		boolean totalMatchFound = false;
-		boolean invalidArgsMatchFound = false;
-
-		if (this._commands.size() != 0
-				&& (message = args.getParamAsString("message")) != null
-				&& (sendTo = args.getParamAsString("sendto")) != null
-				&& (split = message.split(" ")).length != 0)
-		{
-			for (Command c : BotUtils.copySet(this._commands))
-			{
-				int argsCount = c.getNumberOfArgs();
-				String command = c.getCommand();
-				if (command != null && command.equalsIgnoreCase(split[0]))
-				{
-					if (argsCount != split.length - 1)
-					{
-						this
-								.debug("Commands API: Found a command for "
-										+ command
-										+ " but it doesn't have "
-										+ "the correct amount of arguments as provided ("
-										+ argsCount + " != " + split.length
-										+ ".)");
-						invalidArgsMatchFound = true;
-						continue;
-					}
-					else
-					{
-						this.debug("Commands API: Found a match for command "
-								+ command + " with " + argsCount + " args.");
-						c.handleCommand(message, sendTo, split);
-						totalMatchFound = true;
-						return;
-					}
-				}
-			}
-
-			if (invalidArgsMatchFound && !totalMatchFound)
-			{
-				this.sendPrivMsg(sendTo,
-						"Incorrect amount of arguments for command " + split[0]
-								+ ".");
-			}
-
-		}
+		// No event handling code.
 	}
 
 	// Configuration methods
@@ -306,38 +255,16 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		return this._coll.getModuleByName(name);
 	}
 
-	// End module collection methods
-
-	public Command addCommand(Command c)
+	@Override
+	public void run()
 	{
-		if (this._commands == null)
+		for (ModuleManager mm : this._coll)
 		{
-			this._commands = new HashSet<Command>();
+			mm.destruct(ModuleExitState.EXIT_QUITTING);
 		}
-
-		for (Command cLooped : this._commands)
-		{
-			if (!cLooped.getCommand().equals(c.getCommand())
-					&& cLooped.getNumberOfArgs() == c.getNumberOfArgs())
-			{
-				System.err
-						.println("COMMAND CONFLICT! Different commands with the name "
-								+ cLooped.getCommand()
-								+ " and "
-								+ cLooped.getNumberOfArgs()
-								+ " argument"
-								+ (cLooped.getNumberOfArgs() == 1 ? "" : "s")
-								+ ". Snipes will continue using "
-								+ "the first one added.");
-				return c;
-			}
-		}
-
-		this._commands.add(c);
-		return c;
+		super.run();
 	}
 
 	private Configuration _c;
 	private ModuleCollection _coll;
-	private Set<Command> _commands;
 }

@@ -1,19 +1,24 @@
 package org.ossnipes.snipes.bot;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-/** Abstracts Module removal and adding.
+/**
+ * Abstracts Module removal and adding.
  * 
- * @author Jack McCracken (Auv5) */
-class ModuleCollection
+ * @author Jack McCracken (Auv5)
+ */
+class ModuleCollection implements Iterable<ModuleManager>
 {
 
-	/** Constructs a {@link ModuleCollection}
+	/**
+	 * Constructs a {@link ModuleCollection}
 	 * 
 	 * @param parent The parent of the modules to be initialised with this
 	 *            collection.
-	 * @param onLoadModules A list of modules to be loaded automatically. */
+	 * @param onLoadModules A list of modules to be loaded automatically.
+	 */
 	public ModuleCollection(SnipesBot parent, String[] onLoadModules)
 	{
 		// Initialise an empty collection
@@ -27,6 +32,7 @@ class ModuleCollection
 				// TODO: These error messages need to go in the SnipesBot class.
 			} catch (ModuleLoadException e)
 			{
+				// snipesInit() returned an error.
 				System.err.println("Could not load module \"" + module
 						+ "\" because the module is not a subclass of "
 						+ Module.class.getCanonicalName());
@@ -69,7 +75,8 @@ class ModuleCollection
 		this._modules = new ArrayList<ModuleManager>();
 	}
 
-	/** Loads a array of modules.
+	/**
+	 * Loads a array of modules.
 	 * 
 	 * @param parent The parent of these {@link Module}s.
 	 * @param module The String representations of the {@link Module}s to be
@@ -82,7 +89,8 @@ class ModuleCollection
 	 * @throws IllegalAccessException If we cannot call the constructor of the
 	 *             Module for whatever reason.
 	 * @throws ClassNotFoundException If the bot could not find the Module.
-	 * @throws ModuleInitException If Module#snies */
+	 * @throws ModuleInitException If Module#snies
+	 */
 	public void addModules(SnipesBot parent, String[] modules)
 			throws ModuleLoadException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, ModuleInitException
@@ -93,7 +101,8 @@ class ModuleCollection
 		}
 	}
 
-	/** Loads a array of modules.
+	/**
+	 * Loads a array of modules.
 	 * 
 	 * @param parent The parent of these {@link Module}s.
 	 * @param module The module Objects to load.
@@ -106,7 +115,8 @@ class ModuleCollection
 	 *             Module for whatever reason.
 	 * @throws ClassNotFoundException If the bot could not find the Module.
 	 * @throws ModuleInitException If {@link Module#snipesInit()} returns
-	 *             {@link ModuleReturn#ERROR} */
+	 *             {@link ModuleReturn#ERROR}
+	 */
 	public void addModules(SnipesBot parent, Module[] modules)
 			throws ModuleLoadException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, ModuleInitException
@@ -118,7 +128,8 @@ class ModuleCollection
 
 	}
 
-	/** Loads a module.
+	/**
+	 * Loads a module.
 	 * 
 	 * @param parent The parent of this {@link Module}.
 	 * @param module The module to load.
@@ -132,7 +143,8 @@ class ModuleCollection
 	 *             Module for whatever reason.
 	 * @throws ClassNotFoundException If the bot could not find the Module.
 	 * @throws ModuleInitException If {@link Module#snipesInit()} returns
-	 *             {@link ModuleReturn#ERROR} */
+	 *             {@link ModuleReturn#ERROR}
+	 */
 	public ModuleManager addModule(SnipesBot parent, String module)
 			throws ModuleLoadException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, ModuleInitException
@@ -146,24 +158,28 @@ class ModuleCollection
 		}
 		else
 		{
+			// Deinitialise the module safely.
+			manager.fini();
 			// TODO: Call snipesFini here later if it's needed (we've called
 			// their init, so we should call fini).
 			String moduleClassName = manager.getModuleClassName();
 			// Grammar Nazi ^_^
 			throw new ModuleInitException("Module " + moduleClassName
 					+ (moduleClassName.endsWith("s") ? '\'' : "'s")
-					+ "snipesInit() returned ModuleReturn.ERROR.",
-					manager.getModule());
+					+ "snipesInit() returned ModuleReturn.ERROR.", manager
+					.getModule());
 		}
 
 		return manager;
 	}
 
-	/** Removes a module's loaded status and calls it's destructor.
+	/**
+	 * Removes a module's loaded status and calls it's destructor.
 	 * 
 	 * @param module The module name to unload.
 	 * @param state The state to signal the module.
-	 * @return If the module was loaded in the first place. */
+	 * @return If the module was loaded in the first place.
+	 */
 	public boolean removeModule(String module, ModuleExitState state)
 	{
 		ModuleManager mRight = null;
@@ -185,7 +201,8 @@ class ModuleCollection
 		return this._modules.remove(mRight);
 	}
 
-	/** Loads a {@link Module} with the specified parent.
+	/**
+	 * Loads a {@link Module} with the specified parent.
 	 * 
 	 * @param parent The parent of the {@link Module}.
 	 * @param module The {@link Module} to load.
@@ -198,7 +215,8 @@ class ModuleCollection
 	 *             Module for whatever reason.
 	 * @throws ClassNotFoundException If the bot could not find the Module.
 	 * @throws ModuleInitException If {@link Module#snipesInit()} returns
-	 *             {@link ModuleReturn#ERROR} */
+	 *             {@link ModuleReturn#ERROR}
+	 */
 	void addModule(SnipesBot parent, Module module) throws ModuleLoadException,
 			InstantiationException, IllegalAccessException,
 			ClassNotFoundException, ModuleInitException
@@ -206,10 +224,12 @@ class ModuleCollection
 		this.addModule(parent, module.getClass().getName());
 	}
 
-	/** Returns true if a module is loaded.
+	/**
+	 * Returns true if a module is loaded.
 	 * 
 	 * @param name The module to look for.
-	 * @return True if the module is loaded. */
+	 * @return True if the module is loaded.
+	 */
 	boolean isModuleLoaded(String name)
 	{
 		return this.getModuleByName(name) == null ? false : true;
@@ -225,6 +245,12 @@ class ModuleCollection
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Iterator<ModuleManager> iterator()
+	{
+		return this._modules.iterator();
 	}
 
 	private final List<ModuleManager> _modules;
