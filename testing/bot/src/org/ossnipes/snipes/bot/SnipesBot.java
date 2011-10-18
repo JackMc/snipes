@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.ossnipes.snipes.lib.events.BotUtils;
 import org.ossnipes.snipes.lib.events.Event;
 import org.ossnipes.snipes.lib.events.EventArgs;
 import org.ossnipes.snipes.lib.events.IRCBase;
@@ -151,32 +150,13 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 		for (String channel : channels)
 		{
-			// If it's less than two (it doesn't have a prefix or is just the
-			// prefix)
-			if (channel.length() < 2)
-			{
-				System.err
-						.println("Channel joining: Cannot join "
-								+ channel
-								+ ". Channel name too short (must be the prefix and at least one other character.). Not joining...");
-			}
-
-			// TODO: Add into framework. This is IRC stuff not pertaining to
-			// plugins.
-			// Get the first char of the channel
-			char c = channel.charAt(0);
-
-			// Check if they gave us a valid channel prefix
-			if (!BotUtils.arrayContains(IRC_CHANPREFIXES, c))
-			{
-				System.err
-						.println("Channel joining: Could not join channel "
-								+ channel
-								+ ". Invalid or no prefix. Snipes will continue without joining this channel.");
-			}
-			else
+			try
 			{
 				this.join(channel);
+			} catch (IllegalArgumentException e)
+			{
+				System.err.println("Invalid channel name '" + channel + "': "
+						+ e.getMessage());
 			}
 		}
 
