@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 
 import javax.net.SocketFactory;
 
+import org.ossnipes.snipes.lib.events.BotUtils;
+
 /* 
  * This file is part of The Snipes IRC Framework.
  * 
@@ -463,7 +465,27 @@ public class IRCSocketManager implements InternalConstants, BotConstants
 	 */
 	public IRCSocketManager join(String channel)
 	{
-		sendRaw("JOIN " + channel);
+		// If it's less than two (it doesn't have a prefix or is just the
+		// prefix)
+		if (channel.length() < 2)
+		{
+			throw new IllegalArgumentException("Channel name too short.");
+		}
+
+		// TODO: Add into framework. This is IRC stuff not pertaining to
+		// plugins.
+		// Get the first char of the channel
+		char c = channel.charAt(0);
+
+		// Check if they gave us a valid channel prefix
+		if (!BotUtils.arrayContains(IRC_CHANPREFIXES, c))
+		{
+			throw new IllegalArgumentException("Channel prefix invalid.");
+		}
+		else
+		{
+			sendRaw("JOIN " + channel);
+		}
 		return this;
 	}
 	
