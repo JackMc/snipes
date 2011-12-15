@@ -98,14 +98,15 @@ implements BotConstants, EventConstants
 	public static void sendEvent(final Event ev, final EventArgs args, final EventHandlerCollection coll)
 	{
 		// All parameters are final so they can be referenced inside of the thread.
-		coll.getThreadPool().execute(new Runnable() {
+		class EvRunnable implements Runnable
+		{
 			public void run()
-			{
+			{	
 				// Stick it in a new event thread.
 				coll.getCurrentEventTl().set(ev);
 				// Is it a internal event?
-				boolean isInternal = arrayContains(INTERNAL_EVENTS, ev);
-				List<EventHandlerManager> mans;
+				final boolean isInternal = arrayContains(INTERNAL_EVENTS, ev);
+				final List<EventHandlerManager> mans;
 				
 				if (InternalConstants.USE_EVLIST_COPY)
 				{
@@ -121,31 +122,53 @@ implements BotConstants, EventConstants
 				// Loop through the listeners
 				while (i < mans.size())
 				{
-					EventHandlerManager ehm = mans.get(i);
-					
-					boolean isBase = ehm.isIRCBase();
-					if (!isBase)
+					final EventHandlerManager ehm = mans.get(i);
+					class EvHandlerRunnable implements Runnable
 					{
-						if (ehm.isSubscribed(ev))
-						{
-							ehm.sendEvent(ev, args);
+						@Override
+						public void run() {
+							boolean isBase = ehm.isIRCBase();
+							if (!isBase)
+							{
+								if (ehm.isSubscribed(ev))
+								{
+									ehm.sendEvent(ev, args);
+								}
+							}
+							else
+							{
+								if (isInternal)
+								{
+									((IRCBase)ehm.getManaged()).handleInternalEvent(ev,args);
+								}
+								ehm.sendEvent(ev,args);
+							}
 						}
+					}
+					
+					if (coll.getThreadLevel().ordinal() == ThreadLevel.TL_PER_HANDLER.ordinal())
+					{
+						coll.getThreadPool().execute(new EvHandlerRunnable());
 					}
 					else
 					{
-						if (isInternal)
-						{
-							((IRCBase)ehm.getManaged()).handleInternalEvent(ev,args);
-						}
-						ehm.sendEvent(ev,args);
+						new EvHandlerRunnable().run();
 					}
 					
 					i++;
 				}
 				coll.getCurrentEventTl().set(null);
 			}
-		});
+		}
 		
+		if (coll.getThreadLevel().ordinal() > ThreadLevel.TL_SINGLE.ordinal())
+		{
+			coll.getThreadPool().execute(new EvRunnable());
+		}
+		else
+		{
+			new EvRunnable().run();
+		}
 	}
 	
 	public static <T> Set<T> copySet(

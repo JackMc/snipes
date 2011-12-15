@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.ossnipes.snipes.lib.events.Event;
-import org.ossnipes.snipes.lib.events.EventArgs;
-import org.ossnipes.snipes.lib.events.IRCEventListener;
 import org.ossnipes.snipes.lib.irc.IRCConstants;
 import org.ossnipes.snipes.lib.irc.SnipesException;
 

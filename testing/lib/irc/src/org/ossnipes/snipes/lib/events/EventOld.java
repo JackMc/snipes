@@ -1,5 +1,7 @@
 package org.ossnipes.snipes.lib.events;
 
+import org.ossnipes.snipes.lib.irc.IRCConstants;
+
 /* 
  * 
  * Copyright 2010 Jack McCracken

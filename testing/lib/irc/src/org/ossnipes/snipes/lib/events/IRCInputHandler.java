@@ -1,14 +1,15 @@
 package org.ossnipes.snipes.lib.events;
 
+import static org.ossnipes.snipes.lib.events.BotUtils.convertToInt;
+import static org.ossnipes.snipes.lib.events.BotUtils.isInteger;
+import static org.ossnipes.snipes.lib.events.BotUtils.sendEvent;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.ossnipes.snipes.lib.irc.BotConstants;
 import org.ossnipes.snipes.lib.irc.IRCConstants;
 import org.ossnipes.snipes.lib.irc.InputHandler;
-
-// So we don't have to type BotUtils.<insert method> all the time.
-import static org.ossnipes.snipes.lib.events.BotUtils.*;
 
 /* 
  * 
@@ -43,9 +44,6 @@ import static org.ossnipes.snipes.lib.events.BotUtils.*;
 
 class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 {
-	// Solution to the problem of the VERSION message being a PRIVMSG :\.
-	private boolean finishedConnection = false;
-
 	IRCInputHandler(IRCBase parent)
 	{
 		_parent = parent;
@@ -83,7 +81,7 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 			isResponseCode = handleResponseCode(line, exSplit);
 		}
 
-		if (!finishedConnection)
+		if (!_finishedConnection)
 		{
 			handleUnfinishedConnection(line, exSplit);
 			return;
@@ -627,7 +625,7 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 		if (code == ERR_NICKNAMEINUSE)
 		{
 			Map<String, Object> args = new HashMap<String, Object>();
-			args.put("fatal", !finishedConnection);
+			args.put("fatal", !_finishedConnection);
 			sendEvent(Event.IRC_NICKINUSE, new EventArgs(line, args), _parent);
 		}
 		//END EXTRA CHECKS FOR ERR_NICKNAMEINUSE
@@ -648,7 +646,7 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 			if (isInteger(exSplit[1]) && convertToInt(exSplit[1])
 					== RPL_LUSERME)
 			{
-				finishedConnection = true;
+				_finishedConnection = true;
 			}
 		}
 		return;
@@ -657,4 +655,6 @@ class IRCInputHandler implements BotConstants, IRCConstants, InputHandler
 
 
 	IRCBase _parent;
+	// Solution to the problem of the VERSION message being a PRIVMSG :\.
+	private boolean _finishedConnection = false;
 }

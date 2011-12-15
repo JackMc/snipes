@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.net.SocketFactory;
 
 import org.ossnipes.snipes.lib.events.BotUtils;
+import org.ossnipes.snipes.lib.events.ThreadLevel;
 
 /* 
  * This file is part of The Snipes IRC Framework.
@@ -43,7 +44,7 @@ import org.ossnipes.snipes.lib.events.BotUtils;
  * @author Jack McCracken
  */
 
-public class IRCSocketManager implements InternalConstants, BotConstants
+public class IRCSocketManager implements InternalConstants, BotConstants, Runnable
 {
 
 	/**
@@ -58,6 +59,7 @@ public class IRCSocketManager implements InternalConstants, BotConstants
 	 */
 	public IRCSocketManager()
 	{
+		Runtime.getRuntime().addShutdownHook(new Thread(this));
 		_options = BotOptions.getInst();
 	}
 
@@ -471,9 +473,7 @@ public class IRCSocketManager implements InternalConstants, BotConstants
 		{
 			throw new IllegalArgumentException("Channel name too short.");
 		}
-
-		// TODO: Add into framework. This is IRC stuff not pertaining to
-		// plugins.
+		
 		// Get the first char of the channel
 		char c = channel.charAt(0);
 
@@ -503,6 +503,19 @@ public class IRCSocketManager implements InternalConstants, BotConstants
 		
 		this._realname = name;
 		return this;
+	}
+	
+	@Override
+	public void run()
+	{
+		if (_rawSocket != null)
+		{
+			try {
+					_rawSocket.close();
+			} catch (IOException e) {
+				// We're terminating. Silently ignore the error.
+			}
+		}
 	}
 
 	// Class-scope variables

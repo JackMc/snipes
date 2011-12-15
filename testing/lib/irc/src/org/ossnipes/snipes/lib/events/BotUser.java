@@ -1,6 +1,5 @@
 package org.ossnipes.snipes.lib.events;
 
-import org.ossnipes.snipes.lib.events.BotUtils;
 import org.ossnipes.snipes.lib.irc.BotConstants;
 import org.ossnipes.snipes.lib.irc.SnipesException;
 

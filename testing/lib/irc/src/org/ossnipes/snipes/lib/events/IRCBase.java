@@ -273,6 +273,16 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 		BotUtils.sendEvent(ev, args, this);
 	}
 	
+	public void setThreadLevel(ThreadLevel level)
+	{
+		_eventcoll.setThreadLevel(level);
+	}
+	
+	public ThreadLevel getThreadLevel()
+	{
+		return _eventcoll.getThreadLevel();
+	}
+	
 	/** Gets the list of {@link EventHandlerManager}s that are assigned {@link IRCEventListener}s
 	 * that have subscribed to receive events from the bot.
 	 * @return The list of {@link EventHandlerManager}s.

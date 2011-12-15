@@ -2,7 +2,6 @@ package org.ossnipes.snipes.lib.events;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,6 +33,16 @@ public class EventHandlerCollection {
 			_evmngrs.add(ehm);
 			return listener;
 		}
+	}
+	
+	public void setThreadLevel(ThreadLevel tl)
+	{
+		_threadLevel = tl;
+	}
+	
+	public ThreadLevel getThreadLevel()
+	{
+		return _threadLevel;
 	}
 	
 	public final void removeEventListener(IRCEventListener listener)
@@ -79,4 +88,5 @@ public class EventHandlerCollection {
 	private List<EventHandlerManager> _evmngrs;
 	private ThreadLocal<Event> _currentEvent = new ThreadLocal<Event>();
 	private ExecutorService _pool = null;
+	private ThreadLevel _threadLevel = ThreadLevel.TL_PER_HANDLER;
 }
