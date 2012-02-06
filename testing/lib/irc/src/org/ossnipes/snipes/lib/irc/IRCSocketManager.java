@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import javax.net.SocketFactory;
 
 import org.ossnipes.snipes.lib.events.BotUtils;
-import org.ossnipes.snipes.lib.events.ThreadLevel;
 
 /* 
  * This file is part of The Snipes IRC Framework.

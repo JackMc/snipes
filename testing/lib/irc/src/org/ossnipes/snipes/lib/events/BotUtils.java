@@ -146,7 +146,7 @@ implements BotConstants, EventConstants
 						}
 					}
 					
-					if (coll.getThreadLevel().ordinal() == ThreadLevel.TL_PER_HANDLER.ordinal())
+					if (coll.getThreadLevel() == ThreadLevel.TL_PER_HANDLER)
 					{
 						coll.getThreadPool().execute(new EvHandlerRunnable());
 					}
