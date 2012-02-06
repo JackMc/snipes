@@ -5,9 +5,9 @@ import org.ossnipes.snipes.bot.SnipesBot;
 public class IRCClient implements PseudoClient
 {
 	// TODO: Better name. IRCClient will probably get confusing.
-	public IRCClient(SnipesBot sb)
+	public IRCClient(@SuppressWarnings("unused") SnipesBot sb)
 	{
-		this._sb = sb;
+		// No need for Snipes object.
 	}
 
 	@Override
@@ -28,6 +28,4 @@ public class IRCClient implements PseudoClient
 	{
 		return true;
 	}
-
-	private final SnipesBot _sb;
 }

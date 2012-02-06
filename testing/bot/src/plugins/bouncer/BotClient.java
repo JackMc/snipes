@@ -30,7 +30,6 @@ public class BotClient implements PseudoClient
 			return;
 		}
 		// Unused, for now.
-		String[] msgSplit = command.split(" ");
 
 		if (command.indexOf(':') == -1)
 		{
