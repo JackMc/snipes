@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 
 public class EventHandlerCollection {
 	public EventHandlerCollection() {
-		_evmngrs = new ArrayList<EventHandlerManager>();
+		_evmngrs = new ArrayList<JavaEventHandlerManager>();
 		_pool = Executors.newCachedThreadPool();
 	}
 	
@@ -28,7 +28,7 @@ public class EventHandlerCollection {
 		}
 		else
 		{
-			EventHandlerManager ehm = new EventHandlerManager(listener);
+			JavaEventHandlerManager ehm = new JavaEventHandlerManager(listener);
 			ehm.registerInitialEvents();
 			_evmngrs.add(ehm);
 			return listener;
@@ -53,7 +53,7 @@ public class EventHandlerCollection {
 		}
 		else
 		{
-			List<EventHandlerManager> mans = this.getListeners();
+			List<JavaEventHandlerManager> mans = this.getListeners();
 			
 			int i = 0;
 			
@@ -61,7 +61,7 @@ public class EventHandlerCollection {
 			while (i < mans.size())
 			{
 				EventHandlerManager ehm = mans.get(i);
-				if (ehm.getManaged() == listener)
+				if (ehm.equals(listener))
 				{
 					mans.remove(i);
 				}
@@ -70,7 +70,7 @@ public class EventHandlerCollection {
 		}
 	}
 	
-	ThreadLocal<Event> getCurrentEventTl()
+	ThreadLocal<EventArgs> getCurrentEventTl()
 	{
 		return _currentEvent;
 	}
@@ -80,13 +80,13 @@ public class EventHandlerCollection {
 		return _pool;
 	}
 	
-	List<EventHandlerManager> getListeners() 
+	List<JavaEventHandlerManager> getListeners() 
 	{
 		return _evmngrs;
 	}
 	
-	private List<EventHandlerManager> _evmngrs;
-	private ThreadLocal<Event> _currentEvent = new ThreadLocal<Event>();
+	private List<JavaEventHandlerManager> _evmngrs;
+	private ThreadLocal<EventArgs> _currentEvent = new ThreadLocal<EventArgs>();
 	private ExecutorService _pool = null;
 	private ThreadLevel _threadLevel = ThreadLevel.TL_PER_HANDLER;
 }

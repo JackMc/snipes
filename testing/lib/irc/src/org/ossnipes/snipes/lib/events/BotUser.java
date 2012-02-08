@@ -22,7 +22,7 @@ public class BotUser implements BotConstants
 		{
 			throw new SnipesException("User's nick is empty.");
 		}
-		
+		//TODO: More checking for user nicks and other things, this includes a handler for the mode event.
 		else if (!withPrefix && BotUtils.arrayContains(IRC_NICKPREFIXES, nick.charAt(0)))
 		{
 			nick = nick.substring(1);

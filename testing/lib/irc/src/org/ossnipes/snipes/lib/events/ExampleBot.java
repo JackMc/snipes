@@ -27,6 +27,13 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Set;
 
+
+/**
+ * A very simple IRC bot that just prints out information about
+ * the events it receives.
+ * @author Jack
+ *
+ */
 public class ExampleBot extends IRCBase
 {
 	public static void main(String args[])

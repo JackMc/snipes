@@ -53,6 +53,10 @@ import org.ossnipes.snipes.lib.irc.SnipesSSLSocketFactory;
 public abstract class IRCBase extends IRCSocketManager implements IRCEventListener
 {
 	// Default constructor
+	/**
+	 * Creates a IRCBase. This constructor takes no parameters so that it is very easy to create a IRC bot 
+	 * using this framework.
+	 */
 	public IRCBase()
 	{
 		if (CHANNEL_TRACKING)
@@ -75,10 +79,21 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 		return new Event[] {};
 	}
 
+	/**
+	 * Adds a event listener to an IRCBase object.
+	 * @param h The even listener to add. The handleEvent method of this object will be called for every 
+	 * registered event.
+	 * @return The given event listener, for the convenience of the user.
+	 */
 	public IRCEventListener addEventListener(IRCEventListener h)
 	{
 		return _eventcoll.addEventListener(h);
 	}
+	
+	/**
+	 * Reverses the process preformed by the addEventListener function, removing an event listener.
+	 * @param h The event listener to be removed.
+	 */
 	public void removeEventListener(IRCEventListener h)
 	{
 		_eventcoll.removeEventListener(h);
@@ -105,9 +120,27 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 	public IRCSocketManager connect(String server, int port, String passwd, SocketFactory factory)
 	throws IOException, UnknownHostException
 	{
-		return connect(new IRCInputHandler(this), server, port, passwd, factory);
+		return connect(new EventInputHandler(this), server, port, passwd, factory);
 	}
 	
+	/**
+	 * Connects to an IRC server.
+	 * 
+	 * @param server
+	 *            The server IP/host to connect to. If null, a
+	 *            {@link IllegalArgumentException} is thrown.
+	 * @param port
+	 *            The port to connect on. If it is not between 1 and 65535,
+	 *            throws {@link IllegalArgumentException}.
+	 * @param factory
+	 *            The SocketFactory to use. If null, a SnipesSocketFactory is
+	 *            used.
+	 * @throws IOException
+	 *             If there is a unknown IO error while connecting to the
+	 *             server.
+	 * @throws UnknownHostException
+	 *             If the host specified by "server" doesn't exist.
+	 */
 	public IRCSocketManager connect(String server, int port, SocketFactory factory)
 	throws IOException, UnknownHostException
 	{
@@ -160,6 +193,11 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 		return connect(server, IRC_DEFAULT_PORT, null);
 	}
 	
+	/**
+	 * Gets the list of objects representing channels.
+	 * 
+	 * @return A list of objects representing channels.
+	 */
 	public Channel[] getJoinedChannels()
 	{
 		if (!CHANNEL_TRACKING)
@@ -169,6 +207,12 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 		return _channels.toArray(new Channel[_channels.size()]);
 	}
 	
+	/**
+	 * Gets a channel for the name given.
+	 * 
+	 * @param name The name of the channel to return.
+	 * @return The channel you requested, or null if the bot is not current in that channel.
+	 */
 	public Channel getChannelForName(String name)
 	{
 		Channel result = null;
@@ -192,8 +236,8 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 	 */
 	public void sendRaw(String line)
 	{
-		Event current = getCurrentEvent();
-		if (current == null || current.getType() != Event.EventType.US)
+		EventArgs args = getCurrentEvent();
+		if (args == null || args.getEvent() == null || args.getEvent().getType() != Event.EventType.US)
 		{
 			super.sendRaw(line);
 		}
@@ -204,7 +248,7 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 		}
 	}
 	
-	public Event getCurrentEvent()
+	public EventArgs getCurrentEvent()
 	{
 		return _eventcoll.getCurrentEventTl().get();
 	}
@@ -270,28 +314,42 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 	 */
 	public void sendEvent(Event ev, EventArgs args)
 	{
-		BotUtils.sendEvent(ev, args, this);
+		BotUtils.sendEvent(args, this.getEventHandlerColl());
 	}
 	
+	/**
+	 * Sets the current level of threading.
+	 * @param level A object representing the level of threading to set.
+	 */
 	public void setThreadLevel(ThreadLevel level)
 	{
 		_eventcoll.setThreadLevel(level);
 	}
 	
+	/**
+	 * Queries the current thread level.
+	 * @return
+	 */
 	public ThreadLevel getThreadLevel()
 	{
 		return _eventcoll.getThreadLevel();
 	}
 	
-	/** Gets the list of {@link EventHandlerManager}s that are assigned {@link IRCEventListener}s
+	/** Gets the list of {@link JavaEventHandlerManager}s that are assigned {@link IRCEventListener}s
 	 * that have subscribed to receive events from the bot.
-	 * @return The list of {@link EventHandlerManager}s.
+	 * @return The list of {@link JavaEventHandlerManager}s.
 	 */
-	List<EventHandlerManager> getListeners()
+	List<JavaEventHandlerManager> getListeners()
 	{
 		return _eventcoll.getListeners();
 	}
 	
+	/**
+	 * Gets the current collection of event handlers. This is an internal object, so this function can only
+	 * be called from within this package. 
+	 * 
+	 * @return The event handler collection.
+	 */
 	EventHandlerCollection getEventHandlerColl()
 	{
 		return _eventcoll;

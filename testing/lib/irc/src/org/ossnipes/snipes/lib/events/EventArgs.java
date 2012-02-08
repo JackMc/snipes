@@ -33,25 +33,34 @@ import java.util.Set;
 public class EventArgs
 {
 	private Map<String,Object> _params = null;
+	private Event _ev;
 	/** Constructs a event arguments object with no keys.
 	 */
-	public EventArgs(String line)
+	public EventArgs(Event ev, String line)
 	{
 		_params = new HashMap<String,Object>();
+		_ev = ev;
 		_params.put("line", line);
 	}
+	
+	public Event getEvent()
+	{
+		return _ev;
+	}
+	
 	/** Converts the two specified arrays and uses the keys array as the keys for the parameters, and 
 	 * uses the values array as the values of the Strings of the keys array with the same index.
 	 * @param keys An array of keys, must be the same size as values.
 	 * @param values An array of values, must be the same size as keys.
 	 * @throws IllegalArgumentException If keys.length != values.length or if keys ==null || values == null.
 	 */
-	public EventArgs(String line, String[] keys, String[] values)
+	public EventArgs(Event ev, String line, String[] keys, String[] values)
 	{
 		if (keys == null || values == null)
 			throw new IllegalArgumentException("Keys/values cannot be null.");
 		_params = BotUtils.stringObjectArraysToStringObjectMap(keys, values);
 		_params.put("line", line);
+		_ev = ev;
 	}
 	
 	public boolean containsKey(String key)
@@ -62,7 +71,7 @@ public class EventArgs
 	/** Creates a EventArgs object with the specified arguments as it's parameters.
 	 * @param args The String Object map of the arguments.
 	 */
-	public EventArgs(String line, Map<String, Object> args)
+	public EventArgs(Event ev, String line, Map<String, Object> args)
 	{
 		if (args == null)
 		{
@@ -70,6 +79,7 @@ public class EventArgs
 		}
 		this._params = args;
 		_params.put("line", line);
+		_ev = ev;
 	}
 	/** Gets the parameter with the specified key.
 	 * @return The value of the parameter. Null if there's no mapping.

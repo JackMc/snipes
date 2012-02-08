@@ -25,13 +25,12 @@ public class Channel implements IRCEventListener, IRCConstants
 	@Override
 	public Event[] getRegisteredEvents() 
 	{
-		return new Event [] {Event.IRC_RESPONSE_CODE, Event.IRC_JOIN_TOPIC, Event.IRC_TOPIC, Event.IRC_JOIN, Event.IRC_PART};
+		return new Event [] {Event.IRC_RESPONSE_CODE, Event.IRC_JOIN_TOPIC, Event.IRC_TOPIC, Event.IRC_JOIN, Event.IRC_PART, Event.IRC_NICK_CHANGE};
 	}
 
 	@Override
 	public void handleEvent(Event ev, EventArgs args) 
 	{
-		
 		if (ev == Event.IRC_RESPONSE_CODE && !_doneNamesRecv)
 		{
 			int code = ((Integer)args.getParam("code"));
@@ -83,6 +82,12 @@ public class Channel implements IRCEventListener, IRCConstants
 				_doneNamesRecv = true;
 			}
 		}
+		else if (ev == Event.IRC_NICK_CHANGE && _doneNamesRecv)
+		{
+			BotUser u = getUserForName(args.getParamAsString("nick-old"));
+			_currentUsers.remove(u);
+			_currentUsers.add(new BotUser(args.getParamAsString("nick-new")));
+		}
 		else if (ev == Event.IRC_JOIN_TOPIC || ev == Event.IRC_TOPIC)
 		{
 			if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
@@ -101,6 +106,7 @@ public class Channel implements IRCEventListener, IRCConstants
 		else if (ev == Event.IRC_PART)
 		{
 			String nick = args.getParamAsString("nick");
+			
 			if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
 			{
 				BotUser user = null;

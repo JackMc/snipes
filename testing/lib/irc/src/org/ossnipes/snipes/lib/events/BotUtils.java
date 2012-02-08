@@ -82,9 +82,9 @@ implements BotConstants, EventConstants
 	 * @param args The arguments object to be passed to the functions.
 	 * @param bot The bot that this event originated from. This is used to get the event handlers registered to it.
 	 */
-	public static void sendEvent(Event ev, EventArgs args, IRCBase bot)
+	public static void sendEvent(EventArgs args, IRCBase bot)
 	{
-		sendEvent(ev, args, bot.getEventHandlerColl());
+		sendEvent(args, bot.getEventHandlerColl());
 	}
 	
 	/** This method is the heart of the Snipes event-sending mechanism. It sends the event specified by ev with the
@@ -95,18 +95,19 @@ implements BotConstants, EventConstants
 	 * @param args The arguments object to be passed to the functions.
 	 * @param coll The collection containing the event listeners registered.
 	 */
-	public static void sendEvent(final Event ev, final EventArgs args, final EventHandlerCollection coll)
+	public static void sendEvent(final EventArgs args, final EventHandlerCollection coll)
 	{
 		// All parameters are final so they can be referenced inside of the thread.
 		class EvRunnable implements Runnable
 		{
 			public void run()
 			{	
+				final Event ev = args.getEvent();
 				// Stick it in a new event thread.
-				coll.getCurrentEventTl().set(ev);
+				coll.getCurrentEventTl().set(args);
 				// Is it a internal event?
 				final boolean isInternal = arrayContains(INTERNAL_EVENTS, ev);
-				final List<EventHandlerManager> mans;
+				final List<JavaEventHandlerManager> mans;
 				
 				if (InternalConstants.USE_EVLIST_COPY)
 				{
@@ -139,7 +140,7 @@ implements BotConstants, EventConstants
 							{
 								if (isInternal)
 								{
-									((IRCBase)ehm.getManaged()).handleInternalEvent(ev,args);
+									ehm.handleInternalEvent(ev, args);
 								}
 								ehm.sendEvent(ev,args);
 							}
