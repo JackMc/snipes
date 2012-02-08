@@ -10,21 +10,17 @@ import org.ossnipes.snipes.lib.events.Event;
 import org.ossnipes.snipes.lib.events.EventArgs;
 import org.ossnipes.snipes.lib.events.IRCBase;
 
-/**
- * The main class for the SnipesBot project.
+/** The main class for the SnipesBot project.
  * 
- * @author Jack McCracken
- */
+ * @author Jack McCracken */
 public class SnipesBot extends IRCBase implements PropertyConstants,
 		SnipesConstants
 {
-	/**
-	 * Creates a new SnipesBot Object.
+	/** Creates a new SnipesBot Object.
 	 * 
 	 * @param args The arguments passed into the program.
 	 * @throws IOException If there is a error connecting to the specified
-	 *             server.
-	 */
+	 *             server. */
 	public SnipesBot(String[] args) throws IOException
 	{
 		// Parse our passed in args.
@@ -111,11 +107,9 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		}
 	}
 
-	/**
-	 * Parses the command line arguments passed to the bot.
+	/** Parses the command line arguments passed to the bot.
 	 * 
-	 * @param args The arguments to parse.
-	 */
+	 * @param args The arguments to parse. */
 	private void parseCmdArgs(String[] args)
 	{
 		// Call up the ArgumentParser to do it for us.
@@ -170,11 +164,9 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	}
 
 	// Configuration methods
-	/**
-	 * Gets the current {@link Configuration} {@link Object} of this bot.
+	/** Gets the current {@link Configuration} {@link Object} of this bot.
 	 * 
-	 * @return The current {@link Configuration} Object.
-	 */
+	 * @return The current {@link Configuration} Object. */
 	public Configuration getConfiguration()
 	{
 		return this._c;
@@ -183,8 +175,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	// End configuration methods
 
 	// Module collection methods.
-	/**
-	 * Loads a module.
+	/** Loads a module.
 	 * 
 	 * @param module The module to load.
 	 * @return The {@link ModuleManager} Object of the loaded {@link Module}
@@ -197,8 +188,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	 *             Module for whatever reason.
 	 * @throws ClassNotFoundException If the bot could not find the Module.
 	 * @throws ModuleInitException If the module returned
-	 *             {@link ModuleReturn#ERROR} from {@link Module#snipesInit()}
-	 */
+	 *             {@link ModuleReturn#ERROR} from {@link Module#snipesInit()} */
 	ModuleManager loadModule(String moduleName) throws ModuleLoadException,
 			InstantiationException, IllegalAccessException,
 			ClassNotFoundException, ModuleInitException
@@ -206,25 +196,21 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 		return this._coll.addModule(this, moduleName);
 	}
 
-	/**
-	 * Removes a module from the list of modules, and stops it from receiving
+	/** Removes a module from the list of modules, and stops it from receiving
 	 * further events. This will call snipesFini when it is uncommented.
 	 * 
 	 * @param moduleName The name of the module.
-	 * @return True if we were able to remove the module.
-	 */
+	 * @return True if we were able to remove the module. */
 	boolean removeModule(String moduleName)
 	{
 		return this._coll.removeModule(moduleName, ModuleExitState.EXIT_UNLOAD);
 	}
 
-	/**
-	 * Returns true if the specified module is loaded by this bot, and false
+	/** Returns true if the specified module is loaded by this bot, and false
 	 * otherwise.
 	 * 
 	 * @param name The name of the module to check the loaded status of.
-	 * @return See above.
-	 */
+	 * @return See above. */
 	boolean isModuleLoaded(String name)
 	{
 		return this._coll.isModuleLoaded(name);
@@ -238,6 +224,11 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	@Override
 	public void run()
 	{
+		if (this._coll != null)
+		{
+			// Nothing to see here...
+			return;
+		}
 		for (ModuleManager mm : this._coll)
 		{
 			mm.destruct(ModuleExitState.EXIT_QUITTING);
