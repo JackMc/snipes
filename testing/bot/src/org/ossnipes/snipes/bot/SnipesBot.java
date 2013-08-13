@@ -117,8 +117,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	}
 
 	/** Reads the property values for server and port and connects */
-	private void readServerPortConnect() throws IOException,
-			UnknownHostException
+	private void readServerPortConnect() throws IOException
 	{
 		// Get the port
 		Integer port = this._c.getPropertyAsInteger(PORT_PROP_NAME,
@@ -176,8 +175,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 
 	// Module collection methods.
 	/** Loads a module.
-	 * 
-	 * @param module The module to load.
+	 *
 	 * @return The {@link ModuleManager} Object of the loaded {@link Module}
 	 * @throws ModuleLoadException If the Module is not a instance of Module or
 	 *             it's subclasses.
@@ -224,7 +222,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	@Override
 	public void run()
 	{
-		if (this._coll != null)
+		if (this._coll == null)
 		{
 			// Nothing to see here...
 			return;
