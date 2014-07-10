@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Snipes" basedir="." default="jar">
+    <property name="bot.classes.dir" value="bot/build"/>
+    <property name="bot.src.dir" value="bot/src"/>
+    <property name="lib.irc.classes.dir" value="lib/irc/build"/>
+    <property name="lib.irc.src.dir" value="lib/irc/src"/>
+    <property name="console.classes.dir" value="console/build"/>
+    <property name="console.src.dir" value="console/src"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="bot.dist.file" value="${dist.dir}/Snipes.jar"/>
+    <property name="console.dist.file" value="${dist.dir}/SnipesConsole.jar"/>
+    <property name="bot.main-class" value="org.ossnipes.snipes.bot.Main"/>
+    <property name="bot.dist.classpath" value="."/>
+    <property name="console.main-class" value="org.ossnipes.snipes.console.Console"/>
+    <target name="clean" description="Delete all build generated files">
+        <delete dir="${bot.classes.dir}" failonerror="false"/>
+        <delete dir="${lib.irc.classes.dir}" failonerror="false"/>
+        <delete dir="${console.classes.dir}" failonerror="false"/>
+        <delete dir="${dist.dir}" failonerror="false"/>
+    </target>
+
+    <target name="compile" description="Compiles the project">
+        <mkdir dir="${lib.irc.classes.dir}"/>
+        <javac srcdir="${lib.irc.src.dir}" includeAntRuntime="false" destdir="${lib.irc.classes.dir}"/>
+
+        <mkdir dir="${bot.classes.dir}"/>
+        <javac srcdir="${bot.src.dir}" includeAntRuntime="false" destdir="${bot.classes.dir}" classpath="${lib.irc.classes.dir}"/>
+
+        <mkdir dir="${console.classes.dir}"/>
+        <javac srcdir="${console.src.dir}" includeAntRuntime="false" destdir="${console.classes.dir}"/>
+    </target>
+
+    <target name="jar" description="Places all the generated files into a runnable JAR file." depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${bot.dist.file}" basedir="${lib.irc.classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${bot.main-class}"/>
+                <attribute name="Class-Path" value="${bot.dist.classpath}"/>
+            </manifest>
+        </jar>
+        <jar destfile="${bot.dist.file}" basedir="${bot.classes.dir}" update="true"/>
+
+        <jar destfile="${console.dist.file}" basedir="${console.classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${console.main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+</project>
