@@ -67,11 +67,11 @@ class IRCReceiver implements Runnable
 					
 					if (split[0].equalsIgnoreCase("PING"))
 					{
-						_manager.sendRaw("PONG " + split[1]);
+						_manager.sendPong(split[1]);
 					}
 					
 					synchronized (lock) {
-						_handler.handle(s);	
+						_handler.handle(s);
 					}
 				}
 				else
@@ -85,6 +85,7 @@ class IRCReceiver implements Runnable
 		 * :( we've Disconnected, or we've been disconnected. Just return.
 		 */
 			System.err.println("Disconnected unexpectedly: " + e.getMessage());
+			System.exit(1);
 		}
 	}
 	

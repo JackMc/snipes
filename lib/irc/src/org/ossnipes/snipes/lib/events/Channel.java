@@ -34,7 +34,7 @@ public class Channel implements IRCEventListener, IRCConstants
 		if (ev == Event.IRC_RESPONSE_CODE && !_doneNamesRecv)
 		{
 			int code = ((Integer)args.getParam("code"));
-			String[] split = args.getParamAsString("text").split(" ");
+			String[] split = args.getParamAsString("resp_text").split(" ");
 			if (split.length == 0)
 			{
 				// Impossible
@@ -47,7 +47,10 @@ public class Channel implements IRCEventListener, IRCConstants
 				{
 					return;
 				}
-				StringTokenizer strtok = new StringTokenizer(args.getParamAsString("text"));
+
+				_server = args.getParamAsString("server");
+				
+				StringTokenizer strtok = new StringTokenizer(args.getParamAsString("resp_text"));
 				
 				boolean prevStartRecording = false;
 				boolean startRecording = false;
@@ -63,6 +66,8 @@ public class Channel implements IRCEventListener, IRCConstants
 					}
 					else
 					{
+						System.err.println("Parsed a user!");
+						
 						String userNickWPrefix = next;
 						if (!prevStartRecording)
 						{
@@ -177,6 +182,12 @@ public class Channel implements IRCEventListener, IRCConstants
 	{
 		return isUserInChannel(bu.getNick());
 	}
+
+	// Finished up the puzzle for people wishing to actually reconstruct the response
+	public String getServerFrom()
+	{
+		return _server;
+	}
 	
 	public boolean isUserInChannel(String nick)
 	{
@@ -209,6 +220,7 @@ public class Channel implements IRCEventListener, IRCConstants
 	
 	private String _name;
 	private String _topic;
+	private String _server;
 	private List<BotUser> _currentUsers = new ArrayList<BotUser>();
 	private boolean _doneNamesRecv = false;
 	private static List<BotUser> _userPool = Collections.synchronizedList(new ArrayList<BotUser>());

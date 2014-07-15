@@ -91,13 +91,33 @@ public class IRCSocketManager implements InternalConstants, BotConstants, Runnab
 	 */
 	public String recvRaw() throws IOException
 	{
-		try
+		IOException e = null;
+		
+		while (isConnected())
 		{
-			return _reader.readLine();
-		} catch (IOException e)
-		{
-			throw new IOException("We have been killed: " + e.getMessage(), e);
+			try
+			{
+				String ret = _reader.readLine();
+				if (ret == null)
+				{
+					break;
+				}
+				return ret;
+			} catch (IOException e_)
+			{
+				if (isConnected())
+				{
+					continue;
+				}
+				else
+				{
+					e = e_;
+					break;
+				}
+			}
 		}
+		
+		throw new IOException("We have been killed: " + (e != null ? e.getMessage() : "Quit or kill from server. See logs."), e);
 	}
 
 	public boolean isConnected()

@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.ossnipes.snipes.bot.SnipesBot;
 import org.ossnipes.snipes.lib.events.Channel;
+import org.ossnipes.snipes.lib.events.BotUser;
 import org.ossnipes.snipes.lib.events.Event;
 import org.ossnipes.snipes.lib.events.EventArgs;
 import org.ossnipes.snipes.lib.events.IRCEventListener;
@@ -22,7 +23,7 @@ public class BouncerConnection extends Thread implements IRCEventListener
 	public BouncerConnection(SnipesBot bot, Socket s)
 	{
 		this._bot = bot;
-		this._isAuthed = false;
+		this._isAuthed = true;
 		this._sock = s;
 
 		this.start();
@@ -61,17 +62,41 @@ public class BouncerConnection extends Thread implements IRCEventListener
 		}
 	}
 
-	private void loop() throws IOException
+	public void closeConnection()
 	{
-		String nick = this._in.readLine().split(" ")[1];
-		String line;
-		this._out.println(":" + nick + " NICK " + this._bot.getNick());
+		try
+		{
+			this._sock.close();
+		} catch (IOException ignore) {}
+	}
+
+	public void fixClientNick(String oldnick)
+	{
+		this.sendRawLineToClient(":" + oldnick + " NICK " + this._bot.getNick());
 		for (Channel chan : this._bot.getJoinedChannels())
 		{
 			this.sendRawLineToClient(":" + this._bot.getNick() + " JOIN "
 					+ chan.getName());
+			StringBuilder sb = new StringBuilder(":" + chan.getServerFrom() + " 353 " + chan.getName() + " :");
 
+			BotUser[] users = chan.getUsers();
+			
+			for (int i = 0; i < users.length; i ++)
+			{
+				sb.append(users[i].getNick(true) + (i == 0 ? "" : " "));
+			}
+
+			this.sendRawLineToClient(sb.toString());
+
+			this.sendRawLineToClient(":" + chan.getServerFrom() + " 366 " + chan.getName() + " :End of /NAMES");
 		}
+	}
+
+	private void loop() throws IOException
+	{
+		
+		String line;
+
 		while ((line = this._in.readLine()) != null)
 		{
 			System.err.println(line);
@@ -218,12 +243,6 @@ public class BouncerConnection extends Thread implements IRCEventListener
 	@Override
 	public void handleEvent(Event ev, EventArgs args)
 	{
-		if (ev == Event.IRC_RESPONSE_CODE)
-		{
-			// System.err.println("Response code!! "
-			// + args.getParamAsString("line"));
-		}
-		System.err.println("Line!: " + args.getParamAsString("line"));
 		// We don't want to double-pong.
 		if (ev != Event.IRC_PING)
 		{

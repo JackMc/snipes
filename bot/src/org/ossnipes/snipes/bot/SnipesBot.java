@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import org.ossnipes.snipes.lib.events.Event;
 import org.ossnipes.snipes.lib.events.EventArgs;
@@ -129,9 +130,18 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 					+ " could not be parsed as a integer. Using default value "
 					+ PORT_PROP_DEFAULT + ".");
 		}
+
+                String server = this._c.getProperty(SERVER_PROP_NAME, null);
+
+                if (server == null)
+                {
+                    System.err.println("Required property " + SERVER_PROP_NAME + " not specified. Quitting.");
+                    System.exit(Exit.EXIT_INVALIDCONFIG.ordinal());
+                }
+
 		// Use the connect method to try and connect to the server.
 		this.connect(
-				this._c.getProperty(SERVER_PROP_NAME, SERVER_PROP_DEFAULT),
+			        server,
 				port != null ? port : IRC_DEFAULT_PORT);
 	}
 
@@ -217,6 +227,11 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	Module getModuleByName(String name)
 	{
 		return this._coll.getModuleByName(name);
+	}
+
+	public List<Module> getModules()
+	{
+		return this._coll.getModules();
 	}
 
 	@Override

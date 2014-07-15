@@ -38,11 +38,20 @@ public class BotClient implements PseudoClient
 		}
 
 		String msg = command.substring(command.indexOf(':') + 1);
+
+		System.err.println(msg);
+		
 		if (msg.equalsIgnoreCase("helloworld"))
 		{
 			bc.sendRawLineToClient(":"
 					+ ClientUtils.getHostname(this, this._sb.getConfiguration())
 					+ " PRIVMSG " + this._sb.getNick() + " :Hello world!");
+		}
+		else
+		{
+			bc.sendRawLineToClient(":"
+					+ ClientUtils.getHostname(this, this._sb.getConfiguration())
+					+ " PRIVMSG " + this._sb.getNick() + " :Unknown command.");
 		}
 		// TODO: Identify command, etc.
 	}

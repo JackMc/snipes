@@ -19,7 +19,27 @@ public class IRCClient implements PseudoClient
 	@Override
 	public void performCommand(String command, BouncerConnection bc)
 	{
-		System.err.println("Command fell through to the IRCClient.");
+		String[] split = command.split(" ");
+
+		if (split.length >= 2)
+		{
+			// Special handing of stuff that might not mean to get to the server.
+			if (split[0].equalsIgnoreCase("NICK") && _firstNick)
+			{
+				_firstNick = false;
+				bc.fixClientNick(split[1]);
+				return;
+			}
+			if (split[0].equalsIgnoreCase("USER"))
+			{
+				return;
+			}
+			if (split[1].equalsIgnoreCase("QUIT"))
+			{
+				bc.closeConnection();
+			}
+		}
+		
 		bc.sendRawLineToServer(command);
 	}
 
@@ -28,4 +48,6 @@ public class IRCClient implements PseudoClient
 	{
 		return true;
 	}
+
+	boolean _firstNick = true;
 }

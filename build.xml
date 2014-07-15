@@ -25,7 +25,7 @@
         <javac srcdir="${lib.irc.src.dir}" includeAntRuntime="false" destdir="${lib.irc.classes.dir}"/>
 
         <mkdir dir="${bot.classes.dir}"/>
-        <javac srcdir="${bot.src.dir}" includeAntRuntime="false" destdir="${bot.classes.dir}" classpath="${lib.irc.classes.dir}"/>
+        <javac srcdir="${bot.src.dir}" debug="true" includeAntRuntime="false" destdir="${bot.classes.dir}" classpath="${lib.irc.classes.dir}"/>
 
         <mkdir dir="${console.classes.dir}"/>
         <javac srcdir="${console.src.dir}" includeAntRuntime="false" destdir="${console.classes.dir}"/>

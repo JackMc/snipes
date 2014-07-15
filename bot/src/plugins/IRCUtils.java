@@ -54,6 +54,18 @@ public class IRCUtils extends Module
 					this.getParent().part(msgSplit[1]);
 				}
 			}
+			else if (msgSplit[0].equalsIgnoreCase("!nick"))
+			{
+				if (msgSplit.length < 2)
+				{
+					this.getParent().sendPrivMsg(sendTo, "Use like !nick <name>");
+					return;
+				}
+				else
+				{
+					this.getParent().setNick(msgSplit[1]);
+				}
+			}
 			else if (msg.equalsIgnoreCase("!listchanobjs"))
 			{
 				StringBuilder sb = new StringBuilder("Channels: ");

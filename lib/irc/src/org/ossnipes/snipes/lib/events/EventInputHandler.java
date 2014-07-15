@@ -234,7 +234,7 @@ class EventInputHandler implements BotConstants, IRCConstants, InputHandler
 				substring((exSplit[0].startsWith(":") ? 1 : 0)));
 
 		// Put the hostname in from-host
-		params.put("from-host", exSplit[0].split("@")[1]);
+		params.put("from-host", exSplit[0].contains("@") ? exSplit[0].split("@")[1] : exSplit[0]);
 
 		// Add the recipient, this will be getNick()
 		// if we receive a PRIVMSG personally.
@@ -611,7 +611,7 @@ class EventInputHandler implements BotConstants, IRCConstants, InputHandler
 			}
 		}
 
-		params.put("text", msg);
+		params.put("resp_text", msg);
 
 		params.put("server", exSplit[0].substring(1));
 

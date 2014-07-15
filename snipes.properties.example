@@ -1,9 +1,10 @@
 verbose=TRUE
 debug=TRUE
+server=irc.freenode.net
 noircusers=example
 noircpasses=password
-nick=SnipesBot-TestingMe
+nick=Snipes
 # Change this to load your modules
-modules=plugins.bouncer.BouncerModule,plugins.IRCUtils,plugins.irchook.IRCHook
-channels=#Snipes,#Snipes-Testing,#PIRSPS
+modules=plugins.MathUtils
+channels=#RandomChannel
 bport=5555

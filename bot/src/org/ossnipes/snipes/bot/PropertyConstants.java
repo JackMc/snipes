@@ -8,8 +8,7 @@ import org.ossnipes.snipes.lib.irc.BotConstants;
  * @author Jack McCracken (Auv5) */
 public interface PropertyConstants extends BotConstants
 {
-	static final String SERVER_PROP_NAME = "server";
-	static final String SERVER_PROP_DEFAULT = "irc.geekshed.net";
+        static final String SERVER_PROP_NAME = "server";
 
 	static final String NICK_PROP_NAME = "nick";
 	static final String NICK_PROP_DEFAULT = DEFAULT_NICK;

@@ -2,3 +2,5 @@ bot/build
 console/build
 lib/irc/build
 dist
+*~
+\#*\#

@@ -75,6 +75,18 @@ class ModuleCollection implements Iterable<ModuleManager>
 		this._modules = new ArrayList<ModuleManager>();
 	}
 
+	public List<Module> getModules()
+	{
+		List<Module> modules = new ArrayList<Module>();
+
+		for (ModuleManager m : _modules)
+		{
+			modules.add(m.getModule());
+		}
+
+		return modules;
+	}
+
 	/**
 	 * Loads a array of modules.
 	 * 

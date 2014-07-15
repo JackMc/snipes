@@ -9,6 +9,9 @@ public enum Exit
 	/** Indicates that Snipes was unable to load the configuration file, and is
 	 * exiting. */
 	EXIT_CONFIGNOLOAD,
+        /** Indicates that the configuration provided to Snipes was invalid (missing  
+          * or invalid property, ill-formated configuration file) */
+        EXIT_INVALIDCONFIG,
 	/** Indicates that Snipes could not connect to the specified server, and is
 	 * exiting. */
 	EXIT_COULDNOTCONNECT,

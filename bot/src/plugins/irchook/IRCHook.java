@@ -52,7 +52,7 @@ public class IRCHook extends Module implements Runnable
 		}
 
 		Thread t = new Thread(this, "IRCHook main thread");
-		t.setDaemon(true);
+		t.setDaemon(false);
 		t.start();
 		// See if we should log.
 		if (this.getParent().getConfiguration().getPropertyAsBoolean("log",

@@ -1,6 +1,7 @@
 package plugins;
 
 import org.ossnipes.snipes.bot.CoreModule;
+import org.ossnipes.snipes.bot.Module;
 import org.ossnipes.snipes.bot.ModuleInitException;
 import org.ossnipes.snipes.bot.ModuleLoadException;
 import org.ossnipes.snipes.bot.ModuleReturn;
@@ -8,6 +9,8 @@ import org.ossnipes.snipes.bot.SnipesConstants;
 import org.ossnipes.snipes.lib.events.BotUtils;
 import org.ossnipes.snipes.lib.events.Event;
 import org.ossnipes.snipes.lib.events.EventArgs;
+
+import java.util.List;
 
 public class CoreUtils extends CoreModule
 {
@@ -43,7 +46,28 @@ public class CoreUtils extends CoreModule
 			{
 				this.isMLoadedCommand(sendTo, msgSplit);
 			}
+
+			else if (msgSplit[0].equalsIgnoreCase("!listmods"))
+			{
+				this.listModulesCommand(sendTo);
+			}
 		}
+	}
+
+	private void listModulesCommand(String sendTo)
+	{
+		List<Module> modules = this.getParent().getModules();
+		
+		StringBuilder message = new StringBuilder("Modules: ");
+
+		Module lastModule = modules.get(modules.size()-1);
+
+		for (Module m : modules)
+		{
+			message.append(m.getClass().getName() + (m != lastModule ? ", " : ""));
+		}
+
+		this.getParent().sendPrivMsg(sendTo, message.toString());
 	}
 
 	private void unloadModuleCommand(String sendTo, String[] msgSplit)
