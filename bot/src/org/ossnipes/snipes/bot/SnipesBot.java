@@ -88,11 +88,6 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
 	private void readSetNickRealname()
 	{
 		String[] nicks = this._c.getPropertyAsStringArray(NICK_PROP_NAME);
-
-		for (String s : nicks)
-		{
-			System.out.println(s);
-		}
 		
 		this.setNicks(nicks);
 		this.setRealname(this._c.getProperty(REALNAME_PROP_NAME,
