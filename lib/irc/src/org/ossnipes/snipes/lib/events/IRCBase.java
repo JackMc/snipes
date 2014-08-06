@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.net.SocketFactory;
 
@@ -73,6 +75,8 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 			_channels = new ArrayList<Channel>();
 		_eventcoll = new EventHandlerCollection();
 		_eventcoll.addEventListener(this);
+
+		_backupNicks = new LinkedBlockingQueue<String>();
 	}
 
 	/**
@@ -306,8 +310,18 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 		}
 		else if (ev == Event.IRC_NICKINUSE && (Boolean)args.getParam("fatal"))
 		{
-				System.err.println("Error. Nickname already in use. Please make sure no other instances are running and restart this application.");
+			String nextNick = _backupNicks.poll();
+			
+			if (nextNick == null)
+			{
+				System.err.println("Error. All nicknames provided already in use. Please make sure no other instances are running and restart this application.");
 				System.exit(3);
+			}
+			else
+			{
+				// We attempt to change our nick:
+				this.setNick(nextNick);
+			}
 		}
 		else
 		{
@@ -364,7 +378,34 @@ public abstract class IRCBase extends IRCSocketManager implements IRCEventListen
 	{
 		return _eventcoll;
 	}
+
+	/**
+	 * Sets the bot's nickname and backup nicks. This list will be exhausted before
+	 * disconnecting from the server.
+	 *
+	 * @param nicks The nicks the bot should attempt to use
+	 * @return This IRCBase object
+	 */
+	public IRCBase setNicks(String[] nicks)
+	{
+		if (nicks.length == 0)
+		{
+			return this;
+		}
+		
+		this.setNick(nicks[0]);
+		if (nicks.length > 1)
+		{
+			for (int i = 1; i < nicks.length; i++)
+			{
+				_backupNicks.add(nicks[i]);
+			}
+		}
+		
+		return this;
+	}
 	
 	private EventHandlerCollection _eventcoll;
 	private List<Channel> _channels;
+	private Queue<String> _backupNicks;
 }

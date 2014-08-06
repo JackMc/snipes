@@ -260,7 +260,7 @@ public class Configuration extends Properties
 	public String[] getPropertyAsStringArray(String key)
 	{
 		return this.getPropertyAsStringArray(key, new String[]
-		{ "" }, ",", true);
+		{ }, ",", true);
 	}
 
 	/** This class does not implement this method for the safety of user's

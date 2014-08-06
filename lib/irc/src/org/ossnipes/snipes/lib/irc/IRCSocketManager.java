@@ -185,7 +185,7 @@ public class IRCSocketManager implements InternalConstants, BotConstants, Runnab
 	 */
 	public String getNick()
 	{
-		return _nick;
+		return (_nick != null ? _nick : DEFAULT_NICK);
 	}
 
 	/** Controls the printing of debug statements to the default Snipes logger.
@@ -280,7 +280,7 @@ public class IRCSocketManager implements InternalConstants, BotConstants, Runnab
 		}
 		
 		sendRaw("USER " + (_user != null ? _user : DEFAULT_USER) + " 0 Snipes :" + (_realname != null ? _realname : DEFAULT_REALNAME));
-		sendRaw("NICK " + (_nick != null ? _nick : DEFAULT_NICK));
+		sendRaw("NICK " + getNick());
 	}
 
 	/**
