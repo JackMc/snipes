@@ -203,7 +203,6 @@ class EventInputHandler implements BotConstants, IRCConstants, InputHandler
 		}
 		// END getting message
 
-
 		// Fire off the event.
 		sendEvent(new EventArgs(Event.IRC_QUIT, line, params),
 				_parent);
@@ -613,6 +612,7 @@ class EventInputHandler implements BotConstants, IRCConstants, InputHandler
 			sendEvent(new EventArgs(Event.IRC_NICKINUSE, line, args), _parent);
 		}
 		//END EXTRA CHECKS FOR ERR_NICKNAMEINUSE
+
 		// Fire off the IRC_RESPONSE_CODE
 		sendEvent(new EventArgs(Event.IRC_RESPONSE_CODE, line, params), _parent);
 		return isResponseCode;
