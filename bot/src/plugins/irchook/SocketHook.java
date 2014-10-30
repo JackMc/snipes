@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class SocketHook implements Hook
+public class SocketHook extends Hook
 {
 
 	public SocketHook(Socket s)

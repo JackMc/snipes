@@ -10,11 +10,19 @@
 
 package plugins.irchook;
 
-public interface Hook
+import org.ossnipes.snipes.lib.events.Event;
+
+public abstract class Hook
 {
-	public void line(String line);
+	public void line(String line) {
+            return;
+        }
 
-	public boolean init();
+        public void line(Event e, String line) {
+            line(line);
+        }
 
-	public void fini();
+	public abstract boolean init();
+
+	public abstract void fini();
 }

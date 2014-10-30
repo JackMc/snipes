@@ -31,7 +31,7 @@ public class IRCHook extends Module implements Runnable
 			{
 				synchronized (this._hooks)
 				{
-					ps.line(args.getParamAsString("line"));
+					ps.line(ev, args.getParamAsString("line"));
 				}
 			}
 		}

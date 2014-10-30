@@ -76,8 +76,6 @@ public class Channel implements IRCEventListener, IRCConstants
 					}
 					else
 					{
-						System.err.println("Parsed a user!");
-						
 						String userNickWPrefix = next;
 						if (!prevStartRecording)
 						{

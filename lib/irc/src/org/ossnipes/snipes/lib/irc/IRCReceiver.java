@@ -54,7 +54,9 @@ class IRCReceiver implements Runnable
 					
 					if (split[0].equalsIgnoreCase("PING"))
 					{
-						_manager.sendPong(split[1]);
+                                                String pongMsg = split[1].contains(":") ? split[1].substring(1) : split[1];
+                                                System.out.println("PONG: " + pongMsg);
+						_manager.sendPong(pongMsg);
 					}
 					
 					synchronized (lock) {

@@ -17,13 +17,15 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class LogHook implements Hook
+import org.ossnipes.snipes.lib.events.Event;
+
+public class LogHook extends Hook
 {
 
 	@Override
-	public void line(String line)
+	public void line(Event e, String line)
 	{
-		this._file.println(line);
+		this._file.println(e.toString() + ": " + line);
 	}
 
 	@Override
