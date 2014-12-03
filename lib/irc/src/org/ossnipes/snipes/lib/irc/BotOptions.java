@@ -12,36 +12,36 @@ package org.ossnipes.snipes.lib.irc;
 
 class BotOptions
 {
-	private BotOptions()
-	{
+    private BotOptions()
+    {
 		
-	}
+    }
 	
-	static BotOptions getInst()
-	{
-		return new BotOptions();
-	}
+    static BotOptions getInst()
+    {
+        return new BotOptions();
+    }
 	
-	boolean isVerbose()
-	{
-		return _verbose;
-	}
+    boolean isVerbose()
+    {
+        return _verbose;
+    }
 	
-	boolean isDebugging()
-	{
-		return _debugging;
-	}
+    boolean isDebugging()
+    {
+        return _debugging;
+    }
 	
-	void setDebugging(boolean val)
-	{
-		_debugging = val;
-	}
+    void setDebugging(boolean val)
+    {
+        _debugging = val;
+    }
 	
-	void setVerbose(boolean val)
-	{
-		_verbose = val;
-	}
+    void setVerbose(boolean val)
+    {
+        _verbose = val;
+    }
 	
-	private boolean _verbose;
-	private boolean _debugging;
+    private boolean _verbose;
+    private boolean _debugging;
 }

@@ -15,8 +15,8 @@ package org.ossnipes.snipes.bot;
  * @author Jack McCracken (Auv5) */
 public enum ModuleReturn
 {
-	/** Represents a return with no errors. */
-	NORMAL,
-	/** Represents a return with errors. */
-	ERROR
+    /** Represents a return with no errors. */
+    NORMAL,
+    /** Represents a return with errors. */
+    ERROR
 }

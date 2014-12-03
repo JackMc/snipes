@@ -12,21 +12,21 @@ package org.ossnipes.snipes.lib.irc;
 
 public class SnipesException extends RuntimeException {
 
-	private static final long serialVersionUID = 1564786435427928283L;
+    private static final long serialVersionUID = 1564786435427928283L;
 
-	public SnipesException() {
-	}
+    public SnipesException() {
+    }
 
-	public SnipesException(String message) {
-		super(message);
-	}
+    public SnipesException(String message) {
+        super(message);
+    }
 
-	public SnipesException(Throwable cause) {
-		super(cause);
-	}
+    public SnipesException(Throwable cause) {
+        super(cause);
+    }
 
-	public SnipesException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public SnipesException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }

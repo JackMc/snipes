@@ -20,216 +20,216 @@ import org.ossnipes.snipes.lib.irc.SnipesException;
 
 public class Channel implements IRCEventListener, IRCConstants
 {
-	//TODO: Nick change support (shouldn't be that hard to do.) There may be complications to do with shared BotUser Objects. Maybe they could hold their previous nicks, and we could check that too.
-	//TODO: We also need to track as users part/join.
-	Channel(String name)
-	{
-		if (name == null)
-		{
-			throw new IllegalArgumentException("Name cannot be null.");
-		}
-		_name = name;
-	}
+    //TODO: Nick change support (shouldn't be that hard to do.) There may be complications to do with shared BotUser Objects. Maybe they could hold their previous nicks, and we could check that too.
+    //TODO: We also need to track as users part/join.
+    Channel(String name)
+    {
+        if (name == null)
+        {
+            throw new IllegalArgumentException("Name cannot be null.");
+        }
+        _name = name;
+    }
 	
 	
-	@Override
-	public Event[] getRegisteredEvents() 
-	{
-		return new Event [] {Event.IRC_RESPONSE_CODE, Event.IRC_JOIN_TOPIC, Event.IRC_TOPIC, Event.IRC_JOIN, Event.IRC_PART, Event.IRC_NICK_CHANGE};
-	}
+    @Override
+    public Event[] getRegisteredEvents() 
+    {
+        return new Event [] {Event.IRC_RESPONSE_CODE, Event.IRC_JOIN_TOPIC, Event.IRC_TOPIC, Event.IRC_JOIN, Event.IRC_PART, Event.IRC_NICK_CHANGE};
+    }
 
-	@Override
-	public void handleEvent(Event ev, EventArgs args) 
-	{
-		if (ev == Event.IRC_RESPONSE_CODE && !_doneNamesRecv)
-		{
-			int code = ((Integer)args.getParam("code"));
-			String[] split = args.getParamAsString("resp_text").split(" ");
-			if (split.length == 0)
-			{
-				// Impossible
-				throw new InternalError();
-			}
+    @Override
+    public void handleEvent(Event ev, EventArgs args) 
+    {
+        if (ev == Event.IRC_RESPONSE_CODE && !_doneNamesRecv)
+        {
+            int code = ((Integer)args.getParam("code"));
+            String[] split = args.getParamAsString("resp_text").split(" ");
+            if (split.length == 0)
+            {
+                // Impossible
+                throw new InternalError();
+            }
 			
-			if (code == RPL_NAMREPLY)
-			{
-				if (!split[1].equalsIgnoreCase(getName()))
-				{
-					return;
-				}
+            if (code == RPL_NAMREPLY)
+            {
+                if (!split[1].equalsIgnoreCase(getName()))
+                {
+                    return;
+                }
 
-				_server = args.getParamAsString("server");
+                _server = args.getParamAsString("server");
 				
-				StringTokenizer strtok = new StringTokenizer(args.getParamAsString("resp_text"));
+                StringTokenizer strtok = new StringTokenizer(args.getParamAsString("resp_text"));
 				
-				boolean prevStartRecording = false;
-				boolean startRecording = false;
-				while (strtok.hasMoreTokens())
-				{
-					String next = strtok.nextToken();
-					prevStartRecording = startRecording;
-					startRecording = startRecording || next.startsWith(":");
+                boolean prevStartRecording = false;
+                boolean startRecording = false;
+                while (strtok.hasMoreTokens())
+                {
+                    String next = strtok.nextToken();
+                    prevStartRecording = startRecording;
+                    startRecording = startRecording || next.startsWith(":");
 					
-					if (!startRecording)
-					{
-						continue;
-					}
-					else
-					{
-						String userNickWPrefix = next;
-						if (!prevStartRecording)
-						{
-							userNickWPrefix = userNickWPrefix.substring(1);
-						}
-						addUser(userNickWPrefix);
-					}
-				}
-			}
-			else if (code == RPL_ENDOFNAMES)
-			{
-				if (!split[0].equalsIgnoreCase(getName()))
-				{
-					return;
-				}
-				// We're done getting the names.
-				_doneNamesRecv = true;
-			}
-		}
-		else if (ev == Event.IRC_NICK_CHANGE && _doneNamesRecv)
-		{
-			BotUser u = getUserForName(args.getParamAsString("nick-old"));
-			_currentUsers.remove(u);
-			_currentUsers.add(new BotUser(args.getParamAsString("nick-new")));
-		}
-		else if (ev == Event.IRC_JOIN_TOPIC || ev == Event.IRC_TOPIC)
-		{
-			if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
-			{
-				_topic = args.getParamAsString("topic");
-			}
-		}
-		else if (ev == Event.IRC_JOIN)
-		{
-			String nick = args.getParamAsString("nick");
-			if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
-			{
-				addUser(nick);
-			}
-		}
-		else if (ev == Event.IRC_PART)
-		{
-			String nick = args.getParamAsString("nick");
+                    if (!startRecording)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        String userNickWPrefix = next;
+                        if (!prevStartRecording)
+                        {
+                            userNickWPrefix = userNickWPrefix.substring(1);
+                        }
+                        addUser(userNickWPrefix);
+                    }
+                }
+            }
+            else if (code == RPL_ENDOFNAMES)
+            {
+                if (!split[0].equalsIgnoreCase(getName()))
+                {
+                    return;
+                }
+                // We're done getting the names.
+                _doneNamesRecv = true;
+            }
+        }
+        else if (ev == Event.IRC_NICK_CHANGE && _doneNamesRecv)
+        {
+            BotUser u = getUserForName(args.getParamAsString("nick-old"));
+            _currentUsers.remove(u);
+            _currentUsers.add(new BotUser(args.getParamAsString("nick-new")));
+        }
+        else if (ev == Event.IRC_JOIN_TOPIC || ev == Event.IRC_TOPIC)
+        {
+            if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
+            {
+                _topic = args.getParamAsString("topic");
+            }
+        }
+        else if (ev == Event.IRC_JOIN)
+        {
+            String nick = args.getParamAsString("nick");
+            if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
+            {
+                addUser(nick);
+            }
+        }
+        else if (ev == Event.IRC_PART)
+        {
+            String nick = args.getParamAsString("nick");
 			
-			if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
-			{
-				BotUser user = null;
-				for (BotUser u : _currentUsers)
-				{
-					if (u.getNick().equalsIgnoreCase(nick))
-					{
-						user = u;
-						break;
-					}
-				}
-				if (user == null)
-				{
-					throw new SnipesException(nick + " was not found in the list of users, yet they parted channel " + getName() + ".");
-				}
-				else
-				{
-					_currentUsers.remove(user);
-				}
-			}
-		}
-		else if (ev == Event.IRC_RESPONSE_CODE)
-		{
-			return;
-		}
-		else
-		{
-			System.err.println("Snipes IRC API Channel Tracking: Unknown event was sent to us: " + ev + ".");
-		}
-	}
+            if (args.getParamAsString("channel").equalsIgnoreCase(getName()))
+            {
+                BotUser user = null;
+                for (BotUser u : _currentUsers)
+                {
+                    if (u.getNick().equalsIgnoreCase(nick))
+                    {
+                        user = u;
+                        break;
+                    }
+                }
+                if (user == null)
+                {
+                    throw new SnipesException(nick + " was not found in the list of users, yet they parted channel " + getName() + ".");
+                }
+                else
+                {
+                    _currentUsers.remove(user);
+                }
+            }
+        }
+        else if (ev == Event.IRC_RESPONSE_CODE)
+        {
+            return;
+        }
+        else
+        {
+            System.err.println("Snipes IRC API Channel Tracking: Unknown event was sent to us: " + ev + ".");
+        }
+    }
 
-	private void addUser(String userNickWPrefix) 
-	{
-		int i = 0;
-		while (i < _userPool.size())
-		{
-			BotUser bu = _userPool.get(i);
+    private void addUser(String userNickWPrefix) 
+    {
+        int i = 0;
+        while (i < _userPool.size())
+        {
+            BotUser bu = _userPool.get(i);
 			
-			if (bu.getNick().equalsIgnoreCase(userNickWPrefix))
-			{
-				_currentUsers.add(bu);
-				break;
-			}
+            if (bu.getNick().equalsIgnoreCase(userNickWPrefix))
+            {
+                _currentUsers.add(bu);
+                break;
+            }
 			
-			i++;
-		}
+            i++;
+        }
 		
-		// If it looped without any matches.
-		if (i == _userPool.size())
-		{
-			BotUser newU = new BotUser(userNickWPrefix);
-			_currentUsers.add(newU);
-			_userPool.add(newU);
-		}
-	}
+        // If it looped without any matches.
+        if (i == _userPool.size())
+        {
+            BotUser newU = new BotUser(userNickWPrefix);
+            _currentUsers.add(newU);
+            _userPool.add(newU);
+        }
+    }
 	
-	public BotUser[] getUsers()
-	{
-		return _currentUsers.toArray(new BotUser[_currentUsers.size()]);
-	}
+    public BotUser[] getUsers()
+    {
+        return _currentUsers.toArray(new BotUser[_currentUsers.size()]);
+    }
 	
-	public String getName()
-	{
-		return _name;
-	}
+    public String getName()
+    {
+        return _name;
+    }
 	
-	public boolean isUserInChannel(BotUser bu)
-	{
-		return isUserInChannel(bu.getNick());
-	}
+    public boolean isUserInChannel(BotUser bu)
+    {
+        return isUserInChannel(bu.getNick());
+    }
 
-	// Finished up the puzzle for people wishing to actually reconstruct the response
-	public String getServerFrom()
-	{
-		return _server;
-	}
+    // Finished up the puzzle for people wishing to actually reconstruct the response
+    public String getServerFrom()
+    {
+        return _server;
+    }
 	
-	public boolean isUserInChannel(String nick)
-	{
-		for (BotUser bu : _currentUsers)
-		{
-			if (bu.getNick().equals(nick))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+    public boolean isUserInChannel(String nick)
+    {
+        for (BotUser bu : _currentUsers)
+        {
+            if (bu.getNick().equals(nick))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 	
-	public BotUser getUserForName(String name)
-	{
-		for (BotUser bu : _currentUsers)
-		{
-			if (bu.getNick().equalsIgnoreCase(name))
-			{
-				return bu;
-			}
-		}
-		return null;
-	}
+    public BotUser getUserForName(String name)
+    {
+        for (BotUser bu : _currentUsers)
+        {
+            if (bu.getNick().equalsIgnoreCase(name))
+            {
+                return bu;
+            }
+        }
+        return null;
+    }
 	
-	public String getTopic()
-	{
-		return _topic;
-	}
+    public String getTopic()
+    {
+        return _topic;
+    }
 	
-	private String _name;
-	private String _topic;
-	private String _server;
-	private List<BotUser> _currentUsers = new ArrayList<BotUser>();
-	private boolean _doneNamesRecv = false;
-	private static List<BotUser> _userPool = Collections.synchronizedList(new ArrayList<BotUser>());
+    private String _name;
+    private String _topic;
+    private String _server;
+    private List<BotUser> _currentUsers = new ArrayList<BotUser>();
+    private boolean _doneNamesRecv = false;
+    private static List<BotUser> _userPool = Collections.synchronizedList(new ArrayList<BotUser>());
 }

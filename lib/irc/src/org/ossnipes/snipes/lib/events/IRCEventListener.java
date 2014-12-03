@@ -16,6 +16,6 @@ package org.ossnipes.snipes.lib.events;
  */
 public interface IRCEventListener
 {
-	public Event[] getRegisteredEvents();
-	public void handleEvent(Event ev, EventArgs args);
+    public Event[] getRegisteredEvents();
+    public void handleEvent(Event ev, EventArgs args);
 }

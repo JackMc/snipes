@@ -6,57 +6,57 @@ import java.util.Arrays;
 
 public class Capability
 {
-	static {
-		_all = new HashSet<>();
-	}
+    static {
+        _all = new HashSet<>();
+    }
 	
-	public Capability(String name, Capability[] implies) {
-		this._name = name;
-		this._implies = new HashSet<>(Arrays.asList(implies));
+    public Capability(String name, Capability[] implies) {
+        this._name = name;
+        this._implies = new HashSet<>(Arrays.asList(implies));
 
-		_all.add(this);
-	}
+        _all.add(this);
+    }
 
-	public Capability(String name) {
-		this(name, new Capability [] {});
-	}
+    public Capability(String name) {
+        this(name, new Capability [] {});
+    }
 
-	void addImplies(Capability cap) {
-		_implies.add(cap);
-	}
+    void addImplies(Capability cap) {
+        _implies.add(cap);
+    }
 
-	public String getName() {
-		return _name;
-	}
+    public String getName() {
+        return _name;
+    }
 
-	public int hashCode() {
-		return _name.hashCode();
-	}
+    public int hashCode() {
+        return _name.hashCode();
+    }
 
-	public boolean equals(Object o) {
-		if (o instanceof Capability) {
-			return ((Capability)o).getName() == _name;
-		}
+    public boolean equals(Object o) {
+        if (o instanceof Capability) {
+            return ((Capability)o).getName() == _name;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public boolean implies(Capability c) {
-		return _implies.contains(c);
-	}
+    public boolean implies(Capability c) {
+        return _implies.contains(c);
+    }
 
-	public static Capability get(String name) {
-		for (Capability c : _all) {
-			if (c.getName() == name) {
-				return c;
-			}
-		}
+    public static Capability get(String name) {
+        for (Capability c : _all) {
+            if (c.getName() == name) {
+                return c;
+            }
+        }
 
-		return new Capability(name);
-	}
+        return new Capability(name);
+    }
 
-	private String _name;
-	private Set<Capability> _implies;
+    private String _name;
+    private Set<Capability> _implies;
 
-	private static Set<Capability> _all;
+    private static Set<Capability> _all;
 }

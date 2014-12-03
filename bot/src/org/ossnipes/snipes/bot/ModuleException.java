@@ -18,26 +18,26 @@ package org.ossnipes.snipes.bot;
 public abstract class ModuleException extends Exception
 {
 
-	private static final long serialVersionUID = -5654904272122942983L;
+    private static final long serialVersionUID = -5654904272122942983L;
 
-	public ModuleException()
-	{
-		// Redundant
-	}
+    public ModuleException()
+    {
+        // Redundant
+    }
 
-	public ModuleException(String message)
-	{
-		super(message);
-	}
+    public ModuleException(String message)
+    {
+        super(message);
+    }
 
-	public ModuleException(Throwable cause)
-	{
-		super(cause);
-	}
+    public ModuleException(Throwable cause)
+    {
+        super(cause);
+    }
 
-	public ModuleException(String message, Throwable cause)
-	{
-		super(message, cause);
-	}
+    public ModuleException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 
 }

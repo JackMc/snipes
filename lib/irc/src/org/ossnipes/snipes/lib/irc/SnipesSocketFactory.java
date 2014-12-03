@@ -35,51 +35,51 @@ import javax.net.SocketFactory;
 public class SnipesSocketFactory extends SocketFactory implements BotConstants
 {
 
-	private static final SocketFactory def = new SnipesSocketFactory();
+    private static final SocketFactory def = new SnipesSocketFactory();
 
-	// We are the only people able to instantiate this factory
-	protected SnipesSocketFactory()
-	{
-	}
+    // We are the only people able to instantiate this factory
+    protected SnipesSocketFactory()
+    {
+    }
 
-	@Override
-	public Socket createSocket(String host, int port) throws IOException,
+    @Override
+    public Socket createSocket(String host, int port) throws IOException,
 	UnknownHostException
-	{
-		Socket s = new Socket(host, port);
-		s.setSoTimeout(IRC_TIMEOUT);
-		return s;
-	}
+    {
+        Socket s = new Socket(host, port);
+        s.setSoTimeout(IRC_TIMEOUT);
+        return s;
+    }
 
-	@Override
-	public Socket createSocket(InetAddress host, int port) throws IOException
-	{
-		Socket s = new Socket(host.getHostName(), port);
-		s.setSoTimeout(IRC_TIMEOUT);
-		return s;
-	}
+    @Override
+    public Socket createSocket(InetAddress host, int port) throws IOException
+    {
+        Socket s = new Socket(host.getHostName(), port);
+        s.setSoTimeout(IRC_TIMEOUT);
+        return s;
+    }
 
-	@Override
-	public Socket createSocket(String host, int port, InetAddress localHost,
-			int localPort) throws IOException, UnknownHostException
-			{
-		Socket s = new Socket(host, port, localHost, localPort);
-		s.setSoTimeout(IRC_TIMEOUT);
-		return s;
-			}
+    @Override
+    public Socket createSocket(String host, int port, InetAddress localHost,
+                               int localPort) throws IOException, UnknownHostException
+    {
+        Socket s = new Socket(host, port, localHost, localPort);
+        s.setSoTimeout(IRC_TIMEOUT);
+        return s;
+    }
 
-	@Override
-	public Socket createSocket(InetAddress address, int port,
-			InetAddress localAddress, int localPort) throws IOException
-			{
-		Socket s = new Socket(address.getHostName(), port, localAddress,
-				localPort);
-		s.setSoTimeout(IRC_TIMEOUT);
-		return s;
-			}
+    @Override
+    public Socket createSocket(InetAddress address, int port,
+                               InetAddress localAddress, int localPort) throws IOException
+    {
+        Socket s = new Socket(address.getHostName(), port, localAddress,
+                              localPort);
+        s.setSoTimeout(IRC_TIMEOUT);
+        return s;
+    }
 
-	public static SocketFactory getDefault()
-	{
-		return def;
-	}
+    public static SocketFactory getDefault()
+    {
+        return def;
+    }
 }

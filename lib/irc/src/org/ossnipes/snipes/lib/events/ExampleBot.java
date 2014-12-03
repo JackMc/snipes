@@ -23,50 +23,50 @@ import java.util.Set;
  */
 public class ExampleBot extends IRCBase
 {
-	public static void main(String args[])
-	{
-		new ExampleBot().run();
-	}
+    public static void main(String args[])
+    {
+        new ExampleBot().run();
+    }
 	
-	public void run()
-	{
-		try
-		{
-			setRealname("Snipes IRC Framework example bot.");
-			setVerbose(true);
-			setNick("Snipes-TestBot");
-			connect("irc.geekshed.net");
-			join("#Snipes");
-			join("#Snipes-Testing");
-		} catch (UnknownHostException e)
-		{
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	@Override
-	public synchronized void handleEvent(Event ev, EventArgs args)
-	{
-		Set<String> keys = args.getKeySet();
-		StringBuilder stringBuilder = new StringBuilder("Got an event: " + ev.toString() + " ");
-		int counter = 0;
-		for (String s : keys)
-		{
-			stringBuilder.append((counter != 0 ? " " : "") + s + "=\"" + args.getParam(s) + "\"");
-			counter ++;
-		}
+    public void run()
+    {
+        try
+        {
+            setRealname("Snipes IRC Framework example bot.");
+            setVerbose(true);
+            setNick("Snipes-TestBot");
+            connect("irc.geekshed.net");
+            join("#Snipes");
+            join("#Snipes-Testing");
+        } catch (UnknownHostException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public synchronized void handleEvent(Event ev, EventArgs args)
+    {
+        Set<String> keys = args.getKeySet();
+        StringBuilder stringBuilder = new StringBuilder("Got an event: " + ev.toString() + " ");
+        int counter = 0;
+        for (String s : keys)
+        {
+            stringBuilder.append((counter != 0 ? " " : "") + s + "=\"" + args.getParam(s) + "\"");
+            counter ++;
+        }
 
-		System.err.println(stringBuilder.toString());
-		if (ev == Event.IRC_PRIVMSG)
-		{
-			String msg = (String)args.getParam("message");
-			String[] msgSplit = msg.split(" ");
-			if (msgSplit.length == 2 && msgSplit[0].equalsIgnoreCase("!nick"))
-			{
-				setNick(msgSplit[1]);
-			}
-		}
-	}
+        System.err.println(stringBuilder.toString());
+        if (ev == Event.IRC_PRIVMSG)
+        {
+            String msg = (String)args.getParam("message");
+            String[] msgSplit = msg.split(" ");
+            if (msgSplit.length == 2 && msgSplit[0].equalsIgnoreCase("!nick"))
+            {
+                setNick(msgSplit[1]);
+            }
+        }
+    }
 }
