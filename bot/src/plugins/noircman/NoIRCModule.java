@@ -21,38 +21,38 @@ import org.ossnipes.snipes.lib.events.IRCEventListener;
 public class NoIRCModule extends Module
 {
 
-	@Override
-	protected ModuleReturn snipesInit()
-	{
-		new NoIRCMain(this);
-		// No use wasting time on us when we don't handle any events.
-		this.getParent().removeEventListener(this);
-		return null;
-	}
+    @Override
+    protected ModuleReturn snipesInit()
+    {
+        new NoIRCMain(this);
+        // No use wasting time on us when we don't handle any events.
+        this.getParent().removeEventListener(this);
+        return null;
+    }
 
-	@Override
-	public void handleEvent(Event ev, EventArgs args)
-	{
-		// No code
-	}
+    @Override
+    public void handleEvent(Event ev, EventArgs args)
+    {
+        // No code
+    }
 
-	public Configuration getConf()
-	{
-		return this.getConfiguration();
-	}
+    public Configuration getConf()
+    {
+        return this.getConfiguration();
+    }
 
-	public SnipesBot getBot()
-	{
-		return this.getParent();
-	}
+    public SnipesBot getBot()
+    {
+        return this.getParent();
+    }
 
-	public boolean isConnected()
-	{
-		return this.getParent().isConnected();
-	}
+    public boolean isConnected()
+    {
+        return this.getParent().isConnected();
+    }
 
-	public void addEventListener(IRCEventListener evl)
-	{
-		this.getParent().addEventListener(evl);
-	}
+    public void addEventListener(IRCEventListener evl)
+    {
+        this.getParent().addEventListener(evl);
+    }
 }

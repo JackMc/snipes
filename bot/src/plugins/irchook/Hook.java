@@ -14,15 +14,15 @@ import org.ossnipes.snipes.lib.events.Event;
 
 public abstract class Hook
 {
-	public void line(String line) {
-            return;
-        }
+    public void line(String line) {
+        return;
+    }
 
-        public void line(Event e, String line) {
-            line(line);
-        }
+    public void line(Event e, String line) {
+        line(line);
+    }
 
-	public abstract boolean init();
+    public abstract boolean init();
 
-	public abstract void fini();
+    public abstract void fini();
 }

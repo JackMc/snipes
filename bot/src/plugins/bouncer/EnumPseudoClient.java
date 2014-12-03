@@ -15,23 +15,23 @@ package plugins.bouncer;
  * @author Jack McCracken (Auv5) */
 public enum EnumPseudoClient
 {
-	// Order matters!
-	BOT_CLIENT(BotClient.class), IRC_CLIENT(IRCClient.class);
+    // Order matters!
+    BOT_CLIENT(BotClient.class), IRC_CLIENT(IRCClient.class);
 
-	EnumPseudoClient(Class<? extends PseudoClient> clazz)
-	{
-		if (clazz == null)
-		{
-			throw new IllegalArgumentException("clazz cannot be null.");
-		}
+    EnumPseudoClient(Class<? extends PseudoClient> clazz)
+    {
+        if (clazz == null)
+        {
+            throw new IllegalArgumentException("clazz cannot be null.");
+        }
 
-		this._clazz = clazz;
-	}
+        this._clazz = clazz;
+    }
 
-	public Class<? extends PseudoClient> getClientClass()
-	{
-		return this._clazz;
-	}
+    public Class<? extends PseudoClient> getClientClass()
+    {
+        return this._clazz;
+    }
 
-	private Class<? extends PseudoClient> _clazz;
+    private Class<? extends PseudoClient> _clazz;
 }

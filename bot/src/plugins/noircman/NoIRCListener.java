@@ -21,109 +21,109 @@ import org.ossnipes.snipes.lib.events.EventArgs;
 import org.ossnipes.snipes.lib.events.IRCEventListener;
 
 public class NoIRCListener extends Thread implements NoIRCConstants,
-		IRCEventListener
+                                          IRCEventListener
 {
-	public NoIRCListener(NoIRCModule noIRCModule)
-	{
-		this._parent = noIRCModule;
-		this.start();
-	}
+    public NoIRCListener(NoIRCModule noIRCModule)
+    {
+        this._parent = noIRCModule;
+        this.start();
+    }
 
-	@Override
-	public void run()
-	{
-		this._parent.addEventListener(this);
-		Thread.currentThread().setName("NoIRC-Listener");
-		Integer port = this._parent.getConf().getPropertyAsInteger("noircport",
-				DEFAULT_PORT);
-		if (port == null)
-		{
-			System.err
-					.println("The value of the \"noircport\" property is not a valid integer. Using default "
-							+ DEFAULT_PORT);
-			port = DEFAULT_PORT;
-		}
-		try
-		{
-			this._ss = new ServerSocket(port);
-		} catch (IOException e)
-		{
-			System.err.println("Could not bind to port " + port + ". Error: "
-					+ e.getMessage() + ".");
-			return;
-		}
+    @Override
+    public void run()
+    {
+        this._parent.addEventListener(this);
+        Thread.currentThread().setName("NoIRC-Listener");
+        Integer port = this._parent.getConf().getPropertyAsInteger("noircport",
+                                                                   DEFAULT_PORT);
+        if (port == null)
+        {
+            System.err
+                .println("The value of the \"noircport\" property is not a valid integer. Using default "
+                         + DEFAULT_PORT);
+            port = DEFAULT_PORT;
+        }
+        try
+        {
+            this._ss = new ServerSocket(port);
+        } catch (IOException e)
+        {
+            System.err.println("Could not bind to port " + port + ". Error: "
+                               + e.getMessage() + ".");
+            return;
+        }
 
-		while (this._parent.isConnected())
-		{
-			try
-			{
-				Socket s = this._ss.accept();
-				ConnectionManager cm = new ConnectionManager(
-						new ConsoleConnection(s), this._parent);
-				this.registerManager(cm);
-			} catch (IOException e)
-			{
-				System.err.println("Could not accept connections on port "
-						+ port + ".");
-				break;
-			}
-		}
+        while (this._parent.isConnected())
+        {
+            try
+            {
+                Socket s = this._ss.accept();
+                ConnectionManager cm = new ConnectionManager(
+                    new ConsoleConnection(s), this._parent);
+                this.registerManager(cm);
+            } catch (IOException e)
+            {
+                System.err.println("Could not accept connections on port "
+                                   + port + ".");
+                break;
+            }
+        }
 
-		for (ConnectionManager cm : this._mans)
-		{
-			if (cm.isAlive())
-			{
-				cm.requestStop();
-			}
-		}
-	}
+        for (ConnectionManager cm : this._mans)
+        {
+            if (cm.isAlive())
+            {
+                cm.requestStop();
+            }
+        }
+    }
 
-	private void registerManager(ConnectionManager cm)
-	{
-		this._mans.add(cm);
-	}
+    private void registerManager(ConnectionManager cm)
+    {
+        this._mans.add(cm);
+    }
 
-	@Override
-	public Event[] getRegisteredEvents()
-	{
-		return new Event[]
-		{ Event.IRC_PRIVMSG };
-	}
+    @Override
+    public Event[] getRegisteredEvents()
+    {
+        return new Event[]
+        { Event.IRC_PRIVMSG };
+    }
 
-	@Override
-	public void handleEvent(Event ev, EventArgs args)
-	{
-		if (this._parent.getBot().isDebugging())
-		{
-			if (ev == Event.IRC_PRIVMSG)
-			{
-				String msg = args.getParamAsString("message");
-				if (msg.equalsIgnoreCase("!numcms"))
-				{
-					int countAlive = 0;
-					for (ConnectionManager cm : this._mans)
-					{
-						if (cm.isAlive())
-						{
-							countAlive++;
-						}
-					}
+    @Override
+    public void handleEvent(Event ev, EventArgs args)
+    {
+        if (this._parent.getBot().isDebugging())
+        {
+            if (ev == Event.IRC_PRIVMSG)
+            {
+                String msg = args.getParamAsString("message");
+                if (msg.equalsIgnoreCase("!numcms"))
+                {
+                    int countAlive = 0;
+                    for (ConnectionManager cm : this._mans)
+                    {
+                        if (cm.isAlive())
+                        {
+                            countAlive++;
+                        }
+                    }
 
-					this._parent
-							.getBot()
-							.sendPrivMsg(
-									args.getParamAsString("sendto"),
-									"There are "
-											+ this._mans.size()
-											+ " connection managers registered (the number that have ran at any point). On the other hand, there are "
-											+ countAlive
-											+ " connection managers activly managing connections.");
-				}
-			}
-		}
-	}
+                    this._parent
+                        .getBot()
+                        .sendPrivMsg(
+                            args.getParamAsString("sendto"),
+                            "There are "
+                            + this._mans.size()
+                            + " connection managers registered (the number that have ran at any point). On the other hand, there are "
+                            + countAlive
+                            + " connection managers activly managing connections.");
+                }
+            }
+        }
+    }
 
-	private ServerSocket _ss;
-	private final NoIRCModule _parent;
-	private final List<ConnectionManager> _mans = new ArrayList<ConnectionManager>();
+    private ServerSocket _ss;
+    private final NoIRCModule _parent;
+    private final List<ConnectionManager> _mans = new ArrayList<ConnectionManager>();
 }

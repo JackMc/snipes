@@ -22,44 +22,44 @@ import org.ossnipes.snipes.lib.events.Event;
 public class LogHook extends Hook
 {
 
-	@Override
-	public void line(Event e, String line)
-	{
-		this._file.println(e.toString() + ": " + line);
-	}
+    @Override
+    public void line(Event e, String line)
+    {
+        this._file.println(e.toString() + ": " + line);
+    }
 
-	@Override
-	public boolean init()
-	{
-		try
-		{
-			this._file = new PrintStream(new FileOutputStream("snipes.log",
-					true));
-			Calendar cal = Calendar.getInstance();
-			// If the file is empty, don't print a separator newline.
-			if (new File("snipes.log").length() != 0)
-			{
-				this._file.println();
-			}
-			this._file.println("----Session: Date: "
-					+ new SimpleDateFormat("dd/mm/yyyy").format(cal.getTime())
-					+ ", Time: "
-					+ new SimpleDateFormat("HH:MM:SS").format(cal.getTime())
-					+ "----");
-			return true;
-		} catch (FileNotFoundException e)
-		{
-			System.err.println("Unable to initialise logging hook.");
-		}
-		return false;
-	}
+    @Override
+    public boolean init()
+    {
+        try
+        {
+            this._file = new PrintStream(new FileOutputStream("snipes.log",
+                                                              true));
+            Calendar cal = Calendar.getInstance();
+            // If the file is empty, don't print a separator newline.
+            if (new File("snipes.log").length() != 0)
+            {
+                this._file.println();
+            }
+            this._file.println("----Session: Date: "
+                               + new SimpleDateFormat("dd/mm/yyyy").format(cal.getTime())
+                               + ", Time: "
+                               + new SimpleDateFormat("HH:MM:SS").format(cal.getTime())
+                               + "----");
+            return true;
+        } catch (FileNotFoundException e)
+        {
+            System.err.println("Unable to initialise logging hook.");
+        }
+        return false;
+    }
 
-	@Override
-	public void fini()
-	{
-		this._file.close();
-	}
+    @Override
+    public void fini()
+    {
+        this._file.close();
+    }
 
-	private PrintStream _file;
+    private PrintStream _file;
 
 }

@@ -18,16 +18,16 @@ import org.ossnipes.snipes.lib.events.EventArgs;
 public class TesterPlugin extends Module
 {
 
-	@Override
-	protected ModuleReturn snipesInit()
-	{
-		System.err.println(":) I'm loaded.");
-		return null;
-	}
+    @Override
+    protected ModuleReturn snipesInit()
+    {
+        System.err.println(":) I'm loaded.");
+        return null;
+    }
 
-	@Override
-	public void handleEvent(Event ev, EventArgs args)
-	{
-		System.out.println("Herro!");
-	}
+    @Override
+    public void handleEvent(Event ev, EventArgs args)
+    {
+        System.out.println("Herro!");
+    }
 }
