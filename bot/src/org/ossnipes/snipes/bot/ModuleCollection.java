@@ -13,6 +13,11 @@ package org.ossnipes.snipes.bot;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
+import org.ossnipes.snipes.lib.events.EventArgs;
+import org.ossnipes.snipes.lib.events.BotUtils;
 
 /**
  * Abstracts Module removal and adding.
@@ -176,6 +181,13 @@ class ModuleCollection implements Iterable<ModuleManager>
 
         if (manager.initialise() != ModuleReturn.ERROR)
         {
+            // Send an event saying that the module was loaded successfully
+            Map<String, Object> args = new HashMap<String, Object>();
+            args.put("module", manager.getModule());
+            // Send off a module event
+            EventArgs evArgs = new EventArgs(ModuleEvent.MODULE_LOADED, null, args);
+            
+            BotUtils.sendEvent(evArgs, parent);
             this._modules.add(manager);
         }
         else
@@ -219,6 +231,13 @@ class ModuleCollection implements Iterable<ModuleManager>
             return false;
         }
 
+        // Send an event saying that the module was unloaded successfully
+        Map<String, Object> args = new HashMap<String, Object>();
+        args.put("module", mRight.getModule());
+        // Send off a module event
+        EventArgs evArgs = new EventArgs(ModuleEvent.MODULE_UNLOADED, null, args);
+            
+        BotUtils.sendEvent(evArgs, mRight.getModule().getParent());
         mRight.destruct(state);
         return this._modules.remove(mRight);
     }

@@ -121,7 +121,7 @@ public class SnipesBot extends IRCBase implements PropertyConstants,
     }
 
     /** Parses the command line arguments passed to the bot.
-     * 
+n     * 
      * @param args The arguments to parse. */
     private void parseCmdArgs(String[] args)
     {
